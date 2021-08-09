@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+actor :Administrator: as Admin
+actor :Vaccine Recipients:  as VR
+
+skinparam linetype polyline
+
+package "COVID-19 Vaccine Booking System" {
+    usecase (Create Accounts) as (CA)
+    usecase (Add Vaccine Types) as (AVT)
+    usecase (Add AstraZeneca) as (AZ)
+    usecase (Add Pfizer) as (Pfizer)
+    usecase (View All Users) as (VAU)
+    usecase (View All Time-Slots) as (VATS)
+    usecase (View All\nVaccine Recipients) as (VAVR)
+    usecase (Filter by Type of\nVaccine Received) as (FTVR)
+    usecase (Add Biographical Information) as (ABR)
+    usecase (Search for Time-Slots) as (STS)
+    usecase (Search by Area) as (SA)
+    usecase (Search by Health\nCare Provider) as (SHCA)
+    usecase (Create Vaccine\nRecipient Account) as (CVRA)
+    usecase (Create Health Care\nProvider Account) as (CHRA)
+    usecase (Book a Time-Slot) as (BTS)
+    usecase (Determine Eligibility) as (DE)
+    usecase (Access Vaccination\nCertificate) as (AVC)
+}
+
+Admin --> (AVT)
+Admin --> (VAU)
+Admin --> (VATS)
+Admin --> (VAVR)
+Admin --> (FTVR)
+Admin --> (CA)
+(STS) <-- VR
+(CVRA) <-- VR
+(AVC) <-- VR
+'(BTS) <-- VR
+
+(AVT) <|-- (AZ)
+(AVT) <|-- (Pfizer)
+(CA) <|-- (CVRA)
+(CA) <|-- (CHRA)
+(SA) --|> (STS)
+(SHCA) --|> (STS)
+
+(STS) <. (BTS) : extend
+(BTS) .> (DE) : include
+(CVRA) .> (ABR) : include
+'note right of Admin : This is an example.
+
+'note right of (Use)
+'A note can also
+'be on several lines
+'end note
+
+'note "This note is connected\nto several objects." as N2
+'(Start) .. N2
+'N2 .. (Use)
+@enduml
