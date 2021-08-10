@@ -1,0 +1,78 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+'formatting
+skinparam linetype ortho
+
+title "COVID-19 Vaccine Booking System"
+
+class Account {
+id
+username
+password
+}
+class Administrator {
+username
+password
+}
+class TimeSlot {
+id
+date
+time
+duration
+location
+vaccineRecipient
+}
+class HealthCareProvider {
+name
+postcode
+organisationID
+}
+class "<<enum>> \n HealthCareProviderType" as HealthCareProviderType{
+CLINIC
+HOSPITAL
+GP
+POPUP
+}
+class VaccineRecipient {
+firstName
+lastName
+address
+DOB
+gender
+governmentID
+medicalHistory
+phoneNumber
+emailAddress
+vaccinationStatus
+vaccineReceived
+}
+class VaccineShot {
+dosagesRequired
+price
+company
+}
+class "<<enum>> \n  VaccineType" as VaccineType{
+ASTRAZENECA
+PFIZER
+}
+
+Account "*" <- "1" Administrator : creates
+Account "*" <-- "1" Administrator : views
+Account "*" <---- "*" HealthCareProvider : uses
+Account "*" <-- "*" VaccineRecipient : creates
+Account "*" <-- "*" VaccineRecipient : uses
+
+TimeSlot "*" <-- "1" Administrator : views
+TimeSlot "*" <-- "*" HealthCareProvider : through account provides
+TimeSlot "*" <-- "*" VaccineRecipient : using account books
+
+HealthCareProviderType "1" <-- "*" HealthCareProvider : is one of
+
+VaccineRecipient "*" <-- "*" HealthCareProvider : records vaccination
+
+VaccineShot "*" <-- "*" HealthCareProvider : administers
+VaccineShot "*" <-- "*" VaccineRecipient : receives
+VaccineType "*" <-- "1" Administrator : adds
+VaccineType "1" <-- "*" VaccineShot : is one of
+@enduml
