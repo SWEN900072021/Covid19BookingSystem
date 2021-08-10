@@ -5,6 +5,7 @@ left to right direction
 
 actor :Administrator: as Admin
 actor :Vaccine Recipients:  as VR
+actor :Health Care Provider: as HCP
 
 skinparam linetype polyline
 
@@ -26,6 +27,8 @@ package "COVID-19 Vaccine Booking System" {
     usecase (Book a Time-Slot) as (BTS)
     usecase (Determine Eligibility) as (DE)
     usecase (Access Vaccination\nCertificate) as (AVC)
+    usecase (Add Time Slot) as (ATS)
+    usecase (Record a Completed Vaccination) as (RCV)
 }
 
 Admin --> (AVT)
@@ -50,6 +53,11 @@ Admin --> (CA)
 (BTS) .> (DE) : include
 (CVRA) .> (ABR) : include
 'note right of Admin : This is an example.
+
+(ATS) <. (STS) : viewable
+HCP --> (ATS)
+HCP --> (RCV)
+
 
 'note right of (Use)
 'A note can also
