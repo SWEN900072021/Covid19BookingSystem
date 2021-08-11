@@ -36,11 +36,12 @@ Admin --> (AVT)
 Admin --> (VAU)
 Admin --> (VATS)
 Admin --> (VAVR)
-Admin --> (FTVR)
 Admin --> (CA)
 (STS) <-- VR
 (CVRA) <-- VR
 (AVC) <-- VR
+HCP --> (ATS)
+HCP --> (RCV)
 '(BTS) <-- VR
 
 (AVT) <|-- (AZ)
@@ -50,10 +51,11 @@ Admin --> (CA)
 (SA) --|> (STS)
 (SHCA) --|> (STS)
 
-(STS) <. (BTS) : extend
-(BTS) .> (DE) : include
-(CVRA) .> (ABR) : include
-'note right of Admin : This is an example.
+(STS) <. (BTS) : <<extend>>
+(BTS) .> (DE) : <<include>>
+(CVRA) .> (ABR) : <<include>>
+(ATS) <. (CTS) : <<extend>>
+(FTVR) .> (VAVR) : <<extend>>
 
 (ATS) <. (CTS) : extend
 HCP --> (ATS)
