@@ -5,6 +5,7 @@ left to right direction
 
 actor :Administrator: as Admin
 actor :Vaccine Recipients:  as VR
+actor :Health Care Provider: as HCP
 
 skinparam linetype polyline
 
@@ -26,17 +27,21 @@ package "COVID-19 Vaccine Booking System" {
     usecase (Book a Time-Slot) as (BTS)
     usecase (Determine Eligibility) as (DE)
     usecase (Access Vaccination\nCertificate) as (AVC)
+    usecase (Add Time-Slot Booking) as (ATS)
+    usecase (Record a Completed Vaccination) as (RCV)
+    usecase (Customize Time-Slot) as (CTS)
 }
 
 Admin --> (AVT)
 Admin --> (VAU)
 Admin --> (VATS)
 Admin --> (VAVR)
-Admin --> (FTVR)
 Admin --> (CA)
 (STS) <-- VR
 (CVRA) <-- VR
 (AVC) <-- VR
+HCP --> (ATS)
+HCP --> (RCV)
 '(BTS) <-- VR
 
 (AVT) <|-- (AZ)
@@ -46,10 +51,11 @@ Admin --> (CA)
 (SA) --|> (STS)
 (SHCA) --|> (STS)
 
-(STS) <. (BTS) : extend
-(BTS) .> (DE) : include
-(CVRA) .> (ABR) : include
-'note right of Admin : This is an example.
+(STS) <. (BTS) : <<extend>>
+(BTS) .> (DE) : <<include>>
+(CVRA) .> (ABR) : <<include>>
+(ATS) <. (CTS) : <<extend>>
+(FTVR) .> (VAVR) : <<extend>>
 
 'note right of (Use)
 'A note can also
