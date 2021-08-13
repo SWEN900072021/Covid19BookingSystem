@@ -34,6 +34,16 @@ HOSPITAL
 GP
 POPUP
 }
+class Questionnaire {
+eligibilityQuestions
+result
+dateTaken
+}
+class VaccineCertificate {
+vaccineRecipient
+vaccineType
+dateIssued
+}
 class VaccineRecipient {
 firstName
 lastName
@@ -45,7 +55,7 @@ medicalHistory
 phoneNumber
 emailAddress
 vaccinationStatus
-vaccineReceived
+vaccineTypeReceived
 }
 class VaccineShot {
 dosagesRequired
@@ -57,22 +67,24 @@ ASTRAZENECA
 PFIZER
 }
 
-Account "*" <- "1" Administrator : creates
-Account "*" <-- "1" Administrator : views
-Account "*" <---- "*" HealthCareProvider : uses
-Account "*" <-- "*" VaccineRecipient : creates
-Account "*" <-- "*" VaccineRecipient : uses
+Account "*" <- "1" Administrator : creates/views
+Account "*" <-- "1" HealthCareProvider : uses
+Account "1" <---- "1" VaccineRecipient : creates/uses
 
 TimeSlot "*" <-- "1" Administrator : views
-TimeSlot "*" <-- "*" HealthCareProvider : through account provides
-TimeSlot "*" <-- "*" VaccineRecipient : using account books
+TimeSlot "*" <--- "1" HealthCareProvider : provides
+TimeSlot "1" <--- "1" VaccineRecipient : books/searches
 
-HealthCareProviderType "1" <-- "*" HealthCareProvider : is one of
+HealthCareProviderType "1" <--- "1" HealthCareProvider : is
 
-VaccineRecipient "*" <-- "*" HealthCareProvider : records vaccination
+Questionnaire "1" <-- "1" VaccineRecipient : takes
 
-VaccineShot "*" <-- "*" HealthCareProvider : administers
-VaccineShot "*" <-- "*" VaccineRecipient : receives
-VaccineType "*" <-- "1" Administrator : adds
-VaccineType "1" <-- "*" VaccineShot : is one of
+VaccineCertificate "1" <- "1" HealthCareProvider : creates
+VaccineCertificate "1" <-- "1" VaccineRecipient : accesses
+
+VaccineShot "1" <--- "1" HealthCareProvider : administers
+VaccineShot "1" <-- "1" VaccineRecipient : receives
+
+VaccineType "*" <--- "1" Administrator : adds
+VaccineType "1" <- "1" VaccineShot : is
 @enduml
