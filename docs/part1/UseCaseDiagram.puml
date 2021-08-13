@@ -10,24 +10,21 @@ actor :Health Care Provider: as HCP
 skinparam linetype polyline
 
 package "COVID-19 Vaccine Booking System" {
+    usecase (Filter by Type of\nVaccine Received) as (FTVR)
     usecase (Create Accounts) as (CA)
     usecase (Add Vaccine Types) as (AVT)
-    usecase (Add AstraZeneca) as (AZ)
-    usecase (Add Pfizer) as (Pfizer)
-    usecase (View All Users) as (VAU)
     usecase (View All Time-Slots) as (VATS)
     usecase (View All\nVaccine Recipients) as (VAVR)
-    usecase (Filter by Type of\nVaccine Received) as (FTVR)
-    usecase (Add Biographical Information) as (ABR)
-    usecase (Search for Time-Slots) as (STS)
-    usecase (Search by Area) as (SA)
-    usecase (Search by Health\nCare Provider) as (SHCA)
+    usecase (View All Users) as (VAU)
     usecase (Create Vaccine\nRecipient Account) as (CVRA)
     usecase (Create Health Care\nProvider Account) as (CHRA)
     usecase (Book a Time-Slot) as (BTS)
     usecase (Determine Eligibility) as (DE)
     usecase (Access Vaccination\nCertificate) as (AVC)
     usecase (Add Time-Slot Booking) as (ATS)
+    usecase (Search for Time-Slots) as (STS)
+    usecase (Search by Area) as (SA)
+    usecase (Search by Health\nCare Provider) as (SHCA)
     usecase (Record a Completed Vaccination) as (RCV)
     usecase (Customize Time-Slot) as (CTS)
 }
@@ -35,7 +32,6 @@ package "COVID-19 Vaccine Booking System" {
 Admin --> (AVT)
 Admin --> (VAU)
 Admin --> (VATS)
-Admin --> (VAVR)
 Admin --> (CA)
 (STS) <-- VR
 (CVRA) <-- VR
@@ -44,30 +40,15 @@ HCP --> (ATS)
 HCP --> (RCV)
 '(BTS) <-- VR
 
-(AVT) <|-- (AZ)
-(AVT) <|-- (Pfizer)
 (CA) <|-- (CVRA)
 (CA) <|-- (CHRA)
-(SA) --|> (STS)
 (SHCA) --|> (STS)
+(SA) --|> (STS)
 
+(VAVR) .> (VAU) : <<extend>>
+(FTVR) .> (VAVR) : <<extend>>
 (STS) <. (BTS) : <<extend>>
 (BTS) .> (DE) : <<include>>
-(CVRA) .> (ABR) : <<include>>
 (ATS) <. (CTS) : <<extend>>
-(FTVR) .> (VAVR) : <<extend>>
 
-(ATS) <. (CTS) : extend
-HCP --> (ATS)
-HCP --> (RCV)
-
-
-'note right of (Use)
-'A note can also
-'be on several lines
-'end note
-
-'note "This note is connected\nto several objects." as N2
-'(Start) .. N2
-'N2 .. (Use)
 @enduml
