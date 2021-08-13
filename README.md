@@ -8,3 +8,10 @@
 | Jay Parikh      | jparikh          | 864675     | jparikh@student.unimelb.edu.au  |
 | Jad Saliba      | jads             | 1014680    | jads@student.unimelb.edu.au     |
 
+## Quick Navigation ##
+### Part 1 Submission ###
+[Use Case Diagram (PlantUML)](docs/part1/UseCaseDiagram.puml)
+
+[Domain Model Diagram (PlantUML)](docs/part1/DomainModelDiagram.puml)
+
+[Meeting Minutes](docs/part1/meeting_minutes)
