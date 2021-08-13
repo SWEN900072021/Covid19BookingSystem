@@ -73,7 +73,7 @@ Account "1" <---- "1" VaccineRecipient : creates/uses
 
 TimeSlot "*" <-- "1" Administrator : views
 TimeSlot "*" <--- "1" HealthCareProvider : provides
-TimeSlot "1" <--- "1" VaccineRecipient : books
+TimeSlot "*" <--- "1" VaccineRecipient : books/searches
 
 HealthCareProviderType "1" <--- "1" HealthCareProvider : is
 
