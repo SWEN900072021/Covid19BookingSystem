@@ -10,6 +10,8 @@
 
 ## Quick Navigation ##
 ### Part 1 Submission ###
+[Part 1 Report](docs/part1/part_1_report.pdf)
+
 [Use Case Diagram (PlantUML)](docs/part1/UseCaseDiagram.puml)
 
 [Domain Model Diagram (PlantUML)](docs/part1/DomainModelDiagram.puml)
