@@ -75,16 +75,16 @@ TimeSlot "*" <-- "1" Administrator : views
 TimeSlot "*" <--- "1" HealthCareProvider : provides
 TimeSlot "*" <--- "1" VaccineRecipient : books/searches
 
-HealthCareProviderType "1" <--- "1" HealthCareProvider : is
+HealthCareProviderType "1" <--- "1" HealthCareProvider : is of
 
-Questionnaire "1" <-- "1" VaccineRecipient : takes
+Questionnaire "1" <-- "1" VaccineRecipient : answers
 
-VaccineCertificate "1" <- "1" HealthCareProvider : creates
+VaccineCertificate "*" <- "1" HealthCareProvider : creates
 VaccineCertificate "1" <-- "1" VaccineRecipient : accesses
 
-VaccineShot "1" <--- "1" HealthCareProvider : administers
-VaccineShot "1" <-- "1" VaccineRecipient : receives
+VaccineShot "*" <--- "1" HealthCareProvider : administers
+VaccineShot "*" <-- "1" VaccineRecipient : receives
 
 VaccineType "*" <--- "1" Administrator : adds
-VaccineType "1" <- "1" VaccineShot : is
+VaccineType "1" <- "1" VaccineShot : is of
 @enduml
