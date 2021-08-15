@@ -10,6 +10,8 @@
 
 ## Quick Navigation ##
 ### Part 1 Submission ###
+[Part 1 Release Tag](https://github.com/SWEN900072021/Covid19BookingSystem/releases/tag/SWEN90007_2021_Part1_RuntimeTerror)
+
 [Part 1 Report](docs/part1/part_1_report.pdf)
 
 [Use Case Diagram (PlantUML)](docs/part1/UseCaseDiagram.puml)
