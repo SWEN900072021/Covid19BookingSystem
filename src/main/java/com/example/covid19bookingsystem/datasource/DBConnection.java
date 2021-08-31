@@ -17,7 +17,11 @@ public class DBConnection {
             String username = dbUri.getUserInfo().split(":")[0];
             String password = dbUri.getUserInfo().split(":")[1];
             String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' +
-                    dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+                    dbUri.getPort() + dbUri.getPath();
+
+            System.out.println("USERNAME: " + username);
+            System.out.println("PASSWORD: " + password);
+            System.out.println("DB_URL: " + dbUrl);
 
             conn = DriverManager.getConnection(dbUrl, username, password);
         } catch (SQLException | URISyntaxException e) {

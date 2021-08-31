@@ -27,8 +27,7 @@ public class AccountController extends HttpServlet {
         AccountMapper accountMapper = new AccountMapper();
         accountMapper.insert(user, pass);
         PrintWriter writer = response.getWriter();
-        writer.println("<h3> Hello from Post: Your user name is: " + user + ", Your password is: " + pass +
-                "</h3>");
+        writer.println("<h3> Hello from Post: Your user name is: " + user + "</h3>");
     }
 
     public void destroy() {
