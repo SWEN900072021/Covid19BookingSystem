@@ -30,6 +30,4 @@ public class AccountController extends HttpServlet {
         writer.println("<h3> Hello from Post: Your user name is: " + user + "</h3>");
     }
 
-    public void destroy() {
-    }
 }
