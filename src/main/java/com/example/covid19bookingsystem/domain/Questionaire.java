@@ -2,6 +2,7 @@ package com.example.covid19bookingsystem.domain;
 
 import java.time.LocalDate;
 
+import com.example.covid19bookingsystem.utils.EnumUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class Questionaire {
     private String firstName;
     private String lastName;
     private String eligibility;
-    private String result;
+    private EnumUtils.Outcome result;
     private LocalDate dateTaken;
 
     public Questionaire(VaccineRecipient vaccineRecipient){

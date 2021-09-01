@@ -12,7 +12,7 @@ public class VaccineCertificate {
     private int id;
     private String firstName;
     private String lastName;
-    private EnumUtils vaccineType;
+    private EnumUtils.VaccineType vaccineType;
     private LocalDate dateCreated;
 
     public VaccineCertificate(int id, VaccineRecipient vaccineRecipient){
