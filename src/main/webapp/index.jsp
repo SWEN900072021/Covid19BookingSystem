@@ -10,5 +10,8 @@
     Password: <input type = "password" name = "passWord"><br/>
     <input type = "submit" value = "Login">
 </form>
+<form name="timeslot" method="get" action="timeslot.jsp">
+    <input type="submit" value="Create Timeslot" >
+</form>
 </body>
 </html>
