@@ -1,4 +1,8 @@
-package com.example.covid19bookingsystem;
+package com.example.covid19bookingsystem.domain;
+
+
+import com.example.covid19bookingsystem.utils.EnumUtils.VaccineStatus;
+import com.example.covid19bookingsystem.utils.EnumUtils.VaccineType;
 
 import java.util.Date;
 
@@ -40,47 +44,29 @@ public class VaccineRecipient {
         return account;
     }
 
-    public String getFirst_name() {
-        return first_name;
-    }
+    public String getFirst_name() { return first_name; }
 
-    public String getLast_name() {
-        return last_name;
-    }
+    public String getLast_name() { return last_name; }
 
-    public String getAddress() {
-        return address;
-    }
+    public String getAddress() { return address; }
 
     public Date getDate_of_birth() {
         return date_of_birth;
     }
 
-    public String getGender() {
-        return gender;
-    }
+    public String getGender() { return gender; }
 
     public int getPhone_number() {
         return phone_number;
     }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() { return email; }
 
-    public VaccineStatus getVaccine_status() {
-        return vaccine_status;
-    }
+    public VaccineStatus getVaccine_status() { return vaccine_status; }
 
-    public VaccineType getVaccine_type() {
-        return vaccine_type;
-    }
+    public VaccineType getVaccine_type() { return vaccine_type; }
 
-    public void setVaccine_status(VaccineStatus vaccine_status) {
-        this.vaccine_status = vaccine_status;
-    }
+    public void setVaccine_status(VaccineStatus vaccine_status) { this.vaccine_status = vaccine_status; }
 
-    public void setVaccine_type(VaccineType vaccine_type) {
-        this.vaccine_type = vaccine_type;
-    }
+    public void setVaccine_type(VaccineType vaccine_type) { this.vaccine_type = vaccine_type; }
 }
