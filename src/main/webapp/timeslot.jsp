@@ -7,7 +7,7 @@
 <body>
 <form action = "timeslot" method = "post">
     Healthcare Provider ID: <input type = "text" name = "healthcareProvider"><br/>
-    Date (YYYYMMDD): <input type = "text" name = "date"><br/>
+    Date (YYYY-MM-DD): <input type = "text" name = "date"><br/>
     Time (HH:MM) : <input type = "text" name = "time"><br/>
     Duration (in minutes): <input type = "text" name = "duration"><br/>
     Location: <input type = "text" name = "location"><br/>
