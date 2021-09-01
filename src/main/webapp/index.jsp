@@ -5,7 +5,7 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<form action = "account-controller" method = "post">
+<form action = "account" method = "post">
     User name: <input type = "text" name = "userName"><br/>
     Password: <input type = "password" name = "passWord"><br/>
     <input type = "submit" value = "Login">

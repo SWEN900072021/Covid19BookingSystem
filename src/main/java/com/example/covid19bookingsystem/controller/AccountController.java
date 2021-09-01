@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "accountController", value = "/account-controller")
+@WebServlet(name = "accountController", value = "/account")
 public class AccountController extends HttpServlet {
 
     @Override
