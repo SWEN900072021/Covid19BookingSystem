@@ -19,7 +19,7 @@ public class QuestionaireMapper {
             findStatement.setString(3, questionaire.getFirstName());
             findStatement.setString(4, questionaire.getLastName());
             findStatement.setString(5, questionaire.getEligibility());
-            findStatement.setString(6, questionaire.getResult());
+            findStatement.setString(6, questionaire.getResult().toString());
             findStatement.setString(7, questionaire.getDateTaken().toString());
             findStatement.execute();
         } catch (SQLException e) {
