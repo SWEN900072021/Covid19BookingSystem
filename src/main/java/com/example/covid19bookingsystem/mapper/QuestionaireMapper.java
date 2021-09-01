@@ -21,7 +21,7 @@ public class QuestionaireMapper {
             findStatement.setString(3, questionaire.getFirstName());
             findStatement.setString(4, questionaire.getLastName());
             findStatement.setString(5, questionaire.getEligibility());
-            findStatement.setObject(6, Outcome.PASS, Types.OTHER);
+            findStatement.setObject(6, questionaire.getResult(), Types.OTHER);
             findStatement.setString(7, questionaire.getDateTaken().toString());
             findStatement.execute();
         } catch (SQLException e) {
