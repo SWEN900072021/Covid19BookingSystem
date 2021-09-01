@@ -3,9 +3,11 @@ package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Questionaire;
+import com.example.covid19bookingsystem.utils.EnumUtils.Outcome;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 public class QuestionaireMapper {
     public void insert(Questionaire questionaire) {
@@ -19,7 +21,7 @@ public class QuestionaireMapper {
             findStatement.setString(3, questionaire.getFirstName());
             findStatement.setString(4, questionaire.getLastName());
             findStatement.setString(5, questionaire.getEligibility());
-            findStatement.setString(6, questionaire.getResult().toString());
+            findStatement.setObject(6, Outcome.PASS, Types.OTHER);
             findStatement.setString(7, questionaire.getDateTaken().toString());
             findStatement.execute();
         } catch (SQLException e) {

@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-
 public class Questionaire {
     private int id;
     private int personId;
