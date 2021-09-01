@@ -1,15 +1,15 @@
 package com.example.covid19bookingsystem.domain;
 
-import com.example.covid19bookingsystem.utils.EnumUtils;
 import com.example.covid19bookingsystem.utils.EnumUtils.VaccineType;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class Timeslot {
 
     private Integer id;
