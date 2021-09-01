@@ -1,6 +1,14 @@
-package com.example.covid19bookingsystem;
+package com.example.covid19bookingsystem.domain;
 
 import java.time.LocalDate;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@RequiredArgsConstructor
 
 public class Questionaire {
     private int id;
@@ -16,33 +24,5 @@ public class Questionaire {
         this.personId = vaccineRecipient.getId();
         this.firstName = vaccineRecipient.getFirst_name();
         this.lastName = vaccineRecipient.getLast_name();
-    }
-
-    public LocalDate getDateTaken() {
-        return dateTaken;
-    }
-
-    public int getPersonId() {
-        return personId;
-    }
-
-    public String getEligibility() {
-        return eligibility;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
     }
 }

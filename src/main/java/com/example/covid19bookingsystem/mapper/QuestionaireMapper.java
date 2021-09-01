@@ -1,9 +1,8 @@
 package com.example.covid19bookingsystem.mapper;
 
 
-import com.example.covid19bookingsystem.Questionaire;
-import com.example.covid19bookingsystem.VaccineCertificate;
 import com.example.covid19bookingsystem.datasource.DBConnection;
+import com.example.covid19bookingsystem.domain.Questionaire;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -24,7 +23,7 @@ public class QuestionaireMapper {
             findStatement.setString(7, questionaire.getDateTaken().toString());
             findStatement.execute();
         } catch (SQLException e) {
-            System.out.println("Account Mapper Error: " + e.getMessage());
+            System.out.println("Questionaire Mapper Error: " + e.getMessage());
         } finally {
             try {
                 if (findStatement != null) {
