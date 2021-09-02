@@ -1,6 +1,8 @@
 package com.example.covid19bookingsystem.controller;
 
+import com.example.covid19bookingsystem.domain.Account;
 import com.example.covid19bookingsystem.mapper.AccountMapper;
+import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +26,9 @@ public class AccountController extends HttpServlet {
         System.out.println("Hello from Post method in LoginServlet");
         String user = request.getParameter("userName");
         String pass = request.getParameter("passWord");
+        Account account = new Account(user, pass, EnumUtils.AccountType.VR);
         AccountMapper accountMapper = new AccountMapper();
-        accountMapper.insert(user, pass);
+        accountMapper.insert(account);
         PrintWriter writer = response.getWriter();
         writer.println("<h3> Hello from Post: Your user name is: " + user + "</h3>");
     }
