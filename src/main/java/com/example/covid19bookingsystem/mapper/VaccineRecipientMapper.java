@@ -5,6 +5,7 @@ import com.example.covid19bookingsystem.datasource.DBConnection;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -28,8 +29,8 @@ public class VaccineRecipientMapper {
             findStatement.setString(7, vaccineRecipient.getGender());
             findStatement.setString(8, Integer.toString(vaccineRecipient.getPhone_number()));
             findStatement.setString(9, vaccineRecipient.getEmail());
-            findStatement.setString(10, vaccineRecipient.getVaccine_status().name());
-            findStatement.setString(11, vaccineRecipient.getVaccine_type().name());
+            findStatement.setObject(10, vaccineRecipient.getVaccine_status(), Types.OTHER);
+            findStatement.setObject(11, vaccineRecipient.getVaccine_type(), Types.OTHER);
             findStatement.execute();
         } catch (SQLException e) {
             System.out.println("VaccineRecipient Mapper Error: " + e.getMessage());
