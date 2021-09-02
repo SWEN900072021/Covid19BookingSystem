@@ -15,13 +15,5 @@ public class VaccineCertificate {
     private EnumUtils.VaccineType vaccineType;
     private LocalDate dateCreated;
 
-    public VaccineCertificate(int id, VaccineRecipient vaccineRecipient){
-        this.id = id;
-        this.firstName = vaccineRecipient.getFirst_name();
-        this.lastName = vaccineRecipient.getLast_name();
-        this.vaccineType = vaccineRecipient.getVaccine_type();
-        this.dateCreated = LocalDate.now();
-    }
-
 }
 
