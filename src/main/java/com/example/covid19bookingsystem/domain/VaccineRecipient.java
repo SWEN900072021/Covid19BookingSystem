@@ -7,21 +7,20 @@ import com.example.covid19bookingsystem.utils.EnumUtils.VaccineType;
 import java.util.Date;
 
 public class VaccineRecipient {
-    // Variable Declaration
-    private int id;
-    private int account;
+    private Integer id;
+    private Integer account;
     private String first_name;
     private String last_name;
     private String address;
     private Date date_of_birth;
     private String gender;
-    private int phone_number;
+    private Integer phone_number;
     private String email;
     private VaccineStatus vaccine_status;
     private VaccineType vaccine_type;
 
-    public VaccineRecipient(int id, int account, String first_name, String last_name, String address, Date date_of_birth, String gender,
-                            int phone_number, String email, VaccineStatus vaccine_status, VaccineType vaccine_type){
+    public VaccineRecipient(Integer id, Integer account, String first_name, String last_name, String address, Date date_of_birth, String gender,
+                            Integer phone_number, String email, VaccineStatus vaccine_status, VaccineType vaccine_type){
         this.id = id;
         this.account = account;
         this.first_name = first_name;
@@ -36,11 +35,11 @@ public class VaccineRecipient {
     }
 
     // getters and setters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public int getAccount() {
+    public Integer getAccount() {
         return account;
     }
 
@@ -56,7 +55,7 @@ public class VaccineRecipient {
 
     public String getGender() { return gender; }
 
-    public int getPhone_number() {
+    public Integer getPhone_number() {
         return phone_number;
     }
 
