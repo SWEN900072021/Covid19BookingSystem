@@ -19,10 +19,6 @@ public class DBConnection {
             String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' +
                     dbUri.getPort() + dbUri.getPath();
 
-            System.out.println("USERNAME: " + username);
-            System.out.println("PASSWORD: " + password);
-            System.out.println("DB_URL: " + dbUrl);
-
             conn = DriverManager.getConnection(dbUrl, username, password);
         } catch (SQLException | URISyntaxException e) {
             System.out.println(e.getMessage());
