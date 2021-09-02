@@ -1,14 +1,11 @@
 package com.example.covid19bookingsystem.domain;
 
 import com.example.covid19bookingsystem.utils.EnumUtils.HcpType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class HealthCareProvider {
 
     @NonNull

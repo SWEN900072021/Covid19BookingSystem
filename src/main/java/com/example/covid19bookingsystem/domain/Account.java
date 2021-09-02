@@ -7,10 +7,14 @@ import lombok.*;
 @Setter
 @RequiredArgsConstructor
 public class Account {
+
     @NonNull
     private String username;
+
     @NonNull
     private String password;
+
     @NonNull
     private AccountType accountType;
+
 }
