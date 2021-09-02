@@ -18,11 +18,5 @@ public class Questionaire {
     private String eligibility;
     private EnumUtils.Outcome result;
     private LocalDate dateTaken;
-
-    public Questionaire(VaccineRecipient vaccineRecipient){
-        this.dateTaken = LocalDate.now();
-        this.personId = vaccineRecipient.getId();
-        this.firstName = vaccineRecipient.getFirst_name();
-        this.lastName = vaccineRecipient.getLast_name();
-    }
+    
 }
