@@ -22,15 +22,15 @@ public class VaccineRecipientMapper {
             findStatement = DBConnection.getDbConnection().prepareStatement(sql);
             findStatement.setString(1, Integer.toString(vaccineRecipient.getId()));
             findStatement.setString(2, Integer.toString(vaccineRecipient.getAccount()));
-            findStatement.setString(3, vaccineRecipient.getFirst_name());
-            findStatement.setString(4, vaccineRecipient.getLast_name());
+            findStatement.setString(3, vaccineRecipient.getFirstName());
+            findStatement.setString(4, vaccineRecipient.getLastName());
             findStatement.setString(5, vaccineRecipient.getAddress());
-            findStatement.setString(6, dateFormat.format(vaccineRecipient.getDate_of_birth()));
+            findStatement.setString(6, dateFormat.format(vaccineRecipient.getDateOfBirth()));
             findStatement.setString(7, vaccineRecipient.getGender());
-            findStatement.setString(8, Integer.toString(vaccineRecipient.getPhone_number()));
+            findStatement.setString(8, Integer.toString(vaccineRecipient.getPhoneNumber()));
             findStatement.setString(9, vaccineRecipient.getEmail());
-            findStatement.setObject(10, vaccineRecipient.getVaccine_status(), Types.OTHER);
-            findStatement.setObject(11, vaccineRecipient.getVaccine_type(), Types.OTHER);
+            findStatement.setObject(10, vaccineRecipient.getVaccineStatus(), Types.OTHER);
+            findStatement.setObject(11, vaccineRecipient.getVaccineType(), Types.OTHER);
             findStatement.execute();
         } catch (SQLException e) {
             System.out.println("VaccineRecipient Mapper Error: " + e.getMessage());

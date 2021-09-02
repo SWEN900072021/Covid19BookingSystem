@@ -15,13 +15,13 @@ import java.util.Date;
 public class VaccineRecipient {
     private Integer id;
     private Integer account;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private String address;
-    private Date date_of_birth;
+    private Date dateOfBirth;
     private String gender;
-    private Integer phone_number;
+    private Integer phoneNumber;
     private String email;
-    private VaccineStatus vaccine_status;
-    private VaccineType vaccine_type;
+    private VaccineStatus vaccineStatus;
+    private VaccineType vaccineType;
 }
