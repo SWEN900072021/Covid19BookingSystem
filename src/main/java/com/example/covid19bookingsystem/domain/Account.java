@@ -1,15 +1,16 @@
 package com.example.covid19bookingsystem.domain;
 
 import com.example.covid19bookingsystem.utils.EnumUtils.AccountType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Account {
+    @NonNull
     private String username;
+    @NonNull
     private String password;
+    @NonNull
     private AccountType accountType;
 }
