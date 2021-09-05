@@ -10,15 +10,18 @@ public class TimeslotMapper {
 
     public void insert(Timeslot timeslot) {
 
-        String sql = "INSERT INTO timeslot (healthcare_provider, date_time, duration, location) VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO timeslot (vaccine_recipient, health_care_provider, questionnaire, vaccination_type, date_time, duration, location) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
         PreparedStatement statement = null;
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, timeslot.getHealthcareProvider());
-            statement.setTimestamp(2, timeslot.getDateTime());
-            statement.setInt(3, timeslot.getDuration());
-            statement.setString(4, timeslot.getLocation());
+            statement.setInt(1, timeslot.getVaccineRecipient());
+            statement.setInt(2, timeslot.getHealthcareProvider());
+            statement.setInt(3, timeslot.getQuestionnaire());
+            statement.setString(4, timeslot.getVaccinationType().toString());
+            statement.setTimestamp(5, timeslot.getDateTime());
+            statement.setInt(6, timeslot.getDuration());
+            statement.setString(7, timeslot.getLocation());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Timeslot Mapper Error: " + e.getMessage());

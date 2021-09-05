@@ -10,16 +10,17 @@ import java.sql.Types;
 public class HealthCareProviderMapper {
 
     public void insert(HealthCareProvider healthCareProvider) {
-        String sql = "INSERT INTO healthcare_provider (organisational_id, account, hcp_name, hcp_type, postcode) VALUES (?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO health_care_provider (username, password, organisational_id, health_care_provider_name, health_care_provider_type, postcode) VALUES (?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = null;
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, healthCareProvider.getOrganisationalId());
-            statement.setInt(2, healthCareProvider.getAccount());
-            statement.setString(3, healthCareProvider.getName());
-            statement.setObject(4, healthCareProvider.getHcpType(), Types.OTHER);
-            statement.setInt(5, healthCareProvider.getPostcode());
+            statement.setString(1, healthCareProvider.getUsername());
+            statement.setString(2, healthCareProvider.getPassword());
+            statement.setInt(3, healthCareProvider.getOrganisationalId());
+            statement.setString(4, healthCareProvider.getHealthCareProviderName());
+            statement.setObject(5, healthCareProvider.getHealthCareProviderType(), Types.OTHER);
+            statement.setString(6, healthCareProvider.getPostcode());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
@@ -31,8 +32,8 @@ public class HealthCareProviderMapper {
                 if (DBConnection.getDbConnection() != null) {
                     DBConnection.getDbConnection().close();
                 }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }

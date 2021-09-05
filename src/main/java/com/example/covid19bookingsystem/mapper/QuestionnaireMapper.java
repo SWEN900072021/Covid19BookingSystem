@@ -1,26 +1,24 @@
 package com.example.covid19bookingsystem.mapper;
 
+
 import com.example.covid19bookingsystem.datasource.DBConnection;
-import com.example.covid19bookingsystem.domain.Account;
+import com.example.covid19bookingsystem.domain.Questionnaire;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 
-public class AccountMapper {
-
-    public void insert(Account account) {
-        String sql = "INSERT INTO account (username, password, account_type) VALUES (?, ?, ?);";
+public class QuestionnaireMapper {
+    public void insert(Questionnaire questionnaire) {
+        String sql = "INSERT INTO questionnaire (date_taken, outcome) VALUES (?, ?);";
         PreparedStatement statement = null;
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(1, account.getUsername());
-            statement.setString(2, account.getPassword());
-            statement.setObject(3, account.getAccountType(), Types.OTHER);
+            statement.setDate(1, questionnaire.getDateTaken());
+            statement.setString(2, questionnaire.getOutcome());
             statement.execute();
         } catch (SQLException e) {
-            System.out.println("Account Mapper Error: " + e.getMessage());
+            System.out.println("Questionnaire Mapper Error: " + e.getMessage());
         } finally {
             try {
                 if (statement != null) {
@@ -29,10 +27,9 @@ public class AccountMapper {
                 if (DBConnection.getDbConnection() != null) {
                     DBConnection.getDbConnection().close();
                 }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
-
 }

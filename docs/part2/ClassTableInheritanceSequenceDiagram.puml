@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam linetype polyline
+
+participant "Client" as Client
+participant "Service" as Service
+participant "Database" as DB
+participant "Account Table" as AT
+participant "Vaccine Recipient Table" as VRT
+participant "Health Care Provider Table" as HCPT
+
+== Class Table Inheritance ==
+Client -> Service: requestObject{requestDetails}
+activate Client
+activate Service
+Service -> DB: saveRequest(requestObject)
+activate DB
+alt VaccineRecipient Object
+DB -> AT: save {accountDetails}
+note left: accountType = VR
+DB -> VRT: save {vaccineRecipientDetails}
+else HealthCareProvider Object
+DB -> AT: save {accountDetails}
+note left: accountType = HCP
+DB -> HCPT: save {healthCareProviderDetails}
+else Admin Object
+DB -> AT: save {accountDetails}
+note left: accountType = ADMIN
+note right: this flow does not happen in reality since there \nis only one (already created) Administrator
+end
+DB --> Service: OK
+deactivate DB
+Service --> Client: OK
+deactivate Service
+deactivate Client
+
+@enduml
