@@ -19,7 +19,7 @@ public class HealthCareProviderMapper {
             statement.setString(2, healthCareProvider.getPassword());
             statement.setInt(3, healthCareProvider.getOrganisationalId());
             statement.setString(4, healthCareProvider.getHealthCareProviderName());
-            statement.setObject(5, healthCareProvider.getHealthCareProviderType(), Types.OTHER);
+            statement.setString(5, healthCareProvider.getHealthCareProviderType().toString());
             statement.setString(6, healthCareProvider.getPostcode());
             statement.execute();
         } catch (SQLException e) {
