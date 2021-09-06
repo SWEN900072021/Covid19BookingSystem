@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam linetype polyline
+
+participant "HCP" as HCP
+participant "AddTimeSlot Controller" as ATS_Controller
+participant "Time Slot Data Mapper" as TS_Mapper
+participant "Time Slot Object" as TS
+participant "Unit of Work" as UoW
+
+
+== Unit of Work ==
+HCP -> ATS_Controller: doGet(request, response)
+activate HCP
+activate ATS_Controller
+ATS_Controller -> UoW: new UnitofWork()
+UoW --> ATS_Controller: return unitOfWork
+ATS_Controller -> TS_Mapper: getHCPTimeSlots(id, currentMonth)
+
+TS_Mapper --> ATS_Controller: return TimeSlotTable
+ATS_Controller -> UoW: registerClean(TimeSlotTable)
+ATS_Controller --> HCP: response(ATS_JSP)
+
+HCP -> ATS_Controller: doPost(request, response)
+ATS_Controller -> ATS_Controller: addTimeSlot(params)
+ATS_Controller -> TS: new TimeSlot(params)
+TS --> ATS_Controller: return timeslot
+ATS_Controller -> UoW: registerNew(timeslot)
+
+HCP -> ATS_Controller: doPost(request, response)
+ATS_Controller -> ATS_Controller: modifyTimeSlot(params)
+ATS_Controller -> UoW: registerDirty(timeslot)
+
+HCP -> ATS_Controller: doGet(request, response)
+deactivate HCP
+ATS_Controller -> UoW: commit()
+
+deactivate ATS_Controller
+
+
+
+
+
+
+@enduml
