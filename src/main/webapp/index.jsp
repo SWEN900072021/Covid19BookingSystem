@@ -6,8 +6,8 @@
 </head>
 <body>
 <form action = "account" method = "post">
-    User name: <input type = "text" name = "userName"><br/>
-    Password: <input type = "password" name = "passWord"><br/>
+    User name: <input type = "text" name = "username"><br/>
+    Password: <input type = "password" name = "password"><br/>
     <input type = "submit" value = "Login">
 </form>
 <form name="timeslot" method="get" action="timeslot.jsp">

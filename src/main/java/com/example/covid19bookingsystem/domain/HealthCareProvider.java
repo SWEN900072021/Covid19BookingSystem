@@ -1,24 +1,21 @@
 package com.example.covid19bookingsystem.domain;
 
-import com.example.covid19bookingsystem.utils.EnumUtils.HcpType;
-import lombok.*;
+import com.example.covid19bookingsystem.utils.EnumUtils.HealthCareProviderType;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class HealthCareProvider {
+public class HealthCareProvider extends Account {
 
-    @NonNull
     private Integer organisationalId;
 
-    @NonNull
-    private Integer account;
+    private String healthCareProviderName;
 
-    private String name;
+    private HealthCareProviderType healthCareProviderType;
 
-    @NonNull
-    private HcpType hcpType;
-
-    private Integer postcode;
+    private String postcode;
 
 }
