@@ -2,38 +2,35 @@
 -- DROP SCHEMA public CASCADE;
 -- CREATE SCHEMA public;
 
-CREATE TABLE IF NOT EXISTS account (
+CREATE TABLE IF NOT EXISTS admin (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS health_care_provider (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(50) NOT NULL,
-    account_type VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS healthcare_provider (
-    id SERIAL PRIMARY KEY,
     organisational_id INT NOT NULL,
-    account INT UNIQUE,
-    hcp_name VARCHAR(50),
-    hcp_type VARCHAR(50),
-    postcode INT,
-    FOREIGN KEY (account)
-        REFERENCES account (id)
+    health_care_provider_name VARCHAR(50),
+    health_care_provider_type VARCHAR(50),
+    postcode VARCHAR(20)
 );
 
 CREATE TABLE IF NOT EXISTS vaccine_recipient (
     id SERIAL PRIMARY KEY,
-    account INT UNIQUE,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(50) NOT NULL,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     address VARCHAR(100),
     date_of_birth DATE NOT NULL,
-    gender gender,
+    gender VARCHAR(50),
     phone_number VARCHAR(20),
     email_address VARCHAR(50),
     vaccination_status VARCHAR(50),
-    vaccination_type VARCHAR(50),
-    FOREIGN KEY (account)
-        REFERENCES account (id)
+    vaccination_type VARCHAR(50)
 );
 
 CREATE TABLE IF NOT EXISTS vaccine_certificate (
@@ -45,7 +42,7 @@ CREATE TABLE IF NOT EXISTS vaccine_certificate (
     FOREIGN KEY (vaccine_recipient)
         REFERENCES vaccine_recipient (id),
     FOREIGN KEY (healthcare_provider)
-        REFERENCES healthcare_provider (id)
+        REFERENCES health_care_provider (id)
 );
 
 CREATE TABLE IF NOT EXISTS questionnaire (
@@ -57,7 +54,7 @@ CREATE TABLE IF NOT EXISTS questionnaire (
 CREATE TABLE IF NOT EXISTS timeslot (
     id SERIAL PRIMARY KEY,
     vaccine_recipient INT,
-    healthcare_provider INT NOT NULL,
+    health_care_provider INT NOT NULL,
     questionnaire INT,
     vaccination_type VARCHAR(50),
     date_time TIMESTAMP NOT NULL,
@@ -65,8 +62,8 @@ CREATE TABLE IF NOT EXISTS timeslot (
     location VARCHAR(100),
     FOREIGN KEY (vaccine_recipient)
         REFERENCES vaccine_recipient (id),
-    FOREIGN KEY (healthcare_provider)
-        REFERENCES healthcare_provider (id),
+    FOREIGN KEY (health_care_provider)
+        REFERENCES health_care_provider (id),
     FOREIGN KEY (questionnaire)
         REFERENCES questionnaire (id)
 );

@@ -11,39 +11,39 @@ import java.text.SimpleDateFormat;
 
 public class VaccineRecipientMapper {
     public void insert(VaccineRecipient vaccineRecipient) {
-        String sql = "INSERT INTO vaccine_recipient (id, account, first_name, last_name, address, date_of_birth, gender, phone_number, " +
+        String sql = "INSERT INTO vaccine_recipient (username, password, first_name, last_name, address, date_of_birth, gender, phone_number, " +
                 "email_address, vaccination_status, vaccination_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-        PreparedStatement findStatement = null;
+        PreparedStatement statement = null;
 
         // NOTE:placing this here for now but best kept somewhere else
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 
         try {
-            findStatement = DBConnection.getDbConnection().prepareStatement(sql);
-            findStatement.setString(1, Integer.toString(vaccineRecipient.getId()));
-            findStatement.setString(2, Integer.toString(vaccineRecipient.getAccount()));
-            findStatement.setString(3, vaccineRecipient.getFirstName());
-            findStatement.setString(4, vaccineRecipient.getLastName());
-            findStatement.setString(5, vaccineRecipient.getAddress());
-            findStatement.setString(6, dateFormat.format(vaccineRecipient.getDateOfBirth()));
-            findStatement.setString(7, vaccineRecipient.getGender());
-            findStatement.setString(8, Integer.toString(vaccineRecipient.getPhoneNumber()));
-            findStatement.setString(9, vaccineRecipient.getEmail());
-            findStatement.setObject(10, vaccineRecipient.getVaccineStatus(), Types.OTHER);
-            findStatement.setObject(11, vaccineRecipient.getVaccineType(), Types.OTHER);
-            findStatement.execute();
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setString(1, vaccineRecipient.getUsername());
+            statement.setString(2, vaccineRecipient.getPassword());
+            statement.setString(3, vaccineRecipient.getFirstName());
+            statement.setString(4, vaccineRecipient.getLastName());
+            statement.setString(5, vaccineRecipient.getAddress());
+            statement.setDate(6, vaccineRecipient.getDateOfBirth());
+            statement.setString(7, vaccineRecipient.getGender());
+            statement.setString(8, vaccineRecipient.getPhoneNumber());
+            statement.setString(9, vaccineRecipient.getEmail());
+            statement.setString(10, vaccineRecipient.getVaccineStatus().toString());
+            statement.setString(11, vaccineRecipient.getVaccineType().toString());
+            statement.execute();
         } catch (SQLException e) {
             System.out.println("VaccineRecipient Mapper Error: " + e.getMessage());
         } finally {
             try {
-                if (findStatement != null) {
-                    findStatement.close();
+                if (statement != null) {
+                    statement.close();
                 }
                 if (DBConnection.getDbConnection() != null) {
                     DBConnection.getDbConnection().close();
                 }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }

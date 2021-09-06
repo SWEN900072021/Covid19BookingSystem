@@ -25,7 +25,7 @@ public class EnumUtils {
         ADMIN
     }
 
-    public enum HcpType {
+    public enum HealthCareProviderType {
         CLINIC,
         HOSPITAL,
         GP,
