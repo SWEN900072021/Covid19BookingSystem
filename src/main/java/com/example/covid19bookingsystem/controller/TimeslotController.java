@@ -23,12 +23,13 @@ public class TimeslotController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Timeslot timeslot = processTimeslotRequest(request);
-        new TimeslotMapper().insert(timeslot);
-
-        response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().println("<h3>Timeslot created</h3/");
+        System.out.println("DATE CLICKED: " + request.getParameter("dateClicked"));
+//        Timeslot timeslot = processTimeslotRequest(request);
+//        new TimeslotMapper().insert(timeslot);
+//
+//        response.setContentType("text/html");
+//        response.setCharacterEncoding("UTF-8");
+//        response.getWriter().println("<h3>Timeslot created</h3/");
     }
 
     private Timeslot processTimeslotRequest(HttpServletRequest request) {
