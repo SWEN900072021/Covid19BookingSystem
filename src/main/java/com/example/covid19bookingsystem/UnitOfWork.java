@@ -10,7 +10,7 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 
 public class UnitOfWork {
-    private ArrayList<Object> newObjList = new ArrayList<Object>;
+    private ArrayList<Object> newObjList = new ArrayList<Object>();
 
     public void registerNew(Object o){
         newObjList.add(o);
