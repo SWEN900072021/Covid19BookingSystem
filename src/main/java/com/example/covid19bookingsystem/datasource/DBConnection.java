@@ -26,8 +26,8 @@ public class DBConnection {
         return conn;
     }
 
-    public static Connection getDbConnection() {
-        if (dbConnection == null) {
+    public static Connection getDbConnection() throws SQLException {
+        if (dbConnection == null || dbConnection.isClosed()) {
             dbConnection = connection();
         }
         return dbConnection;
