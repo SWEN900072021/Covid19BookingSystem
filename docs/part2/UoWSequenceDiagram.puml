@@ -21,6 +21,7 @@ activate UoW
 UoW --> ATS_Controller: return unitOfWork
 ATS_Controller --> Client: response(AddTimeslotJSP)
 
+loop
 Client -> ATS_Controller: doPost(request, response)
 ATS_Controller -> ATS_Controller: processRequest(timeslotDetails)
 ATS_Controller -> TS: new TimeSlot(timeslotDetails)
@@ -28,11 +29,14 @@ activate TS
 TS --> ATS_Controller: return timeslot
 deactivate TS
 ATS_Controller -> UoW: registerNew(timeslot)
+end
 
 Client -> ATS_Controller: doPost(request, response)
 deactivate Client
 ATS_Controller -> UoW: commit()
 deactivate ATS_Controller
+
+loop
 UoW -> TS_Mapper: insert(timeslot)
 deactivate UoW
 activate TS_Mapper
@@ -40,6 +44,7 @@ TS_Mapper -> DB: sqlQuery.execute()
 activate DB
 DB --> TS_Mapper : OK
 deactivate DB
+end
 
 
 
