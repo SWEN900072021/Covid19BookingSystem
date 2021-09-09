@@ -5,7 +5,7 @@
     <title>Create a Timeslot</title>
 </head>
 <body>
-<form action = "timeslot" method = "post">
+<form action = "addTimeslot" method = "post">
     Healthcare Provider ID: <input type = "text" name = "healthcareProvider"><br/>
     Date (YYYY-MM-DD): <input type = "text" name = "date"><br/>
     Time (HH:MM) : <input type = "text" name = "time"><br/>

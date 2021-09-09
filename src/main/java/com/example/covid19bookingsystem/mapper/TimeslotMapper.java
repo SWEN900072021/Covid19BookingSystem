@@ -13,7 +13,7 @@ import java.util.List;
 
 public class TimeslotMapper {
 
-    public void insert(Timeslot timeslot) {
+    public static void insert(Timeslot timeslot) {
 
         String sql = "INSERT INTO timeslot (health_care_provider, date_time, duration, location) VALUES (?, ?, ?, ?);";
 
@@ -41,7 +41,7 @@ public class TimeslotMapper {
         }
     }
 
-    public static List<Timeslot> getAllTimeslotDates() {
+    public static List<Timeslot> getAllAvailableTimeslotDates() {
         String sql = "SELECT date_time FROM timeslot WHERE vaccine_recipient IS NULL";
 
         PreparedStatement statement = null;
