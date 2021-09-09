@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class TimeslotMapper {
 
-    public void insert(Timeslot timeslot) {
+    public static void insert(Timeslot timeslot) {
 
         String sql = "INSERT INTO timeslot (vaccine_recipient, health_care_provider, questionnaire, vaccination_type, date_time, duration, location) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
