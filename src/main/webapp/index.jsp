@@ -13,5 +13,14 @@
 <form name="timeslot" method="get" action="timeslot.jsp">
     <input type="submit" value="Create Timeslot" >
 </form>
+<form name="creat_hcp_admin" method="get" action="createHCPAcc_Admin.jsp">
+    <input type="submit" value="Create HCP for Admin" >
+</form>
+<form name="creat_vr_admin" method="get" action="createVRAcc_Admin.jsp">
+    <input type="submit" value="Create VR for Admin" >
+</form>
+<form name="create_vr" method="get" action="createVRAcc.jsp">
+    <input type="submit" value="Create VR" >
+</form>
 </body>
 </html>

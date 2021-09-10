@@ -27,7 +27,7 @@
     <label for="undisclosed">Prefer Not to Answer</label><br>
     Phone Number: <input type = "text" name = "phoneNumber"><br/>
     Email: <input type = "text" name = "email"><br/>
-    <input type = "submit" value = "Create Timeslot">
+    <input type = "submit" value = "Create Account">
 </form>
 </body>
 </html>
