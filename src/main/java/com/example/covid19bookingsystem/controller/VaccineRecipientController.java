@@ -53,7 +53,6 @@ public class VaccineRecipientController extends HttpServlet {
 
         // vaccine details
         vaccineRecipient.setVaccineStatus(VaccineStatus.NOT_VACCINATED);
-        //vaccineRecipient.setVaccineType(VaccineType.valueOf(request.getParameter("vaccineType")));
 
         return vaccineRecipient;
     }
