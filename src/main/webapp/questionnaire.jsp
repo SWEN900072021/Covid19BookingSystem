@@ -2,10 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Questionaire</title>
+    <title>Questionnaire</title>
 </head>
 <body>
-<form action = "questionaire" method = "post">
+<form action = "questionnaire" method = "post">
     Question 1: Do you have allergies to medications, food, a vaccine component, or latex?
     <select name="allergy_medication">
         <option value="no">No</option>

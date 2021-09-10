@@ -7,8 +7,8 @@
 <body>
 <form action = "addVaccineType" method = "post">
     Vaccine name: <input type = "text" name = "vaccine_name"><br/>
-    Vaccine type:
-    <select name="vaccine_type">
+    Vaccine class:
+    <select name="vaccine_class">
         <option value="mrna">Messenger RNA (mRNA)</option>
         <option value="inactiavated">Inactivated</option>
         <option value="attenuated">Live-attenuated</option>
