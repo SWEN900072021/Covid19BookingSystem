@@ -2,16 +2,16 @@
 -- DROP SCHEMA public CASCADE;
 -- CREATE SCHEMA public;
 
-CREATE TABLE IF NOT EXISTS admin (
+
+CREATE TABLE IF NOT EXISTS account (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(50) NOT NULL
+    password VARCHAR(50) NOT NULL,
+    account_type VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS health_care_provider (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(50) NOT NULL,
     organisational_id INT NOT NULL,
     health_care_provider_name VARCHAR(50),
     health_care_provider_type VARCHAR(50),
@@ -20,8 +20,6 @@ CREATE TABLE IF NOT EXISTS health_care_provider (
 
 CREATE TABLE IF NOT EXISTS vaccine_recipient (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(50) NOT NULL,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     address VARCHAR(100),
