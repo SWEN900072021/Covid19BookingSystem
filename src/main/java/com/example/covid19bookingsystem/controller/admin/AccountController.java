@@ -1,4 +1,4 @@
-package com.example.covid19bookingsystem.controller;
+package com.example.covid19bookingsystem.controller.admin;
 
 import com.example.covid19bookingsystem.domain.Account;
 import com.example.covid19bookingsystem.mapper.AccountMapper;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import static com.example.covid19bookingsystem.utils.EnumUtils.AccountType.valueOf;
 
-@WebServlet(name = "accountController", value = "/public/account")
+@WebServlet(name = "accountController", value = "/admin/account")
 public class AccountController extends HttpServlet {
 
     @Override

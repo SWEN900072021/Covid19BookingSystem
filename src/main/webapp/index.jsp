@@ -2,25 +2,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>COVID-19 Booking System</title>
 </head>
 <body>
-<form action = "account" method = "post">
-    User name: <input type = "text" name = "username"><br/>
+
+<form name = "login" method = "post" action="${pageContext.request.contextPath}/login">
+    Username: <input type = "text" name = "username"><br/>
     Password: <input type = "password" name = "password"><br/>
     <input type = "submit" value = "Login">
 </form>
-<form name="timeslot" method="get" action="timeslot.jsp">
-    <input type="submit" value="Create Timeslot" >
+<form name="create account" method="get" action="public/createAccount.jsp">
+    <input type="submit" value="Sign up" >
 </form>
-<form name="creat_hcp_admin" method="get" action="createHCPAcc_Admin.jsp">
-    <input type="submit" value="Create HCP for Admin" >
-</form>
-<form name="creat_vr_admin" method="get" action="createVRAcc_Admin.jsp">
-    <input type="submit" value="Create VR for Admin" >
-</form>
-<form name="create_vr" method="get" action="createVRAcc.jsp">
-    <input type="submit" value="Create VR" >
-</form>
+
 </body>
 </html>

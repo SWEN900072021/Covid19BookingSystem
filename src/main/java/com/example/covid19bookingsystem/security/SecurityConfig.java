@@ -1,6 +1,5 @@
 package com.example.covid19bookingsystem.security;
 
-import com.example.covid19bookingsystem.security.AuthenticationService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,16 +16,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(new AuthenticationService()).passwordEncoder(new Pbkdf2PasswordEncoder());
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/home*").authenticated()
-                .antMatchers("/admin.jsp").hasRole("ADMIN")
-                .antMatchers("/user.jsp").hasRole("USER")
+                .antMatchers("/admin*").hasRole("ADMIN")
+                .antMatchers("/index.jsp").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/home", true)
+                .loginPage("/login")
+                .successHandler(new CustomSuccessHandler())
                 .and()
                 .logout();
     }
