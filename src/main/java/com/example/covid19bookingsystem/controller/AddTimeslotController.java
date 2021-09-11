@@ -2,6 +2,7 @@ package com.example.covid19bookingsystem.controller;
 
 import com.example.covid19bookingsystem.domain.Timeslot;
 import com.example.covid19bookingsystem.mapper.TimeslotMapper;
+import com.example.covid19bookingsystem.utils.EnumUtils.VaccineType;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import java.util.Locale;
 
 import static java.lang.Integer.parseInt;
 import static java.sql.Timestamp.valueOf;
@@ -41,6 +42,7 @@ public class AddTimeslotController extends HttpServlet {
         if (duration.isBlank()) {
             duration = "15";
         }
+        timeslot.setVaccinationType(VaccineType.valueOf(request.getParameter("vaccineType").toUpperCase()));
         timeslot.setDuration(parseInt(duration));
         timeslot.setLocation(request.getParameter("location"));
 

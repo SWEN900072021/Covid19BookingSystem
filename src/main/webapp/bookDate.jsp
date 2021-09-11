@@ -1,14 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Jay Parikh
-  Date: 7/09/2021
-  Time: 6:20 pm
-  To change this template use File | Settings | File Templates.
---%>
-
 <%@ page import="com.example.covid19bookingsystem.domain.Timeslot" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.*" %>
+<%@ page import="java.time.LocalDate" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!doctype html>
@@ -50,7 +43,6 @@
                     alert("No dates were chosen!");
                 }
                 else {
-                    console.log(dateClicked);
                     var form = document.createElement('form');
                     var input = document.createElement('input');
                     input.setAttribute("name", "dateClicked");
@@ -78,23 +70,29 @@
                             return true;
                         }
                     },
+                    selectConstraint: {
+                        start: '<%= LocalDate.now()%>',
+                        end: '<%= LocalDate.now().plusMonths(6)%>'
+                    },
                     dateClick: function(info) {
-                        <%
-                            for (String date : stringDates) {
-                        %>
-                                if(info.dateStr === '<%= date%>') {
+                        if (info.dateStr >= '<%= LocalDate.now()%>' &&
+                                info.dateStr <= '<%= LocalDate.now().plusMonths(6)%>') {
+
+                            <%
+                                for (String date : stringDates) {
+                            %>
+                                if (info.dateStr === '<%= date%>') {
                                     dateClicked = info.dateStr;
                                 }
-                        <%
+                            <%
+                                }
+                            %>
+                            if (dateClicked !== info.dateStr) {
+                                alert("This date does not have any timeslots");
+                                dateClicked = '';
                             }
-                        %>
-                        if (dateClicked !== info.dateStr) {
-                            alert("This date does not have any timeslots");
-                            dateClicked = '';
-                        }
-                    },
-                    selectConstraint: {
 
+                        }
                     },
                     events: [
                     <%

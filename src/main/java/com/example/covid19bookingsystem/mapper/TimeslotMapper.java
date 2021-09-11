@@ -8,22 +8,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TimeslotMapper {
 
     public static void insert(Timeslot timeslot) {
 
-        String sql = "INSERT INTO timeslot (health_care_provider, date_time, duration, location) VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO timeslot (health_care_provider, vaccination_type, date_time, duration, location) VALUES (?, ?, ?, ?, ?);";
 
         PreparedStatement statement = null;
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, timeslot.getHealthcareProvider());
-            statement.setTimestamp(2, timeslot.getDateTime());
-            statement.setInt(3, timeslot.getDuration());
-            statement.setString(4, timeslot.getLocation());
+            statement.setString(2, timeslot.getVaccinationType().name());
+            statement.setTimestamp(3, timeslot.getDateTime());
+            statement.setInt(4, timeslot.getDuration());
+            statement.setString(5, timeslot.getLocation());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Timeslot Mapper Error: " + e.getMessage());
