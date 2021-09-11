@@ -13,8 +13,8 @@
         <form name="timeslot" method="get" action="addTimeslot.jsp">
             <input type="submit" value="Create Timeslot" >
         </form>
-        <form name="bookTimeslot" method="get" action="bookDate">
-            <input type="submit" value="Book Date" >
+        <form name="searchTimeslot" method="get" action="searchType.jsp">
+            <input type="submit" value="Search Timeslot" >
         </form>
     </body>
 </html>

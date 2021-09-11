@@ -10,6 +10,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class HealthCareProvider extends Account {
 
+    private Integer id;
+
     private Integer organisationalId;
 
     private String healthCareProviderName;

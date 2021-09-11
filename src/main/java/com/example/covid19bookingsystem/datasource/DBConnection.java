@@ -33,4 +33,16 @@ public class DBConnection {
         return dbConnection;
     }
 
+    public static void close(PreparedStatement stmt, ResultSet rs) throws SQLException {
+        if (dbConnection != null) {
+            dbConnection.close();
+        }
+        if (stmt != null) {
+            stmt.close();
+        }
+        if (rs != null) {
+            rs.close();
+        }
+    }
+
 }

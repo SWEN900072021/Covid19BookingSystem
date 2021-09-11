@@ -29,13 +29,9 @@ public class TimeslotMapper {
             System.out.println("Timeslot Mapper Error: " + e.getMessage());
         } finally {
             try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (DBConnection.getDbConnection() != null) {
-                    DBConnection.getDbConnection().close();
-                }
-            } catch (SQLException e) {
+                DBConnection.close(statement, null);
+            }
+            catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -62,16 +58,9 @@ public class TimeslotMapper {
             System.out.println("Timeslot Mapper Error: " + e.getMessage());
         } finally {
             try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (rs != null) {
-                    rs.close();
-                }
-                if (DBConnection.getDbConnection() != null) {
-                    DBConnection.getDbConnection().close();
-                }
-            } catch (SQLException e) {
+                DBConnection.close(statement, rs);
+            }
+            catch (SQLException e) {
                 e.printStackTrace();
             }
         }

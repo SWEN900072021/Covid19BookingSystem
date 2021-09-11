@@ -27,6 +27,9 @@ public class BookDateController extends HttpServlet {
             System.out.println("DATE CLICKED: " + request.getParameter("dateClicked"));
             request.getRequestDispatcher("/bookTime.jsp").forward(request, response);
         }
+        else {
+            doGet(request, response);
+        }
     }
 
 }
