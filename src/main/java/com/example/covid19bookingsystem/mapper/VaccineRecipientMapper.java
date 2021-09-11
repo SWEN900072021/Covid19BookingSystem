@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 public class VaccineRecipientMapper {
     public void insert(VaccineRecipient vaccineRecipient) {
         String sql = "INSERT INTO vaccine_recipient (username, password, first_name, last_name, address, date_of_birth, gender, phone_number, " +
-                "email_address, vaccination_status, vaccination_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                "email_address, vaccination_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = null;
 
         // NOTE:placing this here for now but best kept somewhere else
@@ -30,7 +30,7 @@ public class VaccineRecipientMapper {
             statement.setString(8, vaccineRecipient.getPhoneNumber());
             statement.setString(9, vaccineRecipient.getEmail());
             statement.setString(10, vaccineRecipient.getVaccineStatus().toString());
-            statement.setString(11, vaccineRecipient.getVaccineType().toString());
+
             statement.execute();
         } catch (SQLException e) {
             System.out.println("VaccineRecipient Mapper Error: " + e.getMessage());
