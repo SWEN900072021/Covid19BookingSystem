@@ -1,14 +1,16 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
+import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
+import com.example.covid19bookingsystem.utils.EnumUtils.VaccineType;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class TimeslotMapper {
 
@@ -37,21 +39,35 @@ public class TimeslotMapper {
         }
     }
 
-    public static List<Timeslot> getAllAvailableTimeslotDates() {
-        String sql = "SELECT date_time FROM timeslot WHERE vaccine_recipient IS NULL";
+    public static Timeslot findTimeslotByHcpAndVaccineType(HealthCareProvider HCP, String vaccineType) {
+        String sql = "SELECT * FROM timeslot " +
+                "WHERE vaccine_recipient IS NULL " +
+                "AND vaccination_type = ? " +
+                "AND health_care_provider = ? " +
+                "AND date_time >= ?";
 
         PreparedStatement statement = null;
         ResultSet rs = null;
-        List<Timeslot> timeslots = new ArrayList<>();
+        Timeslot timeslot = new Timeslot();
 
         try {
+            LocalDateTime today = LocalDateTime.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formatDateTime = today.format(format);
+
             statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setString(1, vaccineType);
+            statement.setInt(2, HCP.getId());
+            statement.setTimestamp(3, Timestamp.valueOf(formatDateTime));
             rs = statement.executeQuery();
             while (rs.next()) {
-                Timeslot timeslot = new Timeslot();
-                Timestamp date_time = Timestamp.valueOf(rs.getString(1));
-                timeslot.setDateTime(date_time);
-                timeslots.add(timeslot);
+                timeslot.setId(rs.getInt("id"));
+                timeslot.setHealthcareProvider(rs.getInt("health_care_provider"));
+                // TODO: set questionnaire when ready
+                timeslot.setVaccinationType(VaccineType.valueOf(rs.getString("vaccination_type").toUpperCase()));
+                timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
+                timeslot.setDuration(rs.getInt("duration"));
+                timeslot.setLocation(rs.getString("location"));
             }
 
         } catch (SQLException e) {
@@ -65,6 +81,6 @@ public class TimeslotMapper {
             }
         }
 
-        return timeslots;
+        return timeslot;
     }
 }
