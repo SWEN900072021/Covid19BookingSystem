@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS timeslot (
         REFERENCES health_care_provider (id),
     FOREIGN KEY (questionnaire)
         REFERENCES questionnaire (id)
-    -- TODO: add foreign key for vaccination type   
+    -- TODO: add foreign key for vaccination type
 );
 
 CREATE TABLE IF NOT EXISTS vaccination_type(
