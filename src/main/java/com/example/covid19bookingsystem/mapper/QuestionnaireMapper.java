@@ -21,13 +21,9 @@ public class QuestionnaireMapper {
             System.out.println("Questionnaire Mapper Error: " + e.getMessage());
         } finally {
             try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (DBConnection.getDbConnection() != null) {
-                    DBConnection.getDbConnection().close();
-                }
-            } catch (SQLException e) {
+                DBConnection.close(statement, null);
+            }
+            catch (SQLException e) {
                 e.printStackTrace();
             }
         }
