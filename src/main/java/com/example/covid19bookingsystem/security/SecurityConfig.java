@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-//                .loginPage("/login")
+                .loginPage("/login").permitAll()
 //                .loginProcessingUrl("/perform_login")
                 .defaultSuccessUrl("/index.jsp",true)
 //                .failureUrl("/login.jsp?error=true")
