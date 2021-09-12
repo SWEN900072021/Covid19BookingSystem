@@ -34,14 +34,11 @@ public class QuestionnaireController extends HttpServlet {
         long currentDate = System.currentTimeMillis();
         questionnaire.setDateTaken(new Date(currentDate));
 
-<<<<<<< Updated upstream
-=======
         // check blood problems to provide suitable vaccine
         if(request.getParameter("blood_problem").equals("yes")){
             questionnaire.setBloodProblem(true);
         }
 
->>>>>>> Stashed changes
         if(request.getParameter("allergy_medication").equals("no")
                 && request.getParameter("vaccine_reaction").equals("no")
                 && request.getParameter("long_term_health_problems").equals("no")
@@ -49,10 +46,6 @@ public class QuestionnaireController extends HttpServlet {
                 && request.getParameter("family_immune_problems").equals("no")
                 && request.getParameter("immune_problem").equals("no")
                 && request.getParameter("nervous_problem").equals("no")
-<<<<<<< Updated upstream
-                && request.getParameter("blood_problem").equals("no")
-=======
->>>>>>> Stashed changes
         ){
             questionnaire.setOutcome("Approved");
         } else {

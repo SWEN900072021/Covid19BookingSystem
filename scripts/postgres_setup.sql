@@ -30,9 +30,8 @@ CREATE TABLE IF NOT EXISTS vaccine_recipient (
     phone_number VARCHAR(20),
     email_address VARCHAR(50),
     vaccination_status VARCHAR(50),
-    vaccination_type VARCHAR(50),
-    FOREIGN KEY (vaccination_type)
-        REFERENCES vaccination_type (name)
+    vaccination_type VARCHAR(50)
+    -- TODO: add foreign key for vaccination type
 );
 
 CREATE TABLE IF NOT EXISTS vaccine_certificate (
@@ -44,9 +43,8 @@ CREATE TABLE IF NOT EXISTS vaccine_certificate (
     FOREIGN KEY (vaccine_recipient)
         REFERENCES vaccine_recipient (id),
     FOREIGN KEY (healthcare_provider)
-        REFERENCES health_care_provider (id),
-    FOREIGN KEY (vaccination_type)
-        REFERENCES vaccination_type (name)
+        REFERENCES health_care_provider (id)
+    -- TODO: add foreign key for vaccination type
 );
 
 CREATE TABLE IF NOT EXISTS questionnaire (
@@ -71,6 +69,7 @@ CREATE TABLE IF NOT EXISTS timeslot (
         REFERENCES health_care_provider (id),
     FOREIGN KEY (questionnaire)
         REFERENCES questionnaire (id)
+    -- TODO: add foreign key for vaccination type   
 );
 
 CREATE TABLE IF NOT EXISTS vaccination_type(

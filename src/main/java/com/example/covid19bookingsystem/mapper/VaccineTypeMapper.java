@@ -26,7 +26,9 @@ public class VaccineTypeMapper {
             System.out.println("VaccineType Mapper Error: " + e.getMessage());
         } finally {
             try {
-                DBConnection.close(statement, null);
+                if (DBConnection.getDbConnection() != null) {
+                    DBConnection.getDbConnection().close();
+                }
             }
             catch (SQLException e) {
                 e.printStackTrace();
