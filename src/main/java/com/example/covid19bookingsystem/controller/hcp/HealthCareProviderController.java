@@ -21,7 +21,7 @@ public class HealthCareProviderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HealthCareProvider healthCareProvider = processHealthCareProviderRequest(request);
-        new HealthCareProviderMapper().insert(healthCareProvider);
+        HealthCareProviderMapper.insert(healthCareProvider);
 
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
