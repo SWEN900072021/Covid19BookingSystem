@@ -24,7 +24,6 @@ public class AuthenticationService implements UserDetailsService {
         builder.password(encodedPassword);
         //builder.password(user.getPassword());
         builder.roles(user.getAccountType().toString());
-
         return builder.build();
     }
 

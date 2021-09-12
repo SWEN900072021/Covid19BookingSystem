@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="sec"
+           uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,7 +12,7 @@
         <sec:authentication property="name" />
 
         <p>
-            <sec:authorize access="hasRole(\"ADMIN\")">
+            <sec:authorize access="hasRole('ADMIN')">
                 <form name="create_hcp_admin" method="get" action="admin/createHCPAccount.jsp">
                     <input type="submit" value="Create HealthCareProviderAccount" >
                 </form>
@@ -21,7 +23,7 @@
         </p>
 
         <p>
-            <sec:authorize access="hasRole(\"VR\")">
+            <sec:authorize access="hasRole('VR')">
                 <form name="fill_in_details" method="get" action="vr/createVaccineRecipient.jsp">
                     <input type="submit" value="Fill in VaccineRecipient details" >
                 </form>
@@ -32,7 +34,7 @@
         </p>
 
         <p>
-            <sec:authorize access="hasRole(\"HCP\")">
+            <sec:authorize access="hasRole('HCP')">
                 <form name="timeslot" method="get" action="hcp/addTimeslot.jsp">
                     <input type="submit" value="Create Timeslot" >
                 </form>
