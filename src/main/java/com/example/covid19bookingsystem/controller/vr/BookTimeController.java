@@ -1,4 +1,4 @@
-package com.example.covid19bookingsystem.controller;
+package com.example.covid19bookingsystem.controller.vr;
 
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
@@ -17,7 +17,7 @@ import java.util.Objects;
 
 import static java.sql.Timestamp.valueOf;
 
-@WebServlet(name = "bookTimeController", value = "/bookTime")
+@WebServlet(name = "bookTimeController", value = "/vr/bookTime")
 public class BookTimeController extends HttpServlet {
 
     @Override

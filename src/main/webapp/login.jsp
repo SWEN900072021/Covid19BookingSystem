@@ -19,5 +19,10 @@
         </tr>
     </table>
 </form>
+
+<h1>Create Account</h1>
+<form name="create_vr_account" method="get" action="public/createAccount.jsp">
+    <input type="submit" value="Create Account" >
+</form>
 </body>
 </html>

@@ -20,7 +20,7 @@ public class AuthenticationService implements UserDetailsService {
 
         User.UserBuilder builder = User.withUsername(user.getUsername());
         //temporary
-        String encodedPassword = new Pbkdf2PasswordEncoder("eduardo", 5, 300).encode(user.getPassword());
+        String encodedPassword = new Pbkdf2PasswordEncoder("eduardo", 69, 420).encode(user.getPassword());
         builder.password(encodedPassword);
         //builder.password(user.getPassword());
         builder.roles(user.getAccountType().toString());
@@ -31,8 +31,8 @@ public class AuthenticationService implements UserDetailsService {
     private Account findByUsername(String username) {
         // TODO fetch user from DB
         Account account = new Account();
-        if (username.equals("user")) {
-            account.setUsername("user");
+        if (username.equals("vr")) {
+            account.setUsername("vr");
             account.setPassword("password");
             account.setAccountType(valueOf("VR"));
         } else if (username.equals("admin")) {

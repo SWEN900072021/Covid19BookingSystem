@@ -1,4 +1,4 @@
-package com.example.covid19bookingsystem.controller;
+package com.example.covid19bookingsystem.controller.vr;
 
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
@@ -15,7 +15,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "searchTypeController", value = "/searchType")
+@WebServlet(name = "searchTypeController", value = "/vr/searchType")
 public class SearchTypeController extends HttpServlet{
 
     @Override

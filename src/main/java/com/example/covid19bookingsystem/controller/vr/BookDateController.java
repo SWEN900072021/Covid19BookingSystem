@@ -1,4 +1,4 @@
-package com.example.covid19bookingsystem.controller;
+package com.example.covid19bookingsystem.controller.vr;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "bookDateController", value = "/bookDate")
+@WebServlet(name = "bookDateController", value = "/vr/bookDate")
 public class BookDateController extends HttpServlet {
 
     @Override
