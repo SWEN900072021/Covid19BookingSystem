@@ -39,6 +39,10 @@ public class AuthenticationService implements UserDetailsService {
             account.setUsername("admin");
             account.setPassword("password");
             account.setAccountType(valueOf("ADMIN"));
+        } else if (username.equals("hcp")) {
+            account.setUsername("hcp");
+            account.setPassword("password");
+            account.setAccountType(valueOf("HCP"));
         } else {
             return null;
         }

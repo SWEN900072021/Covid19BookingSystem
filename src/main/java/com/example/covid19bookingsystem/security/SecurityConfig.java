@@ -20,12 +20,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/admin*").hasRole("ADMIN")
-                .antMatchers("/index.jsp").permitAll()
+                .antMatchers("/vr*").hasRole("VR")
+                .antMatchers("/hcp*").hasRole("HCP")
+//                .antMatchers("/", "/login", "/logout", "/error").permitAll()
+//                .antMatchers("/index.jsp").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .successHandler(new CustomSuccessHandler())
+//                .loginPage("/login")
+//                .loginProcessingUrl("/perform_login")
+                .defaultSuccessUrl("/index.jsp",true)
+//                .failureUrl("/login.jsp?error=true")
+                //.successHandler(new CustomSuccessHandler())
                 .and()
                 .logout();
     }
