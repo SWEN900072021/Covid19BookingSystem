@@ -1,7 +1,6 @@
 package com.example.covid19bookingsystem.security;
 
 import com.example.covid19bookingsystem.domain.Account;
-import com.example.covid19bookingsystem.utils.EnumUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,7 +20,8 @@ public class AuthenticationService implements UserDetailsService {
 
         User.UserBuilder builder = User.withUsername(user.getUsername());
         //temporary
-        builder.password(new Pbkdf2PasswordEncoder().encode(user.getPassword()));
+        String encodedPassword = new Pbkdf2PasswordEncoder("eduardo", 5, 300).encode(user.getPassword());
+        builder.password(encodedPassword);
         //builder.password(user.getPassword());
         builder.roles(user.getAccountType().toString());
 
