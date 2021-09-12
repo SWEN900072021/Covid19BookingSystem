@@ -26,7 +26,6 @@ public class VaccineRecipientController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         VaccineRecipient vaccineRecipient = processVaccineRecipientRequest(request);
         new VaccineRecipientMapper().insert(vaccineRecipient);
-
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().println("<h3>Vaccine Recipient created</h3/");
@@ -53,8 +52,7 @@ public class VaccineRecipientController extends HttpServlet {
         vaccineRecipient.setEmail(request.getParameter("email"));
 
         // vaccine details
-        vaccineRecipient.setVaccineStatus(VaccineStatus.valueOf(request.getParameter("vaccineStatus")));
-        vaccineRecipient.setVaccineType(VaccineType.valueOf(request.getParameter("vaccineType")));
+        vaccineRecipient.setVaccineStatus(VaccineStatus.NOT_VACCINATED);
 
         return vaccineRecipient;
     }
