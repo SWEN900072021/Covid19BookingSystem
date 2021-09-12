@@ -16,4 +16,6 @@ public class Questionnaire {
     private Date dateTaken;
 
     private String outcome;
+
+    private Boolean bloodProblem;
 }

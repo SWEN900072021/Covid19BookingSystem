@@ -9,13 +9,14 @@ import java.sql.SQLException;
 
 public class QuestionnaireMapper {
     public void insert(Questionnaire questionnaire) {
-        String sql = "INSERT INTO questionnaire (date_taken, outcome) VALUES (?, ?);";
+        String sql = "INSERT INTO questionnaire (date_taken, blood_problem, outcome) VALUES (?, ?, ?);";
         PreparedStatement statement = null;
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setDate(1, questionnaire.getDateTaken());
-            statement.setString(2, questionnaire.getOutcome());
+            statement.setBoolean(2, questionnaire.getBloodProblem());
+            statement.setString(3, questionnaire.getOutcome());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Questionnaire Mapper Error: " + e.getMessage());

@@ -17,7 +17,19 @@
         <option value="viral">Viral vector</option>
         ...
     </select><br/>
+<<<<<<< Updated upstream
     Number of doses: <input type = "number" name = "dose_number"><br/>
+=======
+    Minimum age requirement: <input type = "number" name = "min_age"><br/>
+    Maximum age requirement: <input type = "number" name = "max_age"><br/>
+    Number of doses: <input type = "number" name = "dose_number"><br/>
+    Blood problem restriction:
+    <select name="blood_restriction">
+        <option value="false">No</option>
+        <option value="true">Yes</option>
+        ...
+    </select><br/>
+>>>>>>> Stashed changes
     <input type = "submit" value = "Add vaccine type">
 </form>
 </body>
