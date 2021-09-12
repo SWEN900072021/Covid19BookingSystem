@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,9 +47,9 @@ public class SearchTypeController extends HttpServlet{
         if (!HCPs.isEmpty()) {
             List<Timeslot> timeslots = new ArrayList<>();
             for (HealthCareProvider HCP: HCPs) {
-                Timeslot timeslot = TimeslotMapper.findTimeslotByHcpAndVaccineType(HCP, request.getParameter("vaccineType"));
-                if (timeslot.getDateTime() != null) {
-                    timeslots.add(timeslot);
+                List<Timeslot> timeslotsForHCP = TimeslotMapper.findTimeslotByHcpAndVaccineType(HCP, request.getParameter("vaccineType"));
+                if (!timeslotsForHCP.isEmpty()) {
+                    timeslots.addAll(timeslotsForHCP);
                 }
             }
             if(!timeslots.isEmpty()) {

@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TimeslotMapper {
 
@@ -39,7 +41,7 @@ public class TimeslotMapper {
         }
     }
 
-    public static Timeslot findTimeslotByHcpAndVaccineType(HealthCareProvider HCP, String vaccineType) {
+    public static List<Timeslot> findTimeslotByHcpAndVaccineType(HealthCareProvider HCP, String vaccineType) {
         String sql = "SELECT * FROM timeslot " +
                 "WHERE vaccine_recipient IS NULL " +
                 "AND vaccination_type = ? " +
@@ -48,7 +50,7 @@ public class TimeslotMapper {
 
         PreparedStatement statement = null;
         ResultSet rs = null;
-        Timeslot timeslot = new Timeslot();
+        List<Timeslot> timeslots = new ArrayList<>();
 
         try {
             LocalDateTime today = LocalDateTime.now();
@@ -61,6 +63,7 @@ public class TimeslotMapper {
             statement.setTimestamp(3, Timestamp.valueOf(formatDateTime));
             rs = statement.executeQuery();
             while (rs.next()) {
+                Timeslot timeslot = new Timeslot();
                 timeslot.setId(rs.getInt("id"));
                 timeslot.setHealthcareProvider(rs.getInt("health_care_provider"));
                 // TODO: set questionnaire when ready
@@ -68,6 +71,7 @@ public class TimeslotMapper {
                 timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
                 timeslot.setDuration(rs.getInt("duration"));
                 timeslot.setLocation(rs.getString("location"));
+                timeslots.add(timeslot);
             }
 
         } catch (SQLException e) {
@@ -81,6 +85,6 @@ public class TimeslotMapper {
             }
         }
 
-        return timeslot;
+        return timeslots;
     }
 }
