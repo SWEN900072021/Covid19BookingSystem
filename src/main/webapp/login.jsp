@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-<head></head>
+<head>
+    <title>Login</title>
+</head>
 <body>
 <h1>Login</h1>
 <form name='login' action="login" method='POST'>
@@ -21,8 +23,9 @@
 </form>
 
 <h1>Create Account</h1>
-<form name="create_vr_account" method="get" action="public/createAccount.jsp">
+<form name="create_account" method="get" action="public/createAccount.jsp">
     <input type="submit" value="Create Account" >
 </form>
+
 </body>
 </html>
