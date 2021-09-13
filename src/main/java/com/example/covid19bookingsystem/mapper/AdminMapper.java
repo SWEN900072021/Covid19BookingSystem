@@ -20,15 +20,11 @@ public class AdminMapper {
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Account Mapper Error: " + e.getMessage());
-        } finally {
+        }  finally {
             try {
-                if (statement != null) {
-                    statement.close();
-                }
-                if (DBConnection.getDbConnection() != null) {
-                    DBConnection.getDbConnection().close();
-                }
-            } catch (SQLException e) {
+                DBConnection.close(statement, null);
+            }
+            catch (SQLException e) {
                 e.printStackTrace();
             }
         }
