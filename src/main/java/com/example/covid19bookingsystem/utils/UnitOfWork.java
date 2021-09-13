@@ -26,6 +26,7 @@ public class UnitOfWork {
             }
         }
         DBConnection.getDbConnection().commit();
+        DBConnection.getDbConnection().setAutoCommit(true);
         newObjList.clear();
     }
 }
