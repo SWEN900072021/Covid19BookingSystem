@@ -8,10 +8,11 @@ import lombok.Setter;
 @Setter
 public class Account {
 
+    private String accountId;
+
     private String username;
 
     private String password;
 
     private AccountType accountType;
-
 }

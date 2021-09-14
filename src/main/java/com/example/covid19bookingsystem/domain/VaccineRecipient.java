@@ -1,7 +1,6 @@
 package com.example.covid19bookingsystem.domain;
 
-import com.example.covid19bookingsystem.utils.EnumUtils.VaccineStatus;
-import com.example.covid19bookingsystem.utils.EnumUtils.VaccineType;
+import com.example.covid19bookingsystem.utils.EnumUtils.Gender;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -19,18 +18,13 @@ public class VaccineRecipient extends Account {
 
     private String lastName;
 
-    private String address;
+    private Address address;
 
     private Date dateOfBirth;
 
-    private String gender;
+    private Gender gender;
 
     private String phoneNumber;
 
     private String email;
-
-    private VaccineStatus vaccineStatus;
-
-    private VaccineType vaccineType;
-
 }
