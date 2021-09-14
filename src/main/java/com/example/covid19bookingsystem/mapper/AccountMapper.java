@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class AccountMapper {
 
-    public void insert(Account account) {
+    public static void insert(Account account) {
         String sql = "INSERT INTO account (username, password, account_type) VALUES (?, ?, ?);";
         PreparedStatement statement = null;
 

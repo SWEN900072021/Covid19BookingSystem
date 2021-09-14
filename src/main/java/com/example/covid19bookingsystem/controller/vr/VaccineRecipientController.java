@@ -24,7 +24,7 @@ public class VaccineRecipientController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         VaccineRecipient vaccineRecipient = processVaccineRecipientRequest(request);
-        new VaccineRecipientMapper().insert(vaccineRecipient);
+        VaccineRecipientMapper.insert(vaccineRecipient);
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().println("<h3>Vaccine Recipient created</h3/");

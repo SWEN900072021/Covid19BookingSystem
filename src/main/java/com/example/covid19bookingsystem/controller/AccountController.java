@@ -24,7 +24,7 @@ public class AccountController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Account account = processAccountRequest(request);
-        new AccountMapper().insert(account);
+        AccountMapper.insert(account);
 
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class QuestionMapper {
 
-    public void insert(Question question) {
+    public static void insert(Question question) {
         String sql = "INSERT INTO question (question, success_answer) VALUES (?, ?);";
         PreparedStatement statement = null;
 

@@ -9,7 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class VaccineRecipientMapper {
-    public void insert(VaccineRecipient vaccineRecipient) {
+    public static void insert(VaccineRecipient vaccineRecipient) {
         String sql = "INSERT INTO vaccine_recipient (account_id, first_name, last_name, address_line_1, address_line_2, postcode, state, country, date_of_birth, gender, phone_number, " +
                 "email_address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = null;

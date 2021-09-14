@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class VaccineTypeMapper {
 
-    public void insert(VaccineType vaccineType) {
+    public static void insert(VaccineType vaccineType) {
         String sql = "INSERT INTO vaccine_type (name) VALUES (?);";
         PreparedStatement statement = null;
 
