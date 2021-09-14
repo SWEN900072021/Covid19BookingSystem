@@ -8,17 +8,6 @@ public class EnumUtils {
         OTHER
     }
 
-    public enum VaccineStatus {
-        NOT_VACCINATED,
-        PARTIALLY_VACCINATED,
-        FULLY_VACCINATED
-    }
-
-    public enum VaccineType {
-        ASTRAZENECA,
-        PFIZER
-    }
-
     public enum AccountType {
         VR,
         HCP,
@@ -31,11 +20,6 @@ public class EnumUtils {
         GP,
         POPUP,
         OTHER
-    }
-
-    public enum Outcome {
-        PASS,
-        FAIL
     }
 
 }

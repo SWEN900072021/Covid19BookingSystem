@@ -4,16 +4,10 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
-
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Questionnaire {
+public class VaccineType {
 
-    private Integer id;
-
-    private Date dateTaken;
-
-    private String outcome;
+    private String name;
 }

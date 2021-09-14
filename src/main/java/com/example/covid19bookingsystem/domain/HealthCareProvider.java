@@ -20,4 +20,35 @@ public class HealthCareProvider extends Account {
 
     private String postcode;
 
+    public Integer getOrganisationalId() {
+        if (this.organisationalId == null) {
+            load();
+        }
+        return this.organisationalId;
+    }
+
+    public String getHealthCareProviderName() {
+        if (this.healthCareProviderName == null) {
+            load();
+        }
+        return this.healthCareProviderName;
+    }
+
+    public HealthCareProviderType getHealthCareProviderType() {
+        if (this.healthCareProviderType == null) {
+            load();
+        }
+        return this.healthCareProviderType;
+    }
+
+    public String getPostcode() {
+        if (this.postcode == null) {
+            load();
+        }
+        return this.postcode;
+    }
+
+    private void load() {
+        //TODO add in loading logic here
+    }
 }
