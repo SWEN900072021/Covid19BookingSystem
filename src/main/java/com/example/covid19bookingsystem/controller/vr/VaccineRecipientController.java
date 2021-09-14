@@ -1,4 +1,4 @@
-package com.example.covid19bookingsystem.controller;
+package com.example.covid19bookingsystem.controller.vr;
 
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.mapper.VaccineRecipientMapper;
@@ -15,7 +15,7 @@ import static com.example.covid19bookingsystem.utils.EnumUtils.*;
 import static java.lang.Integer.parseInt;
 import static java.sql.Timestamp.valueOf;
 
-@WebServlet(name = "vaccineRecipientController", value = "/vaccinerecipient")
+@WebServlet(name = "vaccineRecipientController", value = "/vr/vaccinerecipient")
 public class VaccineRecipientController extends HttpServlet {
 
     @Override
@@ -33,12 +33,6 @@ public class VaccineRecipientController extends HttpServlet {
 
     private VaccineRecipient processVaccineRecipientRequest(HttpServletRequest request) {
         VaccineRecipient vaccineRecipient = new VaccineRecipient();
-
-        // account details
-        vaccineRecipient.setUsername(request.getParameter("username"));
-        // TODO: need to hash the password
-        vaccineRecipient.setPassword(request.getParameter("password"));
-        // TODO: implement password requirements check here + direct to error page if either of these fields are null
 
         // personal details
         vaccineRecipient.setFirstName(request.getParameter("firstName"));

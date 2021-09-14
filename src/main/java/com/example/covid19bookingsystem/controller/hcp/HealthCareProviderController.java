@@ -1,4 +1,4 @@
-package com.example.covid19bookingsystem.controller;
+package com.example.covid19bookingsystem.controller.hcp;
 
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.mapper.HealthCareProviderMapper;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "healthCareProviderController", value = "/healthcareprovider")
+@WebServlet(name = "healthCareProviderController", value = "/hcp/healthcareprovider")
 public class HealthCareProviderController extends HttpServlet {
 
     @Override

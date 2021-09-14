@@ -7,16 +7,17 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class AdminMapper {
+public class AccountMapper {
 
     public void insert(Account account) {
-        String sql = "INSERT INTO admin (username, password) VALUES (?, ?);";
+        String sql = "INSERT INTO account (username, password, account_type) VALUES (?, ?, ?);";
         PreparedStatement statement = null;
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setString(1, account.getUsername());
             statement.setString(2, account.getPassword());
+            statement.setString(3, account.getAccountType().toString());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Account Mapper Error: " + e.getMessage());
