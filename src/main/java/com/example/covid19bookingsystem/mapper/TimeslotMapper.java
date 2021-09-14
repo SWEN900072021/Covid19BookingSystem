@@ -4,7 +4,6 @@ import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
-import com.example.covid19bookingsystem.utils.EnumUtils.VaccineType;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +24,7 @@ public class TimeslotMapper {
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, timeslot.getHealthcareProvider().getId());
-            statement.setString(2, timeslot.getVaccineType().name());
+            statement.setString(2, timeslot.getVaccineType());
             statement.setTimestamp(3, timeslot.getDateTime());
             statement.setInt(4, timeslot.getDuration());
             statement.setString(5, timeslot.getAddress().getAddressLine1());
@@ -74,7 +73,7 @@ public class TimeslotMapper {
                 healthCareProvider.setId(rs.getInt("health_care_provider"));
                 timeslot.setHealthcareProvider(healthCareProvider);
 
-                timeslot.setVaccineType(VaccineType.valueOf(rs.getString("vaccination_type").toUpperCase()));
+                timeslot.setVaccineType(rs.getString("vaccination_type"));
                 timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
                 timeslot.setDuration(rs.getInt("duration"));
 
