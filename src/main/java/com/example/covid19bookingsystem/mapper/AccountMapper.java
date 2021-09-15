@@ -4,7 +4,10 @@ import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Account;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import static com.example.covid19bookingsystem.utils.EnumUtils.AccountType.valueOf;
 
 public class AccountMapper {
 
@@ -27,6 +30,32 @@ public class AccountMapper {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static Account findAccountByUsername(String username) {
+        String sql = "SELECT * FROM account WHERE username = ?;";
+        PreparedStatement statement = null;
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            Account account = new Account();
+            account.setAccountId(rs.getInt("id"));
+            account.setUsername(rs.getString("username"));
+            account.setPassword(rs.getString("password"));
+            account.setAccountType(valueOf(rs.getString("accountType")));
+            return account;
+        } catch (SQLException e) {
+            System.out.println("Account Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
 }

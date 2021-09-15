@@ -36,7 +36,7 @@ public class AddTimeslotController extends HttpServlet {
         Timeslot timeslot = new Timeslot();
 
         HealthCareProvider healthCareProvider = new HealthCareProvider();
-        healthCareProvider.setId(parseInt(request.getParameter("healthcareProvider")));
+        healthCareProvider.setAccountId(parseInt(request.getParameter("healthcareProvider")));
         timeslot.setHealthcareProvider(healthCareProvider);
 
         String dateTime = request.getParameter("date") + " " + request.getParameter("time") + ":00";

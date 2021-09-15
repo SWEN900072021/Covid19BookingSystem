@@ -23,7 +23,7 @@
 </form>
 
 <h1>Create Account</h1>
-<form name="create_account" method="get" action="public/createAccount.jsp">
+<form name="create_account" action="account" method="get" >
     <input type="submit" value="Create Account" >
 </form>
 

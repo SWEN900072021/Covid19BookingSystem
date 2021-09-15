@@ -13,12 +13,12 @@ import java.io.IOException;
 
 import static com.example.covid19bookingsystem.utils.EnumUtils.AccountType.valueOf;
 
-@WebServlet(name = "accountController", value = "/admin/account")
+@WebServlet(name = "accountController", value = "account")
 public class AccountController extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/createAccount.jsp").forward(request, response);
     }
 
     @Override

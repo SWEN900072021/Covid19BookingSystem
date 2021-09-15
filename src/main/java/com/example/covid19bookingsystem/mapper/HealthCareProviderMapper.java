@@ -18,7 +18,7 @@ public class HealthCareProviderMapper {
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(1, healthCareProvider.getAccountId());
+            statement.setInt(1, healthCareProvider.getAccountId());
             statement.setInt(2, healthCareProvider.getOrganisationalId());
             statement.setString(3, healthCareProvider.getHealthCareProviderName());
             statement.setString(4, healthCareProvider.getHealthCareProviderType().toString());
@@ -48,7 +48,7 @@ public class HealthCareProviderMapper {
             rs = statement.executeQuery();
             while (rs.next()) {
                 HealthCareProvider HCP = new HealthCareProvider();
-                HCP.setId(rs.getInt("id"));
+                HCP.setAccountId(rs.getInt("id"));
                 HCPs.add(HCP);
             }
         } catch (SQLException e) {
@@ -77,7 +77,7 @@ public class HealthCareProviderMapper {
             rs = statement.executeQuery();
             while (rs.next()) {
                 HealthCareProvider HCP = new HealthCareProvider();
-                HCP.setId(rs.getInt("id"));
+                HCP.setAccountId(rs.getInt("id"));
                 HCPs.add(HCP);
             }
         } catch (SQLException e) {
@@ -101,7 +101,7 @@ public class HealthCareProviderMapper {
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, HCP.getId());
+            statement.setInt(1, HCP.getAccountId());
             rs = statement.executeQuery();
             if (rs.next()) {
                 HCP.setOrganisationalId(rs.getInt("organisational_id"));
