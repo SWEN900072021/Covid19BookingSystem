@@ -64,9 +64,9 @@
             </div>
         </div>
 
-<%--        <form action="logout" method="post">--%>
-<%--            <sec:csrfInput />--%>
-<%--            <input type="submit" value="Sign Out" />--%>
-<%--        </form>--%>
+        <form action="logout" method="post">
+            <sec:csrfInput />
+            <input type="submit" value="Sign Out" />
+        </form>
     </body>
 </html>

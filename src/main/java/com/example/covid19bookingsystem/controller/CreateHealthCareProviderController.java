@@ -38,7 +38,7 @@ public class CreateHealthCareProviderController extends HttpServlet {
     private HealthCareProvider processHCPAccount(HttpServletRequest request) {
         HealthCareProvider hcpAccount = new HealthCareProvider();
         hcpAccount.setUsername(request.getParameter("username"));
-        String encodedPassword = new Pbkdf2PasswordEncoder().encode(request.getParameter("password"));
+        String encodedPassword = new Pbkdf2PasswordEncoder("eduardo", 69, 420).encode(request.getParameter("password"));
         hcpAccount.setPassword(encodedPassword);
         hcpAccount.setAccountType(EnumUtils.AccountType.valueOf(request.getParameter("accountType").toUpperCase()));
         return hcpAccount;

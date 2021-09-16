@@ -1,4 +1,4 @@
-package com.example.covid19bookingsystem.controller.hcp;
+package com.example.covid19bookingsystem.controller;
 
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import static java.lang.Integer.parseInt;
 import static java.sql.Timestamp.valueOf;
 
-@WebServlet(name = "addTimeslotController", value = "/hcp/addTimeslot")
+@WebServlet(name = "addTimeslotController", value = "/addTimeslot")
 public class AddTimeslotController extends HttpServlet {
 
     @Override
