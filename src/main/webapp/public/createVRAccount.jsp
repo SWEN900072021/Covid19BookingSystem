@@ -8,13 +8,13 @@
     <title>Sign Up</title>
 </head>
 <body>
-<h4
-        class="display-4"
-        style="display: flex;justify-content: center;margin-top: 20px;font-size: 45px"
->
-    Create a New Vaccine Recipient Account
-</h4>
-<br/>
+    <h4
+            class="display-4"
+            style="display: flex;justify-content: center;margin-top: 20px;font-size: 45px"
+    >
+        Create a New Vaccine Recipient Account
+    </h4>
+    <br/>
     <div class="card text-center border-secondary mb-3" style="width: 50rem;margin: 0 auto;float: none;margin-bottom: 10px;">
         <div class="card-body">
             <form action = "createVaccineRecipient" method = "post">
