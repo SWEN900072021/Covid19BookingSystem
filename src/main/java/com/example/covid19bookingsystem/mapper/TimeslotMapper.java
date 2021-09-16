@@ -23,7 +23,7 @@ public class TimeslotMapper {
         PreparedStatement statement = null;
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, timeslot.getHealthcareProvider().getAccountId());
+            statement.setInt(1, timeslot.getHealthcareProvider().setId(););
             statement.setString(2, timeslot.getVaccineType());
             statement.setString(3, timeslot.getStatus());
             statement.setTimestamp(4, timeslot.getDateTime());
@@ -57,7 +57,7 @@ public class TimeslotMapper {
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setString(1, vaccineType);
-            statement.setInt(2, HCP.getAccountId());
+            statement.setInt(2, HCP.getId());
             statement.setTimestamp(3, Timestamp.valueOf(formatDateTime));
             rs = statement.executeQuery();
             while (rs.next()) {
@@ -65,7 +65,7 @@ public class TimeslotMapper {
                 timeslot.setId(rs.getInt("id"));
 
                 HealthCareProvider healthCareProvider = new HealthCareProvider();
-                healthCareProvider.setAccountId(rs.getInt("health_care_provider"));
+                healthCareProvider.setId(rs.getInt("health_care_provider"));
                 timeslot.setHealthcareProvider(healthCareProvider);
 
                 timeslot.setVaccineType(rs.getString("vaccination_type"));

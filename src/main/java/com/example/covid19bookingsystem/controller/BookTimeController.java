@@ -45,7 +45,7 @@ public class BookTimeController extends HttpServlet {
                 confirmationDetails.put("duration", timeslot.getDuration().toString());
                 //confirmationDetails.put("location", timeslot.getLocation());
                 for (HealthCareProvider HCP : HCPs) {
-                    if (Objects.equals(timeslot.getHealthcareProvider(), HCP.getAccountId())) {
+                    if (Objects.equals(timeslot.getHealthcareProvider(), HCP.getId())) {
                         HealthCareProvider hcpDetails = HealthCareProviderMapper.findHCPByObject(HCP);
                         confirmationDetails.put("hcpOrgId", hcpDetails.getOrganisationalId().toString());
                         confirmationDetails.put("hcpName", hcpDetails.getHealthCareProviderName());
