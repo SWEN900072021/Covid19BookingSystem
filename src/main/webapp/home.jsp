@@ -23,7 +23,7 @@
             <div class="card-body">
                 <div>
                     <sec:authorize access="hasRole('ADMIN')">
-                        <form name="create_hcp_admin" method="get" action="admin/createHCPAccount.jsp">
+                        <form name="create_hcp_admin" method="get" action="createHealthCareProvider">
                             <div class="form-group row">
                                 <div class="col-sm-12">
                                     <button type="submit" class="btn btn btn-dark">Create Health Care Provider Account</button>

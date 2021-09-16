@@ -56,7 +56,6 @@ public class CreateVaccineRecipientController extends HttpServlet {
     }
 
     private void processVaccineRecipientRequest(HttpServletRequest request, VaccineRecipient vrAccount) {
-        VaccineRecipient vaccineRecipient = new VaccineRecipient();
 
         // personal details
         vrAccount.setFirstName(request.getParameter("firstName"));
