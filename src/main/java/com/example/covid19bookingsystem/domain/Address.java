@@ -4,16 +4,18 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
-
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Questionnaire {
+public class Address {
 
-    private Integer id;
+    private String addressLine1;
 
-    private Date dateTaken;
+    private String addressLine2;
 
-    private String outcome;
+    private String postcode;
+
+    private String state;
+
+    private String country;
 }

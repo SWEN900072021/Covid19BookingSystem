@@ -1,4 +1,4 @@
-package com.example.covid19bookingsystem.controller;
+package com.example.covid19bookingsystem.controller.vr;
 
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
@@ -11,12 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "searchTypeController", value = "/searchType")
-public class SearchTypeController extends HttpServlet{
+@WebServlet(name = "searchTypeController", value = "/vr/searchType")
+public class SearchTypeController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,8 +35,7 @@ public class SearchTypeController extends HttpServlet{
         List<HealthCareProvider> HCPs;
         if (request.getParameter("searchBy").equals("area")) {
             HCPs = HealthCareProviderMapper.findHCPByPostCode(request.getParameter("queryField"));
-        }
-        else  {
+        } else {
             HCPs = HealthCareProviderMapper.findHCPByName(request.getParameter("queryField"));
         }
         return findTimeslotsHelper(HCPs, request, response);
@@ -46,13 +44,13 @@ public class SearchTypeController extends HttpServlet{
     private Boolean findTimeslotsHelper(List<HealthCareProvider> HCPs, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!HCPs.isEmpty()) {
             List<Timeslot> timeslots = new ArrayList<>();
-            for (HealthCareProvider HCP: HCPs) {
+            for (HealthCareProvider HCP : HCPs) {
                 List<Timeslot> timeslotsForHCP = TimeslotMapper.findTimeslotByHcpAndVaccineType(HCP, request.getParameter("vaccineType"));
                 if (!timeslotsForHCP.isEmpty()) {
                     timeslots.addAll(timeslotsForHCP);
                 }
             }
-            if(!timeslots.isEmpty()) {
+            if (!timeslots.isEmpty()) {
                 request.getSession().setAttribute("allAvailableTimeslotDates", timeslots);
                 request.getSession().setAttribute("hcpList", HCPs);
                 request.getRequestDispatcher("/bookDate").forward(request, response);

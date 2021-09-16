@@ -7,5 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Admin extends Account {
+public class VaccineType {
+
+    private String name;
 }

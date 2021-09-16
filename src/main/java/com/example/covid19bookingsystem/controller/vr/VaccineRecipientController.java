@@ -1,5 +1,6 @@
-package com.example.covid19bookingsystem.controller;
+package com.example.covid19bookingsystem.controller.vr;
 
+import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.mapper.VaccineRecipientMapper;
 
@@ -11,11 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 
-import static com.example.covid19bookingsystem.utils.EnumUtils.*;
-import static java.lang.Integer.parseInt;
-import static java.sql.Timestamp.valueOf;
+import static com.example.covid19bookingsystem.utils.EnumUtils.Gender.valueOf;
 
-@WebServlet(name = "vaccineRecipientController", value = "/vaccinerecipient")
+@WebServlet(name = "vaccineRecipientController", value = "/vr/vaccinerecipient")
 public class VaccineRecipientController extends HttpServlet {
 
     @Override
@@ -25,7 +24,7 @@ public class VaccineRecipientController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         VaccineRecipient vaccineRecipient = processVaccineRecipientRequest(request);
-        new VaccineRecipientMapper().insert(vaccineRecipient);
+        VaccineRecipientMapper.insert(vaccineRecipient);
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().println("<h3>Vaccine Recipient created</h3/");
@@ -34,25 +33,24 @@ public class VaccineRecipientController extends HttpServlet {
     private VaccineRecipient processVaccineRecipientRequest(HttpServletRequest request) {
         VaccineRecipient vaccineRecipient = new VaccineRecipient();
 
-        // account details
-        vaccineRecipient.setUsername(request.getParameter("username"));
-        // TODO: need to hash the password
-        vaccineRecipient.setPassword(request.getParameter("password"));
-        // TODO: implement password requirements check here + direct to error page if either of these fields are null
-
         // personal details
         vaccineRecipient.setFirstName(request.getParameter("firstName"));
         vaccineRecipient.setLastName(request.getParameter("lastName"));
-        vaccineRecipient.setAddress(request.getParameter("address"));
+
+        Address address = new Address();
+        address.setAddressLine1(request.getParameter("addressLine1"));
+        address.setAddressLine2(request.getParameter("addressLine2"));
+        address.setPostcode(request.getParameter("postcode"));
+        address.setState(request.getParameter("state"));
+        address.setCountry(request.getParameter("country"));
+        vaccineRecipient.setAddress(address);
+
         vaccineRecipient.setDateOfBirth(Date.valueOf(request.getParameter("dateOfBirth")));
-        vaccineRecipient.setGender(request.getParameter("gender"));
+        vaccineRecipient.setGender(valueOf(request.getParameter("gender")));
 
         // set contact details
         vaccineRecipient.setPhoneNumber(request.getParameter("phoneNumber"));
         vaccineRecipient.setEmail(request.getParameter("email"));
-
-        // vaccine details
-        vaccineRecipient.setVaccineStatus(VaccineStatus.NOT_VACCINATED);
 
         return vaccineRecipient;
     }

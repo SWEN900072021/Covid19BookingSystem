@@ -1,4 +1,4 @@
-package com.example.covid19bookingsystem.controller;
+package com.example.covid19bookingsystem.controller.vr;
 
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
@@ -10,14 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 import static java.sql.Timestamp.valueOf;
 
-@WebServlet(name = "bookTimeController", value = "/bookTime")
+@WebServlet(name = "bookTimeController", value = "/vr/bookTime")
 public class BookTimeController extends HttpServlet {
 
     @Override
@@ -39,13 +38,13 @@ public class BookTimeController extends HttpServlet {
         List<HealthCareProvider> HCPs =
                 (List<HealthCareProvider>) request.getSession().getAttribute("hcpList");
         HashMap<String, String> confirmationDetails = new HashMap<String, String>();
-        for (Timeslot timeslot: allAvailableTimeslotDates) {
+        for (Timeslot timeslot : allAvailableTimeslotDates) {
             if (Objects.equals(timeslot.getDateTime(), valueOf(dateTime))) {
                 confirmationDetails.put("dateTime", dateTime);
-                confirmationDetails.put("vaccineType", timeslot.getVaccinationType().name());
+                confirmationDetails.put("vaccineType", timeslot.getVaccineType());
                 confirmationDetails.put("duration", timeslot.getDuration().toString());
-                confirmationDetails.put("location", timeslot.getLocation());
-                for (HealthCareProvider HCP: HCPs) {
+                //confirmationDetails.put("location", timeslot.getLocation());
+                for (HealthCareProvider HCP : HCPs) {
                     if (Objects.equals(timeslot.getHealthcareProvider(), HCP.getId())) {
                         HealthCareProvider hcpDetails = HealthCareProviderMapper.findHCPByObject(HCP);
                         confirmationDetails.put("hcpOrgId", hcpDetails.getOrganisationalId().toString());

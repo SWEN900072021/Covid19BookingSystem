@@ -5,8 +5,6 @@
 </head>
 <body>
 <form action = "healthcareprovider" method = "post">
-    Username: <input type = "text" name = "username"><br/>
-    Password: <input type = "password" name = "password"><br/>
     Organisation ID: <input type = "text" name = "organisationalId"><br/>
     Health Care Provider Name: <input type = "text" name = "healthCareProviderName"><br/>
     <p>Health Care Provider Type: </p>
@@ -21,7 +19,7 @@
     <input type="radio" id="other" name="healthCareProviderType" value="OTHER">
     <label for="other">Other</label><br>
     Postcode: <input type = "text" name = "postcode"><br/>
-    <input type = "submit" value = "Create Account">
+    <input type = "submit" value = "Submit">
 </form>
 </body>
 </html>

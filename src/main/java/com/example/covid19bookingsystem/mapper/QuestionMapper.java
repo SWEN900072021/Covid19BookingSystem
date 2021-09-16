@@ -1,30 +1,28 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
-import com.example.covid19bookingsystem.domain.Account;
+import com.example.covid19bookingsystem.domain.Question;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 
-public class AdminMapper {
+public class QuestionMapper {
 
-    public void insert(Account account) {
-        String sql = "INSERT INTO admin (username, password) VALUES (?, ?);";
+    public static void insert(Question question) {
+        String sql = "INSERT INTO question (question, success_answer) VALUES (?, ?);";
         PreparedStatement statement = null;
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(1, account.getUsername());
-            statement.setString(2, account.getPassword());
+            statement.setString(1, question.getQuestion());
+            statement.setBoolean(2, question.getSuccessAnswer());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Account Mapper Error: " + e.getMessage());
-        }  finally {
+        } finally {
             try {
                 DBConnection.close(statement, null);
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }

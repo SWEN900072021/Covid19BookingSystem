@@ -1,9 +1,9 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
+import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
-import com.example.covid19bookingsystem.utils.EnumUtils.VaccineType;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,24 +18,27 @@ public class TimeslotMapper {
 
     public static void insert(Timeslot timeslot) {
 
-        String sql = "INSERT INTO timeslot (health_care_provider, vaccination_type, date_time, duration, location) VALUES (?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO timeslot (health_care_provider, vaccine_type, date_time, duration, address_line_1, address_line_2, postcode, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         PreparedStatement statement = null;
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, timeslot.getHealthcareProvider());
-            statement.setString(2, timeslot.getVaccinationType().name());
+            statement.setInt(1, timeslot.getHealthcareProvider().getId());
+            statement.setString(2, timeslot.getVaccineType());
             statement.setTimestamp(3, timeslot.getDateTime());
             statement.setInt(4, timeslot.getDuration());
-            statement.setString(5, timeslot.getLocation());
+            statement.setString(5, timeslot.getAddress().getAddressLine1());
+            statement.setString(6, timeslot.getAddress().getAddressLine2());
+            statement.setString(7, timeslot.getAddress().getPostcode());
+            statement.setString(8, timeslot.getAddress().getState());
+            statement.setString(9, timeslot.getAddress().getCountry());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Timeslot Mapper Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, null);
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -44,7 +47,7 @@ public class TimeslotMapper {
     public static List<Timeslot> findTimeslotByHcpAndVaccineType(HealthCareProvider HCP, String vaccineType) {
         String sql = "SELECT * FROM timeslot " +
                 "WHERE vaccine_recipient IS NULL " +
-                "AND vaccination_type = ? " +
+                "AND vaccine_type = ? " +
                 "AND health_care_provider = ? " +
                 "AND date_time >= ?";
 
@@ -65,12 +68,23 @@ public class TimeslotMapper {
             while (rs.next()) {
                 Timeslot timeslot = new Timeslot();
                 timeslot.setId(rs.getInt("id"));
-                timeslot.setHealthcareProvider(rs.getInt("health_care_provider"));
-                // TODO: set questionnaire when ready
-                timeslot.setVaccinationType(VaccineType.valueOf(rs.getString("vaccination_type").toUpperCase()));
+
+                HealthCareProvider healthCareProvider = new HealthCareProvider();
+                healthCareProvider.setId(rs.getInt("health_care_provider"));
+                timeslot.setHealthcareProvider(healthCareProvider);
+
+                timeslot.setVaccineType(rs.getString("vaccination_type"));
                 timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
                 timeslot.setDuration(rs.getInt("duration"));
-                timeslot.setLocation(rs.getString("location"));
+
+                Address address = new Address();
+                address.setAddressLine1(rs.getString("address_line_1"));
+                address.setAddressLine2(rs.getString("address_line_2"));
+                address.setPostcode(rs.getString("postcode"));
+                address.setState(rs.getString("state"));
+                address.setCountry(rs.getString("country"));
+                timeslot.setAddress(address);
+
                 timeslots.add(timeslot);
             }
 
@@ -79,8 +93,7 @@ public class TimeslotMapper {
         } finally {
             try {
                 DBConnection.close(statement, rs);
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }

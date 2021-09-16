@@ -1,31 +1,30 @@
 package com.example.covid19bookingsystem.mapper;
 
-
 import com.example.covid19bookingsystem.datasource.DBConnection;
-import com.example.covid19bookingsystem.domain.Questionnaire;
+import com.example.covid19bookingsystem.domain.VaccineType;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class QuestionnaireMapper {
-    public void insert(Questionnaire questionnaire) {
-        String sql = "INSERT INTO questionnaire (date_taken, outcome) VALUES (?, ?);";
+public class VaccineTypeMapper {
+
+    public static void insert(VaccineType vaccineType) {
+        String sql = "INSERT INTO vaccine_type (name) VALUES (?);";
         PreparedStatement statement = null;
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setDate(1, questionnaire.getDateTaken());
-            statement.setString(2, questionnaire.getOutcome());
+            statement.setString(1, vaccineType.getName());
             statement.execute();
         } catch (SQLException e) {
-            System.out.println("Questionnaire Mapper Error: " + e.getMessage());
+            System.out.println("Account Mapper Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, null);
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }
+
 }

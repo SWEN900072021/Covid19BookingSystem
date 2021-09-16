@@ -2,7 +2,9 @@ package com.example.covid19bookingsystem.utils;
 import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Timeslot;
 import com.example.covid19bookingsystem.mapper.TimeslotMapper;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 public class UnitOfWork {
     private ArrayList<Object> newObjList = new ArrayList<Object>();
 
-    public void registerNew(Object o){
+    public void registerNew(Object o) {
         newObjList.add(o);
     }
 
