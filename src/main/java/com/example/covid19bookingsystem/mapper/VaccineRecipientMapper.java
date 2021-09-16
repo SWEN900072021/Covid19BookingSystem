@@ -19,7 +19,7 @@ public class VaccineRecipientMapper {
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(1, vaccineRecipient.getAccountId());
+            statement.setInt(1, vaccineRecipient.getAccountId());
             statement.setString(2, vaccineRecipient.getFirstName());
             statement.setString(3, vaccineRecipient.getLastName());
             statement.setString(4, vaccineRecipient.getAddress().getAddressLine1());
