@@ -20,7 +20,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/home").permitAll()
+                .antMatchers("/vr/createVRAccount.jsp").permitAll()
+                .antMatchers("/createVaccineRecipient").permitAll()
+                .antMatchers("/home").hasAnyRole("ADMIN", "VR", "HCP")
 //                .antMatchers("/admin*").hasRole("ADMIN")
 //                .antMatchers("/vr*").hasRole("VR")
 //                .antMatchers("/hcp*").hasRole("HCP")

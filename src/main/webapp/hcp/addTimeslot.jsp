@@ -97,7 +97,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-outline-dark">Create Timeslot</button>
+                        <button type="submit" class="btn btn btn-dark">Create Timeslot</button>
                     </div>
                 </div>
             </form>

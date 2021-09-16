@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class Account {
 
-    private String accountId;
+    private Integer accountId;
 
     private String username;
 
