@@ -18,20 +18,21 @@ public class TimeslotMapper {
 
     public static void insert(Timeslot timeslot) {
 
-        String sql = "INSERT INTO timeslot (health_care_provider, vaccine_type, date_time, duration, address_line_1, address_line_2, postcode, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO timeslot (health_care_provider, vaccine_type, status, date_time, duration, address_line_1, address_line_2, postcode, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         PreparedStatement statement = null;
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, timeslot.getHealthcareProvider().getId());
             statement.setString(2, timeslot.getVaccineType());
-            statement.setTimestamp(3, timeslot.getDateTime());
-            statement.setInt(4, timeslot.getDuration());
-            statement.setString(5, timeslot.getAddress().getAddressLine1());
-            statement.setString(6, timeslot.getAddress().getAddressLine2());
-            statement.setString(7, timeslot.getAddress().getPostcode());
-            statement.setString(8, timeslot.getAddress().getState());
-            statement.setString(9, timeslot.getAddress().getCountry());
+            statement.setString(3, timeslot.getStatus());
+            statement.setTimestamp(4, timeslot.getDateTime());
+            statement.setInt(5, timeslot.getDuration());
+            statement.setString(6, timeslot.getAddress().getAddressLine1());
+            statement.setString(7, timeslot.getAddress().getAddressLine2());
+            statement.setString(8, timeslot.getAddress().getPostcode());
+            statement.setString(9, timeslot.getAddress().getState());
+            statement.setString(10, timeslot.getAddress().getCountry());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Timeslot Mapper Error: " + e.getMessage());

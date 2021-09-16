@@ -31,15 +31,25 @@ public class AddTimeslotController extends HttpServlet {
         if (request.getParameter("commit")!=null){
             try {
                 //commit UoW
+
                 UnitOfWork uow = (UnitOfWork) request.getSession().getAttribute("UoW");
-                uow.commit();
+                if (uow == null){
+                    response.setContentType("text/html");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().println("<h3>No timeslots have been created</h3/");
+                }
+                else{
+                    uow.commit();
+                    request.getSession().setAttribute("UoW", null);
+                    response.setContentType("text/html");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().println("<h3>All Time Slots have been created</h3/");
+                }
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            response.setContentType("text/html");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().println("<h3>All Time Slots have been created</h3/");
         } else {
             // Remember to move this to the doGet to ensure we have UoW init when landing on this page
             if (request.getSession().getAttribute("UoW") == null){
@@ -76,6 +86,7 @@ public class AddTimeslotController extends HttpServlet {
         address.setState(request.getParameter("state"));
         address.setCountry(request.getParameter("country"));
         timeslot.setAddress(address);
+        timeslot.setStatus("UNBOOKED");
 
         return timeslot;
     }
