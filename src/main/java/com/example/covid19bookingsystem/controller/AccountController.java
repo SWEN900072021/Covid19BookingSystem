@@ -35,7 +35,7 @@ public class AccountController extends HttpServlet {
         Account account = new Account();
 
         account.setUsername(request.getParameter("username"));
-        String encodedPassword = new Pbkdf2PasswordEncoder().encode(request.getParameter("password"));
+        String encodedPassword = new Pbkdf2PasswordEncoder("eduardo", 69, 420).encode(request.getParameter("password"));
         account.setPassword(encodedPassword);
         String accountType = request.getParameter("accountType");
         account.setAccountType(valueOf(accountType));

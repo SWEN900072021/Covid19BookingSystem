@@ -84,23 +84,80 @@
                     </div>
                 </fieldset>
                 <div class="form-group row">
-                    <label for="inputLocation" class="col-sm-4 col-form-label">Location:</label>
+                    <label for="inputAddressLine1" class="col-sm-4 col-form-label">Address Line 1:</label>
                     <div class="col-sm-8">
                         <input
                                 type="text"
                                 class="form-control"
-                                id="inputLocation"
-                                name = "location"
-                                placeholder="Room X"
+                                id="inputAddressLine1"
+                                name = "addressLine1"
+                                placeholder="Street Name"
+                        >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputAddressLine2" class="col-sm-4 col-form-label">Address Line 2:</label>
+                    <div class="col-sm-8">
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="inputAddressLine2"
+                                name = "addressLine2"
+                                placeholder="Street Name"
+                        >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPostcode" class="col-sm-4 col-form-label">Postcode:</label>
+                    <div class="col-sm-8">
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="inputPostcode"
+                                name = "postcode"
+                                placeholder="postcode"
+                        >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputState" class="col-sm-4 col-form-label">State:</label>
+                    <div class="col-sm-8">
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="inputState"
+                                name = "state"
+                                placeholder="Victoria"
+                        >
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputCountry" class="col-sm-4 col-form-label">Country:</label>
+                    <div class="col-sm-8">
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="inputCountry"
+                                name = "country"
+                                placeholder="Australia"
                         >
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-outline-dark">Create Timeslot</button>
+                        <button type="submit" class="btn btn-outline-dark">Add Timeslot</button>
                     </div>
                 </div>
             </form>
+            <form action = "addTimeslot" method = "post">
+                <input type="hidden" name="commit" value="true"/>
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-outline-dark">Submit All Timeslot</button>
+                    </div>
+                </div>
+            </form>
+
         </div>
     </div>
 </body>
