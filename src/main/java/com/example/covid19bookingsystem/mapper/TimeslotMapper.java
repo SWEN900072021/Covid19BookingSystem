@@ -23,7 +23,7 @@ public class TimeslotMapper {
         PreparedStatement statement = null;
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, timeslot.getHealthcareProvider().setId(););
+            statement.setInt(1, timeslot.getHealthcareProvider().getId());
             statement.setString(2, timeslot.getVaccineType());
             statement.setString(3, timeslot.getStatus());
             statement.setTimestamp(4, timeslot.getDateTime());
