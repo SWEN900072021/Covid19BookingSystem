@@ -5,7 +5,7 @@ public class EnumUtils {
     public enum Gender {
         MALE,
         FEMALE,
-        OTHER
+        UNDISCLOSED
     }
 
     public enum AccountType {
