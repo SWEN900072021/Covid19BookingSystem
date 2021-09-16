@@ -44,11 +44,12 @@ public class AccountMapper {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
+            rs.next();
             Account account = new Account();
             account.setAccountId(rs.getInt("id"));
             account.setUsername(rs.getString("username"));
             account.setPassword(rs.getString("password"));
-            account.setAccountType(valueOf(rs.getString("accountType")));
+            account.setAccountType(valueOf(rs.getString("account_type")));
             return account;
         } catch (SQLException e) {
             System.out.println("Account Mapper Error: " + e.getMessage());
