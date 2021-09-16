@@ -35,12 +35,6 @@ public class TimeslotMapper {
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Timeslot Mapper Error: " + e.getMessage());
-        } finally {
-            try {
-                DBConnection.close(statement, null);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 

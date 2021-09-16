@@ -22,13 +22,19 @@ public class UnitOfWork {
 
     public void commit() throws SQLException {
         DBConnection.getDbConnection().setAutoCommit(false);
+
         for (Object o : newObjList){
             if (o instanceof Timeslot){
                 TimeslotMapper.insert((Timeslot) o);
             }
         }
+
+        // Commit all queries
         DBConnection.getDbConnection().commit();
+        DBConnection.close(null,null);
         DBConnection.getDbConnection().setAutoCommit(true);
+
+        // Reset UoW
         newObjList.clear();
     }
 }

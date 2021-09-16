@@ -18,7 +18,7 @@ public class HealthCareProviderMapper {
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(1, healthCareProvider.getAccountId());
+            statement.setInt(1, healthCareProvider.getAccountId());
             statement.setInt(2, healthCareProvider.getOrganisationalId());
             statement.setString(3, healthCareProvider.getHealthCareProviderName());
             statement.setString(4, healthCareProvider.getHealthCareProviderType().toString());
