@@ -38,4 +38,32 @@ public class QuestionMapper {
         return question;
     }
 
+    public static Question getQuestionById(Question question) {
+        String sql = "SELECT question, success_answer FROM question WHERE question_id = ?";
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        Question questionFromId = new Question();
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setInt(1, question.getId());
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                questionFromId.setQuestion(rs.getString("question"));
+                questionFromId.setSuccessAnswer(rs.getBoolean("success_answer"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Vaccine Question Mapper - get questions - Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return questionFromId;
+    }
+
 }
