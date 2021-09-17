@@ -15,8 +15,8 @@ public class VaccineQuestionMapper {
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(2, vaccineType.getName());
-            statement.setInt(1, (Integer) question.getId());
+            statement.setString(1, vaccineType.getName());
+            statement.setInt(2, question.getId());
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Vaccine Question Mapper Error: " + e.getMessage());

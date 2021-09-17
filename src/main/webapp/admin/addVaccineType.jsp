@@ -80,9 +80,9 @@
         inputElement1.setAttribute("type", "text");
         inputElement1.setAttribute("class", "col-sm-16");
         inputElement1.setAttribute("width", "100px");
+        inputElement1.setAttribute("placeholder", "");
         inputElement1.setAttribute("id", "inputQuestion");
         inputElement1.setAttribute("name", 'question' + question_i);
-        console.log('question' + question_i);
 
         var successAnswer = document.createElement("label");
         successAnswer.innerHTML = "<strong> Success Answer:</strong>";
@@ -106,12 +106,6 @@
         optionFalse.setAttribute("value", "false");
         optionFalse.innerHTML = "No";
 
-        var hiddenInput = document.createElement("input");
-        hiddenInput.setAttribute("type", "hidden");
-        inputElement1.setAttribute("id", "questionNumber");
-        inputElement1.setAttribute("name", String.valueOf(question_i));
-        console.log('question' + question_i);
-
         var questionBlock = document.getElementById("div1");
         questionBlock.appendChild(div2);
         div2.appendChild(question);
@@ -124,19 +118,20 @@
         select.appendChild(optionFalse);
         questionBlock.appendChild(div1);
 
+
         question_i++;
     }
 
     function submitQuestionNumber() {
 
-        var x = document.createElement("input");
-        x.setAttribute("type", "hidden");
-        x.setAttribute("name", "questionNumber");
-        x.setAttribute("id", "questionNumber");
-        x.setAttribute("value", ""+ question_i);
+        var hiddenInput = document.createElement("input");
+        hiddenInput.setAttribute("type", "hidden");
+        hiddenInput.setAttribute("id", "questionNumber");
+        hiddenInput.setAttribute("name", "questionNumber");
+        hiddenInput.setAttribute("value", String(question_i));
 
         var hiddenBlock = document.getElementById("hiddenDiv");
-        hiddenBlock.appendChild(x);
+        hiddenBlock.appendChild(hiddenInput);
 
     }
 </script>

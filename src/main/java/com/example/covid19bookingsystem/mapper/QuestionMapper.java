@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class QuestionMapper {
 
-    public static void insert(Question question) {
+    public static Question insert(Question question) {
         String sql = "INSERT INTO question (question, success_answer) VALUES (?, ?) RETURNING id;";
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -35,6 +35,7 @@ public class QuestionMapper {
                 e.printStackTrace();
             }
         }
+        return question;
     }
 
 }

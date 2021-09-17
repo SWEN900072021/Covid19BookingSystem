@@ -32,8 +32,8 @@ public class addVaccineType extends HttpServlet {
 
         ArrayList<Question> questions = processQuestionRequest(request);
         for (Question question : questions){
-            QuestionMapper.insert(question);
-            VaccineQuestionMapper.insert(vaccineType, question);
+            Question questionWithID = QuestionMapper.insert(question);
+            VaccineQuestionMapper.insert(vaccineType, questionWithID);
         }
 
         response.setContentType("text/html");
@@ -43,6 +43,7 @@ public class addVaccineType extends HttpServlet {
     }
 
     private VaccineType processVaccineTypeRequest(HttpServletRequest request) {
+        System.out.println(request.getParameter("questionNumber"));
         VaccineType vaccineType = new VaccineType();
         vaccineType.setName(request.getParameter("name"));
 
