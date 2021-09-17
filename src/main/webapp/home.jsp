@@ -37,6 +37,13 @@
                                 </div>
                             </div>
                         </form>
+                        <form name="add_vaccine_type" method="get" action="addVaccineType">
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn btn-dark">Add Vaccine Type</button>
+                                </div>
+                            </div>
+                        </form>
                     </sec:authorize>
                 </div>
                 <div>
