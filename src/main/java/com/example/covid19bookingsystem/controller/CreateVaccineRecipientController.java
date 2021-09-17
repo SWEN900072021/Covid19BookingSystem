@@ -1,6 +1,5 @@
 package com.example.covid19bookingsystem.controller;
 
-import com.example.covid19bookingsystem.domain.Account;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.mapper.AccountMapper;
@@ -26,7 +25,7 @@ public class CreateVaccineRecipientController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String view = "public/createVRAccount.jsp";
+        String view = "createVRAccount.jsp";
         request.getRequestDispatcher(view).forward(request, response);
     }
 
@@ -40,8 +39,7 @@ public class CreateVaccineRecipientController extends HttpServlet {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken) {
             response.sendRedirect("login");
-        }
-        else {
+        } else {
             response.sendRedirect("home");
         }
     }
@@ -49,7 +47,7 @@ public class CreateVaccineRecipientController extends HttpServlet {
     private VaccineRecipient processVRAccount(HttpServletRequest request) {
         VaccineRecipient vrAccount = new VaccineRecipient();
         vrAccount.setUsername(request.getParameter("username"));
-        String encodedPassword = new Pbkdf2PasswordEncoder().encode(request.getParameter("password"));
+        String encodedPassword = new Pbkdf2PasswordEncoder("eduardo", 69, 420).encode(request.getParameter("password"));
         vrAccount.setPassword(encodedPassword);
         vrAccount.setAccountType(EnumUtils.AccountType.valueOf(request.getParameter("accountType").toUpperCase()));
         return vrAccount;

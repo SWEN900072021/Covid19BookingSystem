@@ -18,19 +18,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/public/**").permitAll()
-                .antMatchers("/createVaccineRecipient").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/createVaccineRecipient", "/login").permitAll()
                 .antMatchers("/home").hasAnyRole("ADMIN", "VR", "HCP")
                 .antMatchers("/createHealthCareProvider").hasRole("ADMIN")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-                .and()
+            .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .defaultSuccessUrl("/home", true)
-                .and()
+            .and()
                 .logout();
     }
 }
