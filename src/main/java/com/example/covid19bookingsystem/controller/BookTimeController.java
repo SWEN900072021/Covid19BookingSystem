@@ -21,6 +21,8 @@ public class BookTimeController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String view = "vr/bookTime.jsp";
+        request.getRequestDispatcher(view).forward(request, response);
     }
 
     @Override

@@ -14,12 +14,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "searchTypeController", value = "/searchType")
-public class SearchTypeController extends HttpServlet {
+@WebServlet(name = "searchTimeslotController", value = "/searchTimeslot")
+public class SearchTimeslotController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String view = "vr/searchTimeslot.jsp";
+        request.getRequestDispatcher(view).forward(request, response);
     }
 
     @Override
@@ -27,7 +28,7 @@ public class SearchTypeController extends HttpServlet {
         Boolean result = processSearchTypeRequest(request, response);
         if (!result) {
             request.setAttribute("failure", "true");
-            request.getRequestDispatcher("searchType.jsp").forward(request, response);
+            doGet(request, response);
         }
     }
 

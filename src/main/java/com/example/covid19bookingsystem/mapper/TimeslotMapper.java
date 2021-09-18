@@ -68,7 +68,7 @@ public class TimeslotMapper {
                 healthCareProvider.setId(rs.getInt("health_care_provider"));
                 timeslot.setHealthcareProvider(healthCareProvider);
 
-                timeslot.setVaccineType(rs.getString("vaccination_type"));
+                timeslot.setVaccineType(rs.getString("vaccine_type"));
                 timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
                 timeslot.setDuration(rs.getInt("duration"));
 

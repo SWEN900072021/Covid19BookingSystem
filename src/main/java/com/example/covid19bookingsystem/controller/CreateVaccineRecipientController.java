@@ -32,7 +32,6 @@ public class CreateVaccineRecipientController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         VaccineRecipient vrAccount = processVRAccount(request);
-        // TODO: Should be done with UoW implementation
         AccountMapper.insert(vrAccount);
         processVaccineRecipientRequest(request, vrAccount);
         VaccineRecipientMapper.insert(vrAccount);

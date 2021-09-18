@@ -41,7 +41,7 @@
                 </div>
                 <div>
                     <sec:authorize access="hasRole('VR')">
-                        <form name="searchTimeslot" method="get" action="vr/searchType.jsp">
+                        <form name="searchTimeslot" method="get" action="searchTimeslot">
                             <div class="form-group row">
                                 <div class="col-sm-12">
                                     <button type="submit" class="btn btn btn-dark">Search Timeslot</button>
