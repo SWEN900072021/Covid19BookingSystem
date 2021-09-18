@@ -2,8 +2,10 @@ package com.example.covid19bookingsystem.controller.vr;
 
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
+import com.example.covid19bookingsystem.domain.VaccineType;
 import com.example.covid19bookingsystem.mapper.HealthCareProviderMapper;
 import com.example.covid19bookingsystem.mapper.TimeslotMapper;
+import com.example.covid19bookingsystem.mapper.VaccineTypeMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,11 +21,18 @@ public class SearchTypeController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ArrayList<VaccineType> allVaccineTypes = VaccineTypeMapper.getAllVaccineTypes();
+        request.getSession().setAttribute("allVaccineTypes", allVaccineTypes);
+        request.getRequestDispatcher("searchType.jsp").forward(request, response);
+
+        // testing
+        request.setAttribute("test", "test-test");
+
+
         Boolean result = processSearchTypeRequest(request, response);
         if (!result) {
             request.setAttribute("failure", "true");
@@ -59,4 +68,15 @@ public class SearchTypeController extends HttpServlet {
         }
         return false;
     }
+    private Boolean sendVaccineTypesList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ArrayList<VaccineType> allVaccineTypes = VaccineTypeMapper.getAllVaccineTypes();
+        if (!allVaccineTypes.isEmpty()) {
+            request.getSession().setAttribute("allVaccineTypes", allVaccineTypes);
+            request.getRequestDispatcher("/searchType.jsp").forward(request, response);
+            System.out.println(allVaccineTypes);
+            return true;
+        }
+        return false;
+    }
+
 }

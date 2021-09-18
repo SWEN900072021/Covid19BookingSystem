@@ -40,15 +40,14 @@
                         </div>
                     </div>
                 </div>
-
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <div id="hiddenDiv"></div>
-
                 <div id="div1" class="col-sm-5 col-form"> </div>
                 <div class="form-group row">
                     <div class="col-sm-12">
                         <button type="submit"
                                 class="btn btn-outline-dark"
-                                onsubmit=submitQuestionNumber()
+                                onclick=submitQuestionNumber()
                         >Submit Vaccine Type</button>
                     </div>
                 </div>
@@ -123,7 +122,7 @@
     }
 
     function submitQuestionNumber() {
-
+        console.log(question_i);
         var hiddenInput = document.createElement("input");
         hiddenInput.setAttribute("type", "hidden");
         hiddenInput.setAttribute("id", "questionNumber");

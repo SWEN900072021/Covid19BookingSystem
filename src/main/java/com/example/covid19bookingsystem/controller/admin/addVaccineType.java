@@ -2,6 +2,7 @@ package com.example.covid19bookingsystem.controller.admin;
 
 import com.example.covid19bookingsystem.domain.*;
 import com.example.covid19bookingsystem.mapper.QuestionMapper;
+import com.example.covid19bookingsystem.mapper.TimeslotMapper;
 import com.example.covid19bookingsystem.mapper.VaccineQuestionMapper;
 import com.example.covid19bookingsystem.mapper.VaccineTypeMapper;
 
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static java.lang.Boolean.parseBoolean;
+import static java.lang.Integer.parseInt;
 
 @WebServlet(name = "addVaccineType", value = "/addVaccineType")
 public class addVaccineType extends HttpServlet {
@@ -43,9 +45,8 @@ public class addVaccineType extends HttpServlet {
     }
 
     private VaccineType processVaccineTypeRequest(HttpServletRequest request) {
-        System.out.println(request.getParameter("questionNumber"));
         VaccineType vaccineType = new VaccineType();
-        vaccineType.setName(request.getParameter("name"));
+        vaccineType.setName(request.getParameter("name").toUpperCase());
 
         return vaccineType;
     }
@@ -54,8 +55,9 @@ public class addVaccineType extends HttpServlet {
         ArrayList<Question> questions = new ArrayList<Question>();
 
         int i;
+        int questionNumber = parseInt(request.getParameter("questionNumber"));
 
-        for(i=0; i<10; i++) {
+        for(i=0; i<questionNumber; i++) {
             if (request.getParameter("question" + i) != null) {
                 Question question = new Question();
                 question.setQuestion(request.getParameter("question" + i));

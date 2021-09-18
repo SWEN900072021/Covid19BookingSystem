@@ -1,3 +1,7 @@
+<%@ page import="com.example.covid19bookingsystem.domain.VaccineType" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.lang.reflect.Array" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -6,6 +10,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>Search Type</title>
+    <%
+        // test
+        System.out.println("test");
+        String test = (String) request.getSession().getAttribute("test");
+        System.out.println(test);
+
+        ArrayList<VaccineType> allVaccineTypes = (ArrayList<VaccineType>) request.getSession().getAttribute("allVaccineTypes");
+        ArrayList<String> vaccineNames = new ArrayList<>();
+        System.out.println("vaccines");
+        System.out.println(allVaccineTypes);
+
+        for (VaccineType vaccineType: allVaccineTypes) {
+            String vaccineName = vaccineType.getName();
+            vaccineNames.add(vaccineName);
+        }
+    %>
     <%
         if (request.getAttribute("failure") != null) {
     %>
@@ -34,8 +54,15 @@
                     <label class="col-sm-5 col-form-label" for="inputVaccineType">Vaccine Type:</label>
                     <div class="col-sm-7">
                         <select id="inputVaccineType" class="form-control" name = "vaccineType">
-                            <option value="ASTRAZENECA" selected>Astrazeneca</option>
-                            <option value="PFIZER">Pfizer</option>
+                            <option value="pfizer">pfizer</option>
+                            <option value="astra">astra</option>
+<%--                        <%--%>
+<%--                            for (String vaccineName: vaccineNames) {--%>
+<%--                        %>--%>
+<%--                            <option value=<%= vaccineName%>> <%= vaccineName%> </option>--%>
+<%--                        <%--%>
+<%--                            }--%>
+<%--                        %>--%>
                         </select>
                     </div>
                 </div>

@@ -31,12 +31,12 @@ public class VaccineTypeMapper {
         }
     }
 
-    public static List<VaccineType> getAllVaccineTypes() {
-        String sql = "SELECT name FROM vaccine_type ";
+    public static ArrayList<VaccineType> getAllVaccineTypes() {
+        String sql = "SELECT * FROM vaccine_type ";
 
         PreparedStatement statement = null;
         ResultSet rs = null;
-        List<VaccineType> vaccineTypes = new ArrayList<>();
+        ArrayList<VaccineType> vaccineTypes = new ArrayList<>();
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
@@ -47,7 +47,7 @@ public class VaccineTypeMapper {
                 vaccineTypes.add(vaccineType);
             }
         } catch (SQLException e) {
-            System.out.println("Vaccine Mapper - get all- Error: " + e.getMessage());
+            System.out.println("Vaccine Mapper - get all - Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, rs);
@@ -55,9 +55,6 @@ public class VaccineTypeMapper {
                 e.printStackTrace();
             }
         }
-
         return vaccineTypes;
     }
-
-
 }

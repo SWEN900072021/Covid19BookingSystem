@@ -22,7 +22,6 @@ public class QuestionMapper {
             rs = statement.executeQuery();
             if (rs.next()) {
                 question.setId(rs.getInt(1));
-                System.out.println(rs.getInt(1));
             }
 
 
