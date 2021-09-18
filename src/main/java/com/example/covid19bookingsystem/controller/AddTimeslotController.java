@@ -4,6 +4,7 @@ import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
 import com.example.covid19bookingsystem.mapper.TimeslotMapper;
+import com.example.covid19bookingsystem.utils.EnumUtils;
 import com.example.covid19bookingsystem.utils.UnitOfWork;
 
 import javax.servlet.ServletException;
@@ -83,7 +84,7 @@ public class AddTimeslotController extends HttpServlet {
         address.setState(request.getParameter("state"));
         address.setCountry(request.getParameter("country"));
         timeslot.setAddress(address);
-        timeslot.setStatus("UNBOOKED");
+        timeslot.setStatus(EnumUtils.TimeslotStatus.UNBOOKED);
 
         return timeslot;
     }

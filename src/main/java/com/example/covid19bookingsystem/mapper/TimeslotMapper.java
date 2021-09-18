@@ -4,6 +4,8 @@ import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
+import com.example.covid19bookingsystem.domain.VaccineRecipient;
+import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +27,7 @@ public class TimeslotMapper {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, timeslot.getHealthcareProvider().getId());
             statement.setString(2, timeslot.getVaccineType());
-            statement.setString(3, timeslot.getStatus());
+            statement.setString(3, timeslot.getStatus().name());
             statement.setTimestamp(4, timeslot.getDateTime());
             statement.setInt(5, timeslot.getDuration());
             statement.setString(6, timeslot.getAddress().getAddressLine1());
@@ -94,5 +96,20 @@ public class TimeslotMapper {
         }
 
         return timeslots;
+    }
+
+    public static void update(Timeslot timeslot, VaccineRecipient vr) {
+        String sql = "UPDATE timeslot SET vaccine_recipient = ?, status = ? WHERE id = ?";
+
+        PreparedStatement statement = null;
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setInt(1, vr.getId());
+            statement.setString(2, EnumUtils.TimeslotStatus.BOOKED.name());
+            statement.setInt(3, timeslot.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+        }
     }
 }

@@ -3,7 +3,10 @@ package com.example.covid19bookingsystem.controller;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
+import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.mapper.HealthCareProviderMapper;
+import com.example.covid19bookingsystem.mapper.TimeslotMapper;
+import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +34,19 @@ public class BookTimeController extends HttpServlet {
         if (request.getParameter("timeClicked") != null && request.getParameter("dateClicked") != null) {
             processBookTimeRequest(request, response);
         }
+        if (request.getParameter("confirmed") != null) {
+            submitTimeslotRequest(request, response);
+        }
+    }
+
+    private void submitTimeslotRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getSession().getAttribute("chosenTimeslot") != null &&
+                request.getSession().getAttribute("userDetails") != null) {
+            Timeslot timeslot = (Timeslot) request.getSession().getAttribute("chosenTimeslot");
+            VaccineRecipient vr = (VaccineRecipient) request.getSession().getAttribute("userDetails");
+            TimeslotMapper.update(timeslot, vr);
+            response.sendRedirect("home");
+        }
     }
 
     private void processBookTimeRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -48,6 +64,7 @@ public class BookTimeController extends HttpServlet {
                 confirmationDetails.put("hcpName", timeslot.getHealthcareProvider().getHealthCareProviderName());
                 confirmationDetails.put("hcpType", timeslot.getHealthcareProvider().getHealthCareProviderType().name());
                 confirmationDetails.put("hcpPostcode", timeslot.getHealthcareProvider().getPostcode());
+                request.getSession().setAttribute("chosenTimeslot", timeslot);
             }
         }
         request.setAttribute("confirmationDetails", confirmationDetails);

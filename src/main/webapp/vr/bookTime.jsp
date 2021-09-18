@@ -42,6 +42,25 @@
     %>
 
     <script>
+
+        function confirmTimeslot() {
+            var form = document.createElement('form');
+            var csrfInput = document.createElement('input');
+            var confirmInput = document.createElement('input');
+            csrfInput.setAttribute("type", "hidden");
+            csrfInput.setAttribute("name", "${_csrf.parameterName}");
+            csrfInput.setAttribute("value", "${_csrf.token}");
+            confirmInput.setAttribute("type", "hidden");
+            confirmInput.setAttribute("name", "confirmed");
+            confirmInput.setAttribute("value", "true");
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', 'bookTime');
+            form.appendChild(csrfInput);
+            form.appendChild(confirmInput);
+            document.body.appendChild(form)
+            form.submit();
+        }
+
         function selectTime(timeClicked) {
             var form = document.createElement('form');
             var csrfInput = document.createElement('input');
@@ -200,7 +219,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Book Vaccine</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmTimeslot()">Book Vaccine</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
