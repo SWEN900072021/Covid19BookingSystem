@@ -59,7 +59,7 @@ public class BookTimeController extends HttpServlet {
                 confirmationDetails.put("dateTime", dateTime);
                 confirmationDetails.put("vaccineType", timeslot.getVaccineType());
                 confirmationDetails.put("duration", timeslot.getDuration().toString());
-                confirmationDetails.put("location", timeslot.getAddress().getString());
+                confirmationDetails.put("location", timeslot.getAddress().getFullAddress());
                 confirmationDetails.put("hcpOrgId", timeslot.getHealthcareProvider().getOrganisationalId().toString());
                 confirmationDetails.put("hcpName", timeslot.getHealthcareProvider().getHealthCareProviderName());
                 confirmationDetails.put("hcpType", timeslot.getHealthcareProvider().getHealthCareProviderType().name());

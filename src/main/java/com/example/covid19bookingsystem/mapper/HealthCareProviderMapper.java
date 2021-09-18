@@ -93,15 +93,17 @@ public class HealthCareProviderMapper {
         return HCPs;
     }
 
-    public static HealthCareProvider findHCPByObject(HealthCareProvider HCP) {
+    public static HealthCareProvider findHCPById(Integer id) {
         String sql = "SELECT * FROM health_care_provider WHERE id = ?";
 
         PreparedStatement statement = null;
         ResultSet rs = null;
 
+        HealthCareProvider HCP = new HealthCareProvider();
+
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, HCP.getId());
+            statement.setInt(1, id);
             rs = statement.executeQuery();
             if (rs.next()) {
                 HCP.setOrganisationalId(rs.getInt("organisational_id"));

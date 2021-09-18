@@ -24,7 +24,8 @@ public class EnumUtils {
 
     public enum TimeslotStatus {
         UNBOOKED,
-        BOOKED
+        BOOKED,
+        COMPLETED
     }
 
 }

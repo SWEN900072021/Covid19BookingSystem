@@ -19,7 +19,7 @@ public class Address {
 
     private String country;
 
-    public String getString() {
+    public String getFullAddress() {
         return (addressLine1 + ", " + addressLine2 + ", " + state + ", " + postcode + ", " + country);
     }
 }
