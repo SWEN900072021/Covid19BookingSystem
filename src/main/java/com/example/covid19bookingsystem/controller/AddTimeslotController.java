@@ -22,39 +22,36 @@ public class AddTimeslotController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getSession().getAttribute("UoW") == null){
+            request.getSession().setAttribute("UoW", new UnitOfWork());
+        }
         request.getRequestDispatcher("/hcp/addTimeslot.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        if (request.getParameter("commit")!=null){
+        if (request.getParameter("commit") != null){
             try {
                 //commit UoW
-
                 UnitOfWork uow = (UnitOfWork) request.getSession().getAttribute("UoW");
-                if (uow == null){
-                    response.setContentType("text/html");
-                    response.setCharacterEncoding("UTF-8");
-                    response.getWriter().println("<h3>No timeslots have been created</h3/");
+                if (uow != null){
+                    if(uow.getNewObjList().isEmpty()) {
+                        request.setAttribute("alert", "true");
+                        doGet(request, response);
+                    }
+                    else {
+                        uow.commit();
+                        request.getSession().setAttribute("UoW", null);
+                        request.getRequestDispatcher("/home").forward(request, response);
+                    }
                 }
-                else{
-                    uow.commit();
-                    request.getSession().setAttribute("UoW", null);
-                    response.setContentType("text/html");
-                    response.setCharacterEncoding("UTF-8");
-                    response.getWriter().println("<h3>All Time Slots have been created</h3/");
-                }
-
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
         } else {
-            // Remember to move this to the doGet to ensure we have UoW init when landing on this page
-            if (request.getSession().getAttribute("UoW") == null){
-                request.getSession().setAttribute("UoW", new UnitOfWork());
-            }
+            request.setAttribute("alert", null);
             Timeslot timeslot = processTimeslotRequest(request);
             UnitOfWork uow = (UnitOfWork) request.getSession().getAttribute("UoW");
             uow.registerNew(timeslot);
