@@ -1,3 +1,5 @@
+<%@ page import="com.example.covid19bookingsystem.domain.Account" %>
+<%@ page import="com.example.covid19bookingsystem.domain.HealthCareProvider" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -14,6 +16,12 @@
             }
         %>
     </script>
+    <%
+        HealthCareProvider hcp = new HealthCareProvider();
+        if (request.getSession().getAttribute("userDetails") != null) {
+            hcp = (HealthCareProvider) request.getSession().getAttribute("userDetails");
+        }
+    %>
 </head>
 <body>
     <h4
@@ -27,19 +35,13 @@
         <div class="card-body">
             <form action = "addTimeslot" method = "post">
                 <input type="hidden"
-                       name="${_csrf.parameterName}"
-                       value="${_csrf.token}"/>
-                <div class="row mb-3">
-                    <label for="inputHcpId" class="col-sm-4 col-form-label"><strong>Healthcare Provider ID:</strong></label>
-                    <div class="col-sm-8">
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="inputHcpId"
-                            name = "healthcareProvider"
-                        >
-                    </div>
-                </div>
+                        name="${_csrf.parameterName}"
+                        value="${_csrf.token}"/>
+                <input
+                        type="hidden"
+                        name = "healthcareProvider"
+                        value="<%= hcp.getId().toString()%>"
+                >
                 <div class="row mb-3">
                     <label for="inputDate" class="col-sm-4 col-form-label"><strong>Date (YYYY-MM-DD):</strong></label>
                     <div class="col-sm-8">
@@ -201,7 +203,6 @@
                 Use <strong>Add timeslot</strong> to sequentially add timeslots to the current batch.<br/>
                 Use <strong>Submit All Timeslots</strong> when you have finished adding all the timeslots to the current session.
             </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>

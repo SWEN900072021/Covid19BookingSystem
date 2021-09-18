@@ -52,7 +52,7 @@ public class HealthCareProviderMapper {
                 HCPs.add(HCP);
             }
         } catch (SQLException e) {
-            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+            System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, rs);
@@ -81,7 +81,7 @@ public class HealthCareProviderMapper {
                 HCPs.add(HCP);
             }
         } catch (SQLException e) {
-            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+            System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, rs);
@@ -110,7 +110,7 @@ public class HealthCareProviderMapper {
                 HCP.setPostcode(rs.getString("postcode"));
             }
         } catch (SQLException e) {
-            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+            System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, rs);
@@ -120,6 +120,34 @@ public class HealthCareProviderMapper {
         }
 
         return HCP;
+    }
+
+    public static HealthCareProvider findHCPByAccount(Integer accountId) {
+        String sql = "SELECT id FROM health_care_provider WHERE account_id = ?";
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        HealthCareProvider hcp = new HealthCareProvider();
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setInt(1, accountId);
+            rs = statement.executeQuery();
+            if (rs.next()) {
+                hcp.setId(rs.getInt(1));
+            }
+        } catch (SQLException e) {
+            System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return hcp;
     }
 
 }
