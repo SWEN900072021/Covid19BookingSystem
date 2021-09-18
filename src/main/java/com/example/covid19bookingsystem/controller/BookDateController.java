@@ -18,7 +18,7 @@ public class BookDateController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("dateClicked") != null) {
-            request.getRequestDispatcher("bookTime").forward(request, response);
+            request.getRequestDispatcher("vr/bookTime.jsp").forward(request, response);
         } else {
             doGet(request, response);
         }

@@ -1,5 +1,6 @@
 package com.example.covid19bookingsystem.domain;
 
+import com.example.covid19bookingsystem.mapper.HealthCareProviderMapper;
 import com.example.covid19bookingsystem.utils.EnumUtils.HealthCareProviderType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,18 @@ public class HealthCareProvider extends Account {
     }
 
     private void load() {
-        //TODO add in loading logic here
+        HealthCareProvider hcp = HealthCareProviderMapper.findHCPByObject(this);
+        if (this.organisationalId == null) {
+            this.organisationalId = hcp.getOrganisationalId();
+        }
+        if (this.healthCareProviderName == null) {
+            this.healthCareProviderName = hcp.getHealthCareProviderName();
+        }
+        if (this.healthCareProviderType == null) {
+            this.healthCareProviderType = hcp.getHealthCareProviderType();
+        }
+        if (this.postcode == null) {
+            this.postcode = hcp.getPostcode();
+        }
     }
 }

@@ -18,4 +18,8 @@ public class Address {
     private String state;
 
     private String country;
+
+    public String getString() {
+        return (addressLine1 + ", " + addressLine2 + ", " + state + ", " + postcode + ", " + country);
+    }
 }
