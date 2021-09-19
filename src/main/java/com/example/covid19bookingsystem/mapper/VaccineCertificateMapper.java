@@ -1,18 +1,12 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
-import com.example.covid19bookingsystem.domain.Address;
-import com.example.covid19bookingsystem.domain.HealthCareProvider;
-import com.example.covid19bookingsystem.domain.Timeslot;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.covid19bookingsystem.utils.EnumUtils.TimeslotStatus.valueOf;
 
 public class VaccineCertificateMapper {
 
