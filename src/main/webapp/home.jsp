@@ -59,7 +59,7 @@
                 <form name="viewVaccineCertificate" method="get" action="vaccineCertificate">
                     <div class="form-group row">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn btn-dark">Search Timeslot</button>
+                            <button type="submit" class="btn btn btn-dark">View Vaccine Certificates</button>
                         </div>
                     </div>
                 </form>

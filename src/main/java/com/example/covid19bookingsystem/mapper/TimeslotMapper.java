@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.covid19bookingsystem.mapper.VaccineRecipientMapper.findVaccineRecipientById;
 import static com.example.covid19bookingsystem.utils.EnumUtils.TimeslotStatus.valueOf;
 
 public class TimeslotMapper {
@@ -60,6 +61,9 @@ public class TimeslotMapper {
                 HealthCareProvider healthCareProvider = new HealthCareProvider();
                 healthCareProvider.setId(rs.getInt("health_care_provider"));
                 timeslot.setHealthcareProvider(healthCareProvider);
+
+                VaccineRecipient vaccineRecipient = findVaccineRecipientById(rs.getInt("vaccine_recipient"));
+                timeslot.setVaccineRecipient(vaccineRecipient);
 
                 timeslot.setVaccineType(rs.getString("vaccine_type"));
                 timeslot.setStatus(valueOf(rs.getString("status")));
@@ -170,8 +174,9 @@ public class TimeslotMapper {
                 healthCareProvider.setId(rs.getInt("health_care_provider"));
                 timeslot.setHealthcareProvider(healthCareProvider);
 
-                VaccineRecipient vaccineRecipient = VaccineRecipientMapper.findVaccineRecipientById(rs.getInt("vaccine_recipient"));
+                VaccineRecipient vaccineRecipient = findVaccineRecipientById(rs.getInt("vaccine_recipient"));
                 timeslot.setVaccineRecipient(vaccineRecipient);
+
                 timeslot.setVaccineType(rs.getString("vaccine_type"));
                 timeslot.setStatus(valueOf(rs.getString("status")));
                 timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
