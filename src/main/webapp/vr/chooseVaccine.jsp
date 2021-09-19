@@ -9,6 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>Choose Vaccine</title>
     <%
+        Boolean questionnairePassed = (Boolean) request.getSession().getAttribute("questionnairePassed");
         ArrayList<VaccineType> allVaccineTypes = (ArrayList<VaccineType>) request.getSession().getAttribute("allVaccineTypes");
         ArrayList<String> vaccineNames = new ArrayList<>();
 
@@ -33,6 +34,19 @@
                 <input type="hidden"
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>
+                <%
+                    if(questionnairePassed != null && !questionnairePassed){
+
+                %>
+                <div class="form-group row">
+                    <label class="col-sm-12" style="color: #f0483c" >
+                        Ineligible for selected vaccine, please choose another.
+                    </label>
+                    <br>
+                </div>
+                <%
+                    }
+                %>
                 <div class="form-group row">
                     <label class="col-sm-5 col-form-label" for="inputVaccineType">Vaccine Type:</label>
                     <div class="col-sm-7">
@@ -47,7 +61,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-outline-dark"> Next </button>

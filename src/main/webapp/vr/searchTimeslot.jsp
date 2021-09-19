@@ -14,15 +14,6 @@
     <script>
 
     </script>
-
-    <%
-
-        String vaccineType = (String) request.getSession().getAttribute("vaccineType");
-        System.out.println("yp");
-        System.out.println(vaccineType);
-
-    %>
-
     <%
         if (request.getAttribute("failure") != null) {
     %>

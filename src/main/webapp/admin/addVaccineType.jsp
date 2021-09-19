@@ -8,52 +8,53 @@
     <title>Add Vaccine Type</title>
 </head>
 <body>
-    <h4
-            class="display-4"
-            style="display: flex;justify-content: center;margin-top: 20px;font-size: 45px"
-    >
-        Add Vaccine Type
-    </h4>
-    <br/>
-    <div class="card text-center border-secondary mb-3" style="width: 50rem;margin: 0 auto;float: none;margin-bottom: 10px;">
-        <div class="card-body">
-            <form action = "addVaccineType" method = "post">
-                <div class="form-group row">
-                    <label for="nameId" class="col-sm-4 col-form-label"><strong>Name:</strong></label>
-                    <div class="col-sm-8">
-                        <input
-                                type="text"
-                                class="form-control"
-                                id="nameId"
-                                name = "name"
-                        >
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="col-sm-5 col-form">
-                        <div id="certificationtog">
-                            <input type="button" id="addquestions" name="addQuestions" class="btn btn-outline-dark"
-                                   value="Add Question" onclick="addQuestion();">
-                            <br>
-                            <div id="questions"></div>
-                        </div>
+<h4
+        class="display-4"
+        style="display: flex;justify-content: center;margin-top: 20px;font-size: 45px"
+>
+    Add Vaccine Type
+</h4>
+<br/>
+<div class="card text-center border-secondary mb-3" style="width: 50rem;margin: 0 auto;float: none;margin-bottom: 10px;">
+    <div class="card-body">
+        <form action = "addVaccineType" method = "post">
+            <input type="hidden"
+                   name="${_csrf.parameterName}"
+                   value="${_csrf.token}"/>
+            <div class="form-group row">
+                <label for="nameId" class="col-sm-4 col-form-label"><strong>Name:</strong></label>
+                <div class="col-sm-8">
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="nameId"
+                            name = "name"
+                    >
+                </div>
+                <br>
+                <br>
+                <div class="col-sm-5 col-form">
+                    <div id="certificationtog">
+                        <input type="button" id="addquestions" name="addQuestions" class="btn btn-outline-dark"
+                               value="Add Question" onclick="addQuestion();">
+                        <br>
                     </div>
                 </div>
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                <div id="hiddenDiv"></div>
-                <div id="div1" class="col-sm-5 col-form"> </div>
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <button type="submit"
-                                class="btn btn-outline-dark"
-                                onclick=submitQuestionNumber()
-                        >Submit Vaccine Type</button>
-                    </div>
+            </div>
+            <div id="questions"></div>
+            <div id="hiddenDiv"></div>
+            <div id="div1" class="col-sm-5 col-form"> </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <button type="submit"
+                            class="btn btn-outline-dark"
+                            onclick=submitQuestionNumber()
+                    >Submit Vaccine Type</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
+</div>
 </body>
 </html>
 
@@ -63,41 +64,40 @@
 
     function addQuestion() {
 
-        var question = document.createElement("label");
-        question.innerHTML = '<br> <strong> Question: </strong> <br>';
-        question.setAttribute("type", "text");
-        question.setAttribute("class", "col-sm-16");
+        var divRow = document.createElement("div");
+        divRow.setAttribute("class", "form-group row");
 
-        var div2 = document.createElement("div");
-        div2.setAttribute("width", "600px");
+        var questionLabel = document.createElement("label");
+        questionLabel.setAttribute("class", "col-sm-4 col-form-label");
+        questionLabel.setAttribute("style", "left: 13px");
+        questionLabel.setAttribute("id", "inputQuestion");
+        questionLabel.innerHTML = ' <strong>Question: </strong>';
 
-        var div1 = document.createElement("div");
-        div1.innerHTML = "<br>";
+        var divInput = document.createElement("div");
+        divInput.setAttribute("class", "col-sm-8");
 
 
-        var inputElement1 = document.createElement("input");
-        inputElement1.setAttribute("type", "text");
-        inputElement1.setAttribute("class", "col-sm-16");
-        inputElement1.setAttribute("width", "100px");
-        inputElement1.setAttribute("placeholder", "");
-        inputElement1.setAttribute("id", "inputQuestion");
-        inputElement1.setAttribute("name", 'question' + question_i);
+        var questionInput = document.createElement("input");
+        questionInput.setAttribute("type", "text");
+        questionInput.setAttribute("class", "form-control");
+        questionInput.setAttribute("id", "inputQuestion");
 
-        var successAnswer = document.createElement("label");
-        successAnswer.innerHTML = "<strong> Success Answer:</strong>";
-        successAnswer.setAttribute("class", "col-sm-16");
+        questionInput.setAttribute("name", 'question' + question_i);
 
-        // selection for yes/no
+        var successAnswerLabel = document.createElement("label");
+        successAnswerLabel.setAttribute("class", "col-sm-5 col-form-label");
+        successAnswerLabel.setAttribute("style", "left: 9px");
+        successAnswerLabel.innerHTML = "<strong>Success Answer:</strong>";
+
+        var br = document.createElement("br");
+        br.innerHTML = "<br>";
+
         var select = document.createElement("select");
         select.setAttribute("name", 'selectOption' + question_i);
         select.setAttribute("id", 'selectOption' + question_i);
+        select.setAttribute("class", "col-sm-2 form-control");
+        select.setAttribute("style", "left: -50px");
         select.setAttribute("value", "true");
-
-        var optionTrue = document.createElement("option");
-        optionTrue.setAttribute("name", 'successQuestion' + question_i);
-        optionTrue.setAttribute("id", 'successQuestion' + question_i);
-        optionTrue.setAttribute("value", "true");
-        optionTrue.innerHTML = "Yes";
 
         var optionFalse = document.createElement("option");
         optionFalse.setAttribute("name", 'successQuestion' + question_i);
@@ -105,24 +105,28 @@
         optionFalse.setAttribute("value", "false");
         optionFalse.innerHTML = "No";
 
-        var questionBlock = document.getElementById("div1");
-        questionBlock.appendChild(div2);
-        div2.appendChild(question);
-        div2.appendChild(inputElement1);
-        div2.appendChild(div1);
-        div2.appendChild(successAnswer);
-        div2.appendChild(div1);
-        div2.appendChild(select);
-        select.appendChild(optionTrue);
-        select.appendChild(optionFalse);
-        questionBlock.appendChild(div1);
+        var optionTrue = document.createElement("option");
+        optionTrue.setAttribute("name", 'successQuestion' + question_i);
+        optionTrue.setAttribute("id", 'successQuestion' + question_i);
+        optionTrue.setAttribute("value", "true");
+        optionTrue.innerHTML = "Yes";
 
+        var questionBlock = document.getElementById("questions");
+        questionBlock.append(divRow);
+        divRow.appendChild(questionLabel);
+        divRow.appendChild(divInput);
+        divInput.appendChild(questionInput);
+        divInput.append(br);
+        divRow.appendChild(successAnswerLabel);
+        divRow.appendChild(select);
+        select.appendChild(optionFalse);
+        select.appendChild(optionTrue);
 
         question_i++;
     }
 
     function submitQuestionNumber() {
-        console.log(question_i);
+
         var hiddenInput = document.createElement("input");
         hiddenInput.setAttribute("type", "hidden");
         hiddenInput.setAttribute("id", "questionNumber");
@@ -131,6 +135,5 @@
 
         var hiddenBlock = document.getElementById("hiddenDiv");
         hiddenBlock.appendChild(hiddenInput);
-
     }
 </script>
