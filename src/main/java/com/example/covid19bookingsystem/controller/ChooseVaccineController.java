@@ -22,7 +22,7 @@ public class ChooseVaccineController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String view = "vr/chooseVaccine.jsp";
 
-        // VaccineTypes display for dropdown
+        // VaccineTypes display for dropdown list
         ArrayList<VaccineType> allVaccineTypes = VaccineTypeMapper.getAllVaccineTypes();
         request.getSession().setAttribute("allVaccineTypes", allVaccineTypes);
         request.getRequestDispatcher(view).forward(request, response);
@@ -32,8 +32,11 @@ public class ChooseVaccineController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String view = "vr/chooseVaccine.jsp";
 
-        if(request.getParameter("vaccineType") != null){
+        ForwardVaccineQuestionsForSelection(request, response);
+    }
 
+    private void ForwardVaccineQuestionsForSelection(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.getParameter("vaccineType") != null){
 
             List<Question> questionsForVaccineType
                     = VaccineQuestionMapper.getQuestionIdsForVaccineType(request.getParameter("vaccineType"));
@@ -51,7 +54,5 @@ public class ChooseVaccineController extends HttpServlet {
             request.getSession().setAttribute("questionsToDisplay", questionsToDisplay);
             request.getRequestDispatcher("vr/vaccineQuestionnaire.jsp").forward(request, response);
         }
-
     }
-
 }

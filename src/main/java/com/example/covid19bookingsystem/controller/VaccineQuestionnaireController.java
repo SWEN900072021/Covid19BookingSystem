@@ -28,8 +28,22 @@ public class VaccineQuestionnaireController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String view = "vr/vaccineQuestionnaire.jsp";
 
+        List<Question> vaccineQuestions = getQuestionsForVaccineType(request.getParameter("vaccineType"));
+
+        Boolean questionnairePassed = questionnaireChecker(vaccineQuestions, request);
+
+        if (questionnairePassed){
+            request.getSession().setAttribute("vaccineType", request.getParameter("vaccineType"));
+            request.getRequestDispatcher("vr/searchTimeslot.jsp").forward(request, response);
+        } else {
+            request.getSession().setAttribute("questionnairePassed", questionnairePassed);
+            request.getRequestDispatcher("vr/chooseVaccine.jsp").forward(request, response);
+        }
+    }
+
+    private List<Question> getQuestionsForVaccineType(String VaccineType) throws ServletException, IOException {
         List<Question> questionsForVaccineType
-                = VaccineQuestionMapper.getQuestionIdsForVaccineType(request.getParameter("vaccineType"));
+                = VaccineQuestionMapper.getQuestionIdsForVaccineType(VaccineType);
 
         List<Question> questionsToDisplay = new ArrayList<>();
 
@@ -39,25 +53,19 @@ public class VaccineQuestionnaireController extends HttpServlet {
             questionsToDisplay.add(questionToDisplay);
 
         }
+        return questionsToDisplay;
+    }
 
+    private Boolean questionnaireChecker(List<Question> questions, HttpServletRequest request) throws ServletException, IOException {
         int i = 1;
         boolean questionnairePassed = true;
 
-        for (Question q: questionsToDisplay) {
-            if (q.getSuccessAnswer() != Boolean.parseBoolean(request.getParameter("vaccineQuestionAnswer"+i))){
+        for (Question question: questions) {
+            if (question.getSuccessAnswer() != Boolean.parseBoolean(request.getParameter("vaccineQuestionAnswer"+i))){
                 questionnairePassed = false;
             }
             i++;
         }
-
-        if (questionnairePassed){
-            request.getSession().setAttribute("vaccineType", request.getParameter("vaccineType"));
-            request.getRequestDispatcher("vr/searchTimeslot.jsp").forward(request, response);
-        } else {
-            request.getSession().setAttribute("questionnairePassed", questionnairePassed);
-            request.getRequestDispatcher("vr/chooseVaccine.jsp").forward(request, response);
-        }
-
-
+        return questionnairePassed;
     }
 }
