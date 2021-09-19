@@ -33,13 +33,21 @@ public class SearchTimeslotController extends HttpServlet {
     }
 
     private Boolean processSearchTypeRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<HealthCareProvider> HCPs;
         if (request.getParameter("searchBy").equals("area")) {
-            HCPs = HealthCareProviderMapper.findHCPByPostCode(request.getParameter("queryField"));
+            List<Timeslot> timeslots = TimeslotMapper.findTimeslotsByPostCode(request.getParameter("queryField"),
+                    request.getParameter("vaccineType"));
+            System.out.println("In area");
+            if (!timeslots.isEmpty()) {
+                System.out.println("In if");
+                request.getSession().setAttribute("allAvailableTimeslotDates", timeslots);
+                request.getRequestDispatcher("/bookDate").forward(request, response);
+                return true;
+            }
+            return false;
         } else {
-            HCPs = HealthCareProviderMapper.findHCPByName(request.getParameter("queryField"));
+            List<HealthCareProvider> HCPs = HealthCareProviderMapper.findHCPByName(request.getParameter("queryField"));
+            return findTimeslotsHelper(HCPs, request, response);
         }
-        return findTimeslotsHelper(HCPs, request, response);
     }
 
     private Boolean findTimeslotsHelper(List<HealthCareProvider> HCPs, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,7 +61,6 @@ public class SearchTimeslotController extends HttpServlet {
             }
             if (!timeslots.isEmpty()) {
                 request.getSession().setAttribute("allAvailableTimeslotDates", timeslots);
-                request.getSession().setAttribute("hcpList", HCPs);
                 request.getRequestDispatcher("/bookDate").forward(request, response);
                 return true;
             }

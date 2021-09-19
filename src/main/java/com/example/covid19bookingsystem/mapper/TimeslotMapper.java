@@ -43,7 +43,7 @@ public class TimeslotMapper {
 
     public static List<Timeslot> findTimeslotByHcpAndVaccineType(HealthCareProvider HCP, String vaccineType) {
         String sql = "SELECT * FROM timeslot " +
-                "WHERE vaccine_recipient IS NULL " +
+                "WHERE status = ? " +
                 "AND vaccine_type = ? " +
                 "AND health_care_provider = ? " +
                 "AND date_time >= ?";
@@ -58,9 +58,10 @@ public class TimeslotMapper {
             String formatDateTime = today.format(format);
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(1, vaccineType);
-            statement.setInt(2, HCP.getId());
-            statement.setTimestamp(3, Timestamp.valueOf(formatDateTime));
+            statement.setString(1, EnumUtils.TimeslotStatus.UNBOOKED.toString());
+            statement.setString(2, vaccineType);
+            statement.setInt(3, HCP.getId());
+            statement.setTimestamp(4, Timestamp.valueOf(formatDateTime));
             rs = statement.executeQuery();
             while (rs.next()) {
                 Timeslot timeslot = new Timeslot();
@@ -111,5 +112,63 @@ public class TimeslotMapper {
         } catch (SQLException e) {
             System.out.println("Timeslot Mapper Error: " + e.getMessage());
         }
+    }
+
+    public static List<Timeslot> findTimeslotsByPostCode(String postcode, String vaccineType) {
+        String sql = "SELECT * FROM timeslot " +
+                "WHERE status = ? " +
+                "AND vaccine_type = ? " +
+                "AND date_time >= ? " +
+                "AND postcode = ?";
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        List<Timeslot> timeslots = new ArrayList<>();
+
+        try {
+            LocalDateTime today = LocalDateTime.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formatDateTime = today.format(format);
+
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setString(1, EnumUtils.TimeslotStatus.UNBOOKED.toString());
+            statement.setString(2, vaccineType);
+            statement.setTimestamp(3, Timestamp.valueOf(formatDateTime));
+            statement.setString(4, postcode);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                Timeslot timeslot = new Timeslot();
+                timeslot.setId(rs.getInt("id"));
+
+                HealthCareProvider healthCareProvider = new HealthCareProvider();
+                healthCareProvider.setId(rs.getInt("health_care_provider"));
+                timeslot.setHealthcareProvider(healthCareProvider);
+
+                timeslot.setVaccineType(rs.getString("vaccine_type"));
+                timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
+                timeslot.setDuration(rs.getInt("duration"));
+
+                Address address = new Address();
+                address.setAddressLine1(rs.getString("address_line_1"));
+                address.setAddressLine2(rs.getString("address_line_2"));
+                address.setPostcode(rs.getString("postcode"));
+                address.setState(rs.getString("state"));
+                address.setCountry(rs.getString("country"));
+                timeslot.setAddress(address);
+
+                timeslots.add(timeslot);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return timeslots;
     }
 }

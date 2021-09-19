@@ -35,35 +35,6 @@ public class HealthCareProviderMapper {
         }
     }
 
-    public static List<HealthCareProvider> findHCPByPostCode(String postcode) {
-        String sql = "SELECT id FROM health_care_provider WHERE postcode = ?";
-
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        List<HealthCareProvider> HCPs = new ArrayList<>();
-
-        try {
-            statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(1, postcode);
-            rs = statement.executeQuery();
-            while (rs.next()) {
-                HealthCareProvider HCP = new HealthCareProvider();
-                HCP.setId(rs.getInt("id"));
-                HCPs.add(HCP);
-            }
-        } catch (SQLException e) {
-            System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
-        } finally {
-            try {
-                DBConnection.close(statement, rs);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return HCPs;
-    }
-
     public static List<HealthCareProvider> findHCPByName(String name) {
         String sql = "SELECT id FROM health_care_provider WHERE health_care_provider_name = ?";
 
