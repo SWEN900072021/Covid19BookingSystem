@@ -1,12 +1,27 @@
+<%@ page import="com.example.covid19bookingsystem.domain.Account" %>
+<%@ page import="com.example.covid19bookingsystem.domain.HealthCareProvider" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>Create a Timeslot</title>
+    <script>
+        <%
+            if (request.getAttribute("alert") != null) {
+        %>
+                alert("No timeslots added!");
+        <%
+            }
+        %>
+    </script>
+    <%
+        HealthCareProvider hcp = new HealthCareProvider();
+        if (request.getSession().getAttribute("userDetails") != null) {
+            hcp = (HealthCareProvider) request.getSession().getAttribute("userDetails");
+        }
+    %>
 </head>
 <body>
     <h4
@@ -20,21 +35,15 @@
         <div class="card-body">
             <form action = "addTimeslot" method = "post">
                 <input type="hidden"
-                       name="${_csrf.parameterName}"
-                       value="${_csrf.token}"/>
-                <div class="form-group row">
-                    <label for="inputHcpId" class="col-sm-4 col-form-label">Healthcare Provider ID:</label>
-                    <div class="col-sm-8">
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="inputHcpId"
-                            name = "healthcareProvider"
-                        >
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inputDate" class="col-sm-4 col-form-label">Date (YYYY-MM-DD):</label>
+                        name="${_csrf.parameterName}"
+                        value="${_csrf.token}"/>
+                <input
+                        type="hidden"
+                        name = "healthcareProvider"
+                        value="<%= hcp.getId().toString()%>"
+                >
+                <div class="row mb-3">
+                    <label for="inputDate" class="col-sm-4 col-form-label"><strong>Date (YYYY-MM-DD):</strong></label>
                     <div class="col-sm-8">
                         <input
                                 type="date"
@@ -44,8 +53,8 @@
                         >
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputTime" class="col-sm-4 col-form-label">Time (HH:MM):</label>
+                <div class="row mb-3">
+                    <label for="inputTime" class="col-sm-4 col-form-label"><strong>Time (HH:MM):</strong></label>
                     <div class="col-sm-8">
                         <input
                                 type="time"
@@ -55,8 +64,8 @@
                         >
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputDuration" class="col-sm-4 col-form-label">Duration (in minutes):</label>
+                <div class="row mb-3">
+                    <label for="inputDuration" class="col-sm-4 col-form-label"><strong>Duration (in minutes):</strong></label>
                     <div class="col-sm-8">
                         <input
                                 type="number"
@@ -67,9 +76,9 @@
                         >
                     </div>
                 </div>
-                <fieldset class="form-group">
+                <fieldset class="row mb-3">
                     <div class="row">
-                        <legend class="col-form-label col-sm-4 pt-0">Vaccine Type:</legend>
+                        <legend class="col-form-label col-sm-4 pt-0"><strong>Vaccine Type:</strong></legend>
                         <div class="col-sm-8" style="text-align: left">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="vaccineType" id="AZ" value="ASTRAZENECA" checked>
@@ -86,8 +95,8 @@
                         </div>
                     </div>
                 </fieldset>
-                <div class="form-group row">
-                    <label for="inputAddressLine1" class="col-sm-4 col-form-label">Address Line 1:</label>
+                <div class="row mb-3">
+                    <label for="inputAddressLine1" class="col-sm-4 col-form-label"><strong>Address Line 1:</strong></label>
                     <div class="col-sm-8">
                         <input
                                 type="text"
@@ -98,8 +107,8 @@
                         >
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputAddressLine2" class="col-sm-4 col-form-label">Address Line 2:</label>
+                <div class="row mb-3">
+                    <label for="inputAddressLine2" class="col-sm-4 col-form-label"><strong>Address Line 2:</strong></label>
                     <div class="col-sm-8">
                         <input
                                 type="text"
@@ -110,8 +119,8 @@
                         >
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputPostcode" class="col-sm-4 col-form-label">Postcode:</label>
+                <div class="row mb-3">
+                    <label for="inputPostcode" class="col-sm-4 col-form-label"><strong>Postcode:</strong></label>
                     <div class="col-sm-8">
                         <input
                                 type="text"
@@ -122,8 +131,8 @@
                         >
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputState" class="col-sm-4 col-form-label">State:</label>
+                <div class="row mb-3">
+                    <label for="inputState" class="col-sm-4 col-form-label"><strong>State:</strong></label>
                     <div class="col-sm-8">
                         <input
                                 type="text"
@@ -134,8 +143,8 @@
                         >
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="inputCountry" class="col-sm-4 col-form-label">Country:</label>
+                <div class="row mb-3">
+                    <label for="inputCountry" class="col-sm-4 col-form-label"><strong>Country:</strong></label>
                     <div class="col-sm-8">
                         <input
                                 type="text"
@@ -146,22 +155,57 @@
                         >
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="row mb-3">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-outline-dark">Add Timeslot</button>
+                        <button
+                                type="submit"
+                                class="btn btn-dark"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="right"
+                                title="Add timeslot to batch"
+                        >
+                            Add Timeslot
+                        </button>
                     </div>
                 </div>
             </form>
+            <br/>
             <form action = "addTimeslot" method = "post">
+                <input type="hidden"
+                       name="${_csrf.parameterName}"
+                       value="${_csrf.token}"/>
                 <input type="hidden" name="commit" value="true"/>
-                <div class="form-group row">
+                <div class="row mb-3">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-outline-dark">Submit All Timeslot</button>
+                        <button
+                                type="submit"
+                                class="btn btn-dark"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="right"
+                                title="Create all timeslots in batch"
+                        >
+                            Submit All Timeslots
+                        </button>
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
+    <div
+            class="toast align-items-center text-white bg-primary border-0 position-fixed bottom-0 end-0"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+            style="display: block;margin: 10px"
+    >
+        <div class="d-flex">
+            <div class="toast-body">
+                Use <strong>Add timeslot</strong> to sequentially add timeslots to the current batch.<br/>
+                Use <strong>Submit All Timeslots</strong> when you have finished adding all the timeslots to the current session.
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
 </body>
 </html>

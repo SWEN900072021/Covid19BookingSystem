@@ -42,16 +42,42 @@
     %>
 
     <script>
+
+        function confirmTimeslot() {
+            var form = document.createElement('form');
+            var csrfInput = document.createElement('input');
+            var confirmInput = document.createElement('input');
+            csrfInput.setAttribute("type", "hidden");
+            csrfInput.setAttribute("name", "${_csrf.parameterName}");
+            csrfInput.setAttribute("value", "${_csrf.token}");
+            confirmInput.setAttribute("type", "hidden");
+            confirmInput.setAttribute("name", "confirmed");
+            confirmInput.setAttribute("value", "true");
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', 'bookTime');
+            form.appendChild(csrfInput);
+            form.appendChild(confirmInput);
+            document.body.appendChild(form)
+            form.submit();
+        }
+
         function selectTime(timeClicked) {
             var form = document.createElement('form');
+            var csrfInput = document.createElement('input');
             var dateInput = document.createElement('input');
             var timeInput = document.createElement('input');
+            csrfInput.setAttribute("type", "hidden");
+            csrfInput.setAttribute("name", "${_csrf.parameterName}");
+            csrfInput.setAttribute("value", "${_csrf.token}");
+            timeInput.setAttribute("type", "hidden");
             timeInput.setAttribute("name", "timeClicked");
             timeInput.setAttribute("value", timeClicked);
+            dateInput.setAttribute("type", "hidden");
             dateInput.setAttribute("name", "dateClicked");
             dateInput.setAttribute("value", '<%= dateClicked%>');
             form.setAttribute('method', 'post');
             form.setAttribute('action', 'bookTime');
+            form.appendChild(csrfInput);
             form.appendChild(dateInput);
             form.appendChild(timeInput);
             document.body.appendChild(form)
@@ -193,7 +219,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Book Vaccine</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmTimeslot()">Book Vaccine</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>

@@ -41,7 +41,7 @@
                 </div>
                 <div>
                     <sec:authorize access="hasRole('VR')">
-                        <form name="searchTimeslot" method="get" action="vr/searchType.jsp">
+                        <form name="searchTimeslot" method="get" action="searchTimeslot">
                             <div class="form-group row">
                                 <div class="col-sm-12">
                                     <button type="submit" class="btn btn btn-dark">Search Timeslot</button>
@@ -52,7 +52,7 @@
                 </div>
                 <div>
                     <sec:authorize access="hasRole('HCP')">
-                        <form name="timeslot" method="get" action="hcp/addTimeslot.jsp">
+                        <form name="timeslot" method="get" action="addTimeslot">
                             <div class="form-group row">
                                 <div class="col-sm-12">
                                     <button type="submit" class="btn btn btn-dark">Add Timeslot</button>
@@ -61,12 +61,15 @@
                         </form>
                     </sec:authorize>
                 </div>
+                <br/>
+                <br/>
+                <div>
+                    <form action="logout" method="post">
+                        <sec:csrfInput />
+                        <button type="submit" class="btn btn btn-danger">Sign Out</button>
+                    </form>
+                </div>
             </div>
         </div>
-
-        <form action="logout" method="post">
-            <sec:csrfInput />
-            <input type="submit" value="Sign Out" />
-        </form>
     </body>
 </html>
