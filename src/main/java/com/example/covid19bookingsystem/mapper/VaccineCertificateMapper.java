@@ -1,12 +1,16 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
+import com.example.covid19bookingsystem.domain.VaccineRecipient;
+import com.example.covid19bookingsystem.domain.VaccineType;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.covid19bookingsystem.mapper.VaccineRecipientMapper.findVaccineRecipientById;
 
 public class VaccineCertificateMapper {
 
