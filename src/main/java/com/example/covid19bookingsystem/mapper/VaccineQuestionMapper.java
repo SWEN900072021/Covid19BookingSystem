@@ -32,7 +32,7 @@ public class VaccineQuestionMapper {
         }
     }
 
-    public static List<Question> getQuestionIdsForVaccineType(VaccineType vaccineType) {
+    public static List<Question> getQuestionIdsForVaccineType(String vaccineType) {
         String sql = "SELECT question_id FROM vaccine_question WHERE vaccine_type = ?";
 
         PreparedStatement statement = null;
@@ -41,7 +41,7 @@ public class VaccineQuestionMapper {
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(1, vaccineType.getName());
+            statement.setString(1, vaccineType);
             rs = statement.executeQuery();
             while (rs.next()) {
                 Question question = new Question();

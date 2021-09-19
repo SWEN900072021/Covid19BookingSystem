@@ -1,11 +1,10 @@
 package com.example.covid19bookingsystem.controller.vr;
 
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
+import com.example.covid19bookingsystem.domain.Question;
 import com.example.covid19bookingsystem.domain.Timeslot;
 import com.example.covid19bookingsystem.domain.VaccineType;
-import com.example.covid19bookingsystem.mapper.HealthCareProviderMapper;
-import com.example.covid19bookingsystem.mapper.TimeslotMapper;
-import com.example.covid19bookingsystem.mapper.VaccineTypeMapper;
+import com.example.covid19bookingsystem.mapper.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,17 +20,33 @@ public class SearchTypeController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // VaccineTypes display for dropdown
         ArrayList<VaccineType> allVaccineTypes = VaccineTypeMapper.getAllVaccineTypes();
         request.getSession().setAttribute("allVaccineTypes", allVaccineTypes);
-        request.getRequestDispatcher("searchType.jsp").forward(request, response);
+        request.getRequestDispatcher("vr/searchType.jsp").forward(request, response);
 
-        // testing
-        request.setAttribute("test", "test-test");
+        // Question display
+        if(request.getParameter("vaccineType") != null){
+            List<Question> questionsForVaccineType
+                    = VaccineQuestionMapper.getQuestionIdsForVaccineType(request.getParameter("vaccineType"));
 
+            List<Question> questionsToDisplay = new ArrayList<>();
+
+            for (Question question : questionsForVaccineType){
+                Question questionToDisplay = QuestionMapper.getQuestionById(question);
+                questionsToDisplay.add(questionToDisplay);
+            }
+            request.getSession().setAttribute("questionNumber", questionsToDisplay.size());
+            request.getSession().setAttribute("questionsToDisplay", questionsToDisplay);
+        }
+
+        // Result
 
         Boolean result = processSearchTypeRequest(request, response);
         if (!result) {

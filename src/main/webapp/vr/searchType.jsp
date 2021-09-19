@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.lang.reflect.Array" %>
+<%@ page import="com.example.covid19bookingsystem.domain.Question" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -25,6 +26,15 @@
             String vaccineName = vaccineType.getName();
             vaccineNames.add(vaccineName);
         }
+
+        int questionNumber = (Integer) request.getSession().getAttribute("questionNumber");
+        ArrayList<Question> questions = (ArrayList<Question>) request.getSession().getAttribute("questionsToDisplay");
+        ArrayList<String> questionStrings = new ArrayList<>();
+        for (Question question: questions) {
+            String questionString = question.getQuestion();
+            questionStrings.add(questionString);
+        }
+
     %>
     <%
         if (request.getAttribute("failure") != null) {
@@ -56,14 +66,39 @@
                         <select id="inputVaccineType" class="form-control" name = "vaccineType">
                             <option value="pfizer">pfizer</option>
                             <option value="astra">astra</option>
-<%--                        <%--%>
-<%--                            for (String vaccineName: vaccineNames) {--%>
-<%--                        %>--%>
-<%--                            <option value=<%= vaccineName%>> <%= vaccineName%> </option>--%>
-<%--                        <%--%>
-<%--                            }--%>
-<%--                        %>--%>
+                        <%
+                            for (String vaccineName: vaccineNames) {
+                        %>
+                            <option value=<%= vaccineName%>> <%= vaccineName%> </option>
+                        <%
+                            }
+                        %>
                         </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 col-form-label" for="inputVaccineType">Questions:</label>
+                    <div class="col-sm-7">
+                        <div id="questions" class="form-control">
+                            <%
+                                int questionIterator = 0;
+                                for (String question: questionStrings) {
+
+                            %>
+                            <div>
+                                <%= question%>
+                                <select id="vaccineQuestionAnswer"
+                                        class="form-control"
+                                        name = 'vaccineQuestionAnswer' %2B <%= questionIterator%>>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                            <%
+                                    questionIterator++;
+                                }
+                            %>
+                        </div>
                     </div>
                 </div>
                 <fieldset class="form-group">
@@ -123,3 +158,14 @@
     </div>
 </body>
 </html>
+
+
+<script>
+    var question_i;
+    questionNumber = document.getElementsByName('questionNumber').getAttribute('value');
+
+    for (question_i = 0; question_i < questionNumber; question_i++){
+
+    }
+
+</script>
