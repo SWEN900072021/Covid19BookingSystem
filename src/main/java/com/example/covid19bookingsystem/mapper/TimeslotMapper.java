@@ -172,4 +172,56 @@ public class TimeslotMapper {
 
         return timeslots;
     }
+
+    public static List<Timeslot> findAllAvailableTimeslots() {
+        String sql = "SELECT * FROM timeslot WHERE status = ? AND date_time >= ?";
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        List<Timeslot> timeslots = new ArrayList<>();
+
+        try {
+            LocalDateTime today = LocalDateTime.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formatDateTime = today.format(format);
+
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setString(1, EnumUtils.TimeslotStatus.UNBOOKED.toString());
+            statement.setTimestamp(2, Timestamp.valueOf(formatDateTime));
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                Timeslot timeslot = new Timeslot();
+                timeslot.setId(rs.getInt("id"));
+
+                HealthCareProvider healthCareProvider = new HealthCareProvider();
+                healthCareProvider.setId(rs.getInt("health_care_provider"));
+                timeslot.setHealthcareProvider(healthCareProvider);
+
+                timeslot.setVaccineType(rs.getString("vaccine_type"));
+                timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
+                timeslot.setDuration(rs.getInt("duration"));
+
+                Address address = new Address();
+                address.setAddressLine1(rs.getString("address_line_1"));
+                address.setAddressLine2(rs.getString("address_line_2"));
+                address.setPostcode(rs.getString("postcode"));
+                address.setState(rs.getString("state"));
+                address.setCountry(rs.getString("country"));
+                timeslot.setAddress(address);
+
+                timeslots.add(timeslot);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return timeslots;
+    }
 }

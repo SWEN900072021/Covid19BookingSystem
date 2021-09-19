@@ -36,9 +36,7 @@ public class SearchTimeslotController extends HttpServlet {
         if (request.getParameter("searchBy").equals("area")) {
             List<Timeslot> timeslots = TimeslotMapper.findTimeslotsByPostCodeAndVaccineType(request.getParameter("queryField"),
                     request.getParameter("vaccineType"));
-            System.out.println("In area");
             if (!timeslots.isEmpty()) {
-                System.out.println("In if");
                 request.getSession().setAttribute("allAvailableTimeslotDates", timeslots);
                 request.getRequestDispatcher("/bookDate").forward(request, response);
                 return true;
