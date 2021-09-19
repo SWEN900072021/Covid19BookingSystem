@@ -125,7 +125,7 @@ public class HealthCareProviderMapper {
     }
 
     public static HealthCareProvider findHealthCareProviderByAccountId(Integer accountId) {
-        String sql = "SELECT id FROM health_care_provider WHERE account_id = ?";
+        String sql = "SELECT * FROM health_care_provider WHERE account_id = ?";
 
         PreparedStatement statement = null;
         ResultSet rs = null;

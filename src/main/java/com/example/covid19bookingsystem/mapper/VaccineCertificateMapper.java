@@ -16,7 +16,7 @@ public class VaccineCertificateMapper {
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, vaccineRecipient);
-            statement.setString(1, vaccineType);
+            statement.setString(2, vaccineType);
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Vaccine Certificate Mapper Error: " + e.getMessage());
