@@ -40,7 +40,7 @@ public class BookTimeController extends HttpServlet {
                 request.getSession().getAttribute("userDetails") != null) {
             Timeslot timeslot = (Timeslot) request.getSession().getAttribute("chosenTimeslot");
             VaccineRecipient vr = (VaccineRecipient) request.getSession().getAttribute("userDetails");
-            TimeslotMapper.book(timeslot, vr);
+            TimeslotMapper.bookTimeslot(timeslot, vr);
             response.sendRedirect("home");
         }
     }

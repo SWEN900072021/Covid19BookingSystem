@@ -35,7 +35,7 @@ public class HealthCareProviderMapper {
         }
     }
 
-    public static List<HealthCareProvider> findHCPByPostCode(String postcode) {
+    public static List<HealthCareProvider> findHealthCareProvidersByPostCode(String postcode) {
         String sql = "SELECT id FROM health_care_provider WHERE postcode = ?";
 
         PreparedStatement statement = null;
@@ -64,7 +64,7 @@ public class HealthCareProviderMapper {
         return HCPs;
     }
 
-    public static List<HealthCareProvider> findHCPByName(String name) {
+    public static List<HealthCareProvider> findHealthCareProvidersByName(String name) {
         String sql = "SELECT id FROM health_care_provider WHERE health_care_provider_name = ?";
 
         PreparedStatement statement = null;
@@ -93,7 +93,7 @@ public class HealthCareProviderMapper {
         return HCPs;
     }
 
-    public static HealthCareProvider findHCPById(Integer id) {
+    public static HealthCareProvider findHealthCareProviderById(Integer id) {
         String sql = "SELECT * FROM health_care_provider WHERE id = ?";
 
         PreparedStatement statement = null;
@@ -124,7 +124,7 @@ public class HealthCareProviderMapper {
         return hcp;
     }
 
-    public static HealthCareProvider findHCPByAccount(Integer accountId) {
+    public static HealthCareProvider findHealthCareProviderByAccountId(Integer accountId) {
         String sql = "SELECT id FROM health_care_provider WHERE account_id = ?";
 
         PreparedStatement statement = null;

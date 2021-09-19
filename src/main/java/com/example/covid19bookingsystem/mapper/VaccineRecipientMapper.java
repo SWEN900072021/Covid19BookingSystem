@@ -47,7 +47,7 @@ public class VaccineRecipientMapper {
         }
     }
 
-    public static VaccineRecipient findVRById(Integer id) {
+    public static VaccineRecipient findVaccineRecipientById(Integer id) {
         String sql = "SELECT * FROM vaccine_recipient WHERE id = ?";
 
         PreparedStatement statement = null;
@@ -90,7 +90,7 @@ public class VaccineRecipientMapper {
         return vr;
     }
 
-    public static VaccineRecipient findVRByAccount(Integer accountId) {
+    public static VaccineRecipient findVaccineRecipientByAccountId(Integer accountId) {
         String sql = "SELECT * FROM vaccine_recipient WHERE account_id = ?";
 
         PreparedStatement statement = null;

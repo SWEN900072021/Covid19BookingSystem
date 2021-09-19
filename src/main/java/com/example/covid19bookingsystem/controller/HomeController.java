@@ -32,11 +32,11 @@ public class HomeController extends HttpServlet {
             if(!currentUserName.equals("admin")) {
                 Account account = AccountMapper.findAccountByUsername(currentUserName);
                 if (account != null && account.getAccountType() == EnumUtils.AccountType.valueOf("HCP")) {
-                    HealthCareProvider hcp = HealthCareProviderMapper.findHCPByAccount(account.getAccountId());
+                    HealthCareProvider hcp = HealthCareProviderMapper.findHealthCareProviderByAccountId(account.getAccountId());
                     request.getSession().setAttribute("userDetails", hcp);
                 }
                 else if (account != null && account.getAccountType() == EnumUtils.AccountType.valueOf("VR")) {
-                    VaccineRecipient vr = VaccineRecipientMapper.findVRByAccount(account.getAccountId());
+                    VaccineRecipient vr = VaccineRecipientMapper.findVaccineRecipientByAccountId(account.getAccountId());
                     request.getSession().setAttribute("userDetails", vr);
                 }
             }

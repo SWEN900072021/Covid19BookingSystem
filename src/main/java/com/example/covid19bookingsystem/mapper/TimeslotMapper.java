@@ -40,7 +40,52 @@ public class TimeslotMapper {
         }
     }
 
-    public static List<Timeslot> findTimeslotByHcpAndVaccineType(HealthCareProvider HCP, String vaccineType) {
+    public static Timeslot findTimeslotById(Integer id) {
+        String sql = "SELECT * FROM timeslot WHERE id = ?;";
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        Timeslot timeslot = new Timeslot();
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setInt(1, id);
+            rs = statement.executeQuery();
+            if (rs.next()) {
+                timeslot.setId(rs.getInt("id"));
+
+                HealthCareProvider healthCareProvider = new HealthCareProvider();
+                healthCareProvider.setId(rs.getInt("health_care_provider"));
+                timeslot.setHealthcareProvider(healthCareProvider);
+
+                timeslot.setVaccineType(rs.getString("vaccine_type"));
+                timeslot.setStatus(valueOf(rs.getString("status")));
+                timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
+                timeslot.setDuration(rs.getInt("duration"));
+
+                Address address = new Address();
+                address.setAddressLine1(rs.getString("address_line_1"));
+                address.setAddressLine2(rs.getString("address_line_2"));
+                address.setPostcode(rs.getString("postcode"));
+                address.setState(rs.getString("state"));
+                address.setCountry(rs.getString("country"));
+                timeslot.setAddress(address);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return timeslot;
+    }
+
+    public static List<Timeslot> findTimeslotsByHcpAndVaccineType(HealthCareProvider HCP, String vaccineType) {
         String sql = "SELECT * FROM timeslot " +
                 "WHERE vaccine_recipient IS NULL " +
                 "AND vaccine_type = ? " +
@@ -98,7 +143,7 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static List<Timeslot> findTimeslotByHcpAndStatus(Integer id) {
+    public static List<Timeslot> findTimeslotsByHcpAndStatus(Integer id) {
         String sql = "SELECT * FROM timeslot WHERE health_care_provider = ? AND status = 'BOOKED' AND date_time <= ?";
 
         PreparedStatement statement = null;
@@ -122,7 +167,7 @@ public class TimeslotMapper {
                 healthCareProvider.setId(rs.getInt("health_care_provider"));
                 timeslot.setHealthcareProvider(healthCareProvider);
 
-                VaccineRecipient vaccineRecipient = VaccineRecipientMapper.findVRById(rs.getInt("vaccine_recipient"));
+                VaccineRecipient vaccineRecipient = VaccineRecipientMapper.findVaccineRecipientById(rs.getInt("vaccine_recipient"));
                 timeslot.setVaccineRecipient(vaccineRecipient);
                 timeslot.setVaccineType(rs.getString("vaccine_type"));
                 timeslot.setStatus(valueOf(rs.getString("status")));
@@ -153,7 +198,7 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static void book(Timeslot timeslot, VaccineRecipient vr) {
+    public static void bookTimeslot(Timeslot timeslot, VaccineRecipient vr) {
         String sql = "UPDATE timeslot SET vaccine_recipient = ?, status = ? WHERE id = ?";
 
         PreparedStatement statement = null;
@@ -162,6 +207,20 @@ public class TimeslotMapper {
             statement.setInt(1, vr.getId());
             statement.setString(2, EnumUtils.TimeslotStatus.BOOKED.name());
             statement.setInt(3, timeslot.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+        }
+    }
+
+    public static void recordVaccinationCompleted(Integer timeslotId) {
+        String sql = "UPDATE timeslot SET status = ? WHERE id = ?";
+
+        PreparedStatement statement = null;
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setString(1, EnumUtils.TimeslotStatus.COMPLETED.name());
+            statement.setInt(2, timeslotId);
             statement.execute();
         } catch (SQLException e) {
             System.out.println("Timeslot Mapper Error: " + e.getMessage());
