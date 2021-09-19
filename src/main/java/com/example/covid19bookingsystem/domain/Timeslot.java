@@ -1,5 +1,6 @@
 package com.example.covid19bookingsystem.domain;
 
+import com.example.covid19bookingsystem.utils.EnumUtils.TimeslotStatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -22,7 +23,7 @@ public class Timeslot {
     //need to validate that this is an existing row in VaccineType table?
     private String vaccineType;
 
-    private String status;
+    private TimeslotStatus status;
 
     private Timestamp dateTime;
 

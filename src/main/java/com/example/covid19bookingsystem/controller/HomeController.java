@@ -1,5 +1,16 @@
 package com.example.covid19bookingsystem.controller;
 
+import com.example.covid19bookingsystem.domain.Account;
+import com.example.covid19bookingsystem.domain.HealthCareProvider;
+import com.example.covid19bookingsystem.domain.VaccineRecipient;
+import com.example.covid19bookingsystem.mapper.AccountMapper;
+import com.example.covid19bookingsystem.mapper.HealthCareProviderMapper;
+import com.example.covid19bookingsystem.mapper.VaccineRecipientMapper;
+import com.example.covid19bookingsystem.utils.EnumUtils;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,6 +26,21 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String view = "/home.jsp";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            if(!currentUserName.equals("admin")) {
+                Account account = AccountMapper.findAccountByUsername(currentUserName);
+                if (account != null && account.getAccountType() == EnumUtils.AccountType.valueOf("HCP")) {
+                    HealthCareProvider hcp = HealthCareProviderMapper.findHCPByAccount(account.getAccountId());
+                    request.getSession().setAttribute("userDetails", hcp);
+                }
+                else if (account != null && account.getAccountType() == EnumUtils.AccountType.valueOf("VR")) {
+                    VaccineRecipient vr = VaccineRecipientMapper.findVRByAccount(account.getAccountId());
+                    request.getSession().setAttribute("userDetails", vr);
+                }
+            }
+        }
         ServletContext servletContext = getServletContext();
         RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(view);
         requestDispatcher.forward(request, response);
