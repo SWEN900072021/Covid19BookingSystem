@@ -20,7 +20,8 @@ public class TimeslotMapper {
 
     public static void insert(Timeslot timeslot) {
 
-        String sql = "INSERT INTO timeslot (health_care_provider, vaccine_type, status, date_time, duration, address_line_1, address_line_2, postcode, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO timeslot (health_care_provider, vaccine_type, status, date_time, duration, " +
+                "address_line_1, address_line_2, postcode, state, country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         PreparedStatement statement = null;
         try {
@@ -114,7 +115,7 @@ public class TimeslotMapper {
         }
     }
 
-    public static List<Timeslot> findTimeslotsByPostCode(String postcode, String vaccineType) {
+    public static List<Timeslot> findTimeslotsByPostCodeAndVaccineType(String postcode, String vaccineType) {
         String sql = "SELECT * FROM timeslot " +
                 "WHERE status = ? " +
                 "AND vaccine_type = ? " +

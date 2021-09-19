@@ -34,7 +34,7 @@ public class SearchTimeslotController extends HttpServlet {
 
     private Boolean processSearchTypeRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("searchBy").equals("area")) {
-            List<Timeslot> timeslots = TimeslotMapper.findTimeslotsByPostCode(request.getParameter("queryField"),
+            List<Timeslot> timeslots = TimeslotMapper.findTimeslotsByPostCodeAndVaccineType(request.getParameter("queryField"),
                     request.getParameter("vaccineType"));
             System.out.println("In area");
             if (!timeslots.isEmpty()) {
