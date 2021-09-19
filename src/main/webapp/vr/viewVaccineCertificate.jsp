@@ -14,6 +14,7 @@
      style="width: 50rem;margin: 0 auto;float: none;margin-bottom: 10px;">
     <div class="card-body">
         <div class="list-group">
+            <h3>Vaccine Certificates</h3>
             <%
                 for (String vaccineCertificate : vaccineCertificates) {
             %>
