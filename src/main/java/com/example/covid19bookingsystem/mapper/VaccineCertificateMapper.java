@@ -29,12 +29,12 @@ public class VaccineCertificateMapper {
         }
     }
 
-    public static List<String> findVaccineTypesByVaccineRecipientId(Integer id) {
+    public static List<String> findVaccineCertificatesByVaccineRecipientId(Integer id) {
         String sql = "SELECT * FROM vaccine_certificate WHERE vaccine_recipient = ?;";
 
         PreparedStatement statement = null;
         ResultSet rs = null;
-        List<String> vaccineTypes = new ArrayList<>();
+        List<String> vaccineCertificates = new ArrayList<>();
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
@@ -42,7 +42,7 @@ public class VaccineCertificateMapper {
             rs = statement.executeQuery();
             while (rs.next()) {
                 String vaccineType = rs.getString("vaccine_type");
-                vaccineTypes.add(vaccineType);
+                vaccineCertificates.add(vaccineType);
             }
 
         } catch (SQLException e) {
@@ -55,7 +55,7 @@ public class VaccineCertificateMapper {
             }
         }
 
-        return vaccineTypes;
+        return vaccineCertificates;
     }
 
 }

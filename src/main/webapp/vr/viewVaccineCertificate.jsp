@@ -15,9 +15,9 @@
     <div class="card-body">
         <div class="list-group">
             <%
-                for (String vaccineType : vaccineCertificates) {
+                for (String vaccineCertificate : vaccineCertificates) {
             %>
-            <li class="list-group-item">Vaccine Type: <%= vaccineType %>
+            <li class="list-group-item">Vaccine Received: <%= vaccineCertificate %>
             </li>
             <%
                 }
