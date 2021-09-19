@@ -29,13 +29,12 @@ public class HomeController extends HttpServlet {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
-            if(!currentUserName.equals("admin")) {
+            if (!currentUserName.equals("admin")) {
                 Account account = AccountMapper.findAccountByUsername(currentUserName);
                 if (account != null && account.getAccountType() == EnumUtils.AccountType.valueOf("HCP")) {
                     HealthCareProvider hcp = HealthCareProviderMapper.findHealthCareProviderByAccountId(account.getAccountId());
                     request.getSession().setAttribute("userDetails", hcp);
-                }
-                else if (account != null && account.getAccountType() == EnumUtils.AccountType.valueOf("VR")) {
+                } else if (account != null && account.getAccountType() == EnumUtils.AccountType.valueOf("VR")) {
                     VaccineRecipient vr = VaccineRecipientMapper.findVaccineRecipientByAccountId(account.getAccountId());
                     request.getSession().setAttribute("userDetails", vr);
                 }

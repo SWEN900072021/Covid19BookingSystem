@@ -1,8 +1,6 @@
 package com.example.covid19bookingsystem.controller;
 
-import com.example.covid19bookingsystem.domain.HealthCareProvider;
-import com.example.covid19bookingsystem.domain.Timeslot;
-import com.example.covid19bookingsystem.mapper.TimeslotMapper;
+import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.mapper.VaccineCertificateMapper;
 
 import javax.servlet.RequestDispatcher;
@@ -15,20 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static com.example.covid19bookingsystem.mapper.TimeslotMapper.findTimeslotsByHcpAndStatus;
-
-@WebServlet(name = "recordVaccinationController", value = "/recordVaccination")
-public class RecordVaccinationController extends HttpServlet {
+@WebServlet(name = "vaccineCertificateController", value = "/vaccineCertificate")
+public class VaccineCertificateController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         if (request.getSession().getAttribute("userDetails") != null) {
-            HealthCareProvider hcp = (HealthCareProvider) request.getSession().getAttribute("userDetails");
-            List<Timeslot> timeslots = findTimeslotsByHcpAndStatus(hcp.getId());
-            request.getSession().setAttribute("bookedTimeslots", timeslots);
+            VaccineRecipient vr = (VaccineRecipient) request.getSession().getAttribute("userDetails");
+            List<String> vaccineTypes = VaccineCertificateMapper.findVaccineTypesByVaccineRecipientId(vr.getId());
+            request.getSession().setAttribute("vaccineCertificates", vaccineTypes);
 
-            String view = "/hcp/recordVaccination.jsp";
+            String view = "/vr/viewVaccineCertificate.jsp";
             ServletContext servletContext = getServletContext();
             RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(view);
             requestDispatcher.forward(request, response);
@@ -42,12 +37,6 @@ public class RecordVaccinationController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("timeslotSubmitted") != null) {
-            Integer id = Integer.valueOf(request.getParameter("timeslotSubmitted"));
-            Timeslot timeslot = TimeslotMapper.findTimeslotById(id);
-            TimeslotMapper.recordVaccinationCompleted(id);
-            VaccineCertificateMapper.insert(timeslot.getVaccineRecipient().getId(), timeslot.getVaccineType());
-            doGet(request, response);
-        }
+
     }
 }

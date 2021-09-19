@@ -1,7 +1,10 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
-import com.example.covid19bookingsystem.domain.*;
+import com.example.covid19bookingsystem.domain.Address;
+import com.example.covid19bookingsystem.domain.HealthCareProvider;
+import com.example.covid19bookingsystem.domain.Timeslot;
+import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import java.sql.PreparedStatement;
