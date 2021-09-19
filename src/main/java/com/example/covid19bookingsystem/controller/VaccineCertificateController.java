@@ -1,7 +1,7 @@
 package com.example.covid19bookingsystem.controller;
 
+import com.example.covid19bookingsystem.domain.VaccineCertificate;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
-import com.example.covid19bookingsystem.mapper.VaccineCertificateMapper;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static com.example.covid19bookingsystem.mapper.VaccineCertificateMapper.findVaccineCertificatesByVaccineRecipientId;
+
 @WebServlet(name = "vaccineCertificateController", value = "/vaccineCertificate")
 public class VaccineCertificateController extends HttpServlet {
 
@@ -20,8 +22,8 @@ public class VaccineCertificateController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getSession().getAttribute("userDetails") != null) {
             VaccineRecipient vr = (VaccineRecipient) request.getSession().getAttribute("userDetails");
-            List<String> vaccineTypes = VaccineCertificateMapper.findVaccineTypesByVaccineRecipientId(vr.getId());
-            request.getSession().setAttribute("vaccineCertificates", vaccineTypes);
+            List<VaccineCertificate> vaccineCertificates = findVaccineCertificatesByVaccineRecipientId(vr.getId());
+            request.getSession().setAttribute("vaccineCertificates", vaccineCertificates);
 
             String view = "/vr/viewVaccineCertificate.jsp";
             ServletContext servletContext = getServletContext();

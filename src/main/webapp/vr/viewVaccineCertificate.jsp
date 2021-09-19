@@ -1,5 +1,6 @@
 <%@ page import="com.example.covid19bookingsystem.domain.Timeslot" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.example.covid19bookingsystem.domain.VaccineCertificate" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -9,15 +10,18 @@
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
 <body>
-<% List<String> vaccineCertificates = (List<String>) request.getSession().getAttribute("vaccineCertificates"); %>
+<% List<VaccineCertificate> vaccineCertificates = (List<VaccineCertificate>) request.getSession().getAttribute("vaccineCertificates"); %>
 <div class="card text-center border-secondary mb-3"
      style="width: 50rem;margin: 0 auto;float: none;margin-bottom: 10px;">
     <div class="card-body">
         <div class="list-group">
             <%
-                for (String vaccineType : vaccineCertificates) {
+                for (VaccineCertificate vaccineCertificate : vaccineCertificates) {
             %>
-            <li class="list-group-item">Vaccine Type: <%= vaccineType %>
+            <li class="list-group-item">
+                First Name: <%= vaccineCertificate.getVaccineRecipient().getFirstName() %> |
+                Last Name: <%= vaccineCertificate.getVaccineRecipient().getLastName() %> |
+                Vaccine Received: <%= vaccineCertificate.getVaccineType().getName() %>
             </li>
             <%
                 }
