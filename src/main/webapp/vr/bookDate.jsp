@@ -43,14 +43,11 @@
                     alert("No dates were chosen!");
                 }
                 else {
-                    var form = document.createElement('form');
+                    var form = document.getElementById('submitForm');
                     var input = document.createElement('input');
                     input.setAttribute("name", "dateClicked");
                     input.setAttribute("value", dateClicked);
-                    form.setAttribute('method', 'post');
-                    form.setAttribute('action', 'bookDate');
                     form.appendChild(input);
-                    document.body.appendChild(form)
                     form.submit();
                 }
             }
@@ -134,5 +131,12 @@
                 Proceed
             </button>
         </div>
+        <form id="submitForm" method="post" action="bookDate">
+            <input
+                    type="hidden"
+                    name="${_csrf.parameterName}"
+                    value="${_csrf.token}"
+            />
+        </form>
     </body>
 </html>

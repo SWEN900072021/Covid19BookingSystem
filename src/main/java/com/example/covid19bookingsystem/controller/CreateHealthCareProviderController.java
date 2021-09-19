@@ -27,7 +27,6 @@ public class CreateHealthCareProviderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HealthCareProvider healthCareProviderAccount = processHCPAccount(request);
-        // TODO: Should be done with UoW implementation
         AccountMapper.insert(healthCareProviderAccount);
         processHealthCareProviderRequest(request, healthCareProviderAccount);
         HealthCareProviderMapper.insert(healthCareProviderAccount);

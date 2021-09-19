@@ -29,7 +29,7 @@
     <br/>
     <div class="card text-center border-secondary mb-3" style="width: 50rem;margin: 0 auto;float: none;margin-bottom: 10px;">
         <div class="card-body">
-            <form action = "searchType" method = "post">
+            <form action = "searchTimeslot" method = "post">
                 <input type="hidden"
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>

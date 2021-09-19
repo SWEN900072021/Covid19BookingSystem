@@ -1,9 +1,12 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
+import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
+import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -41,5 +44,33 @@ public class VaccineRecipientMapper {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static VaccineRecipient findVRByAccount(Integer accountId) {
+        String sql = "SELECT id FROM vaccine_recipient WHERE account_id = ?";
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        VaccineRecipient vr = new VaccineRecipient();
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setInt(1, accountId);
+            rs = statement.executeQuery();
+            if (rs.next()) {
+                vr.setId(rs.getInt(1));
+            }
+        } catch (SQLException e) {
+            System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return vr;
     }
 }
