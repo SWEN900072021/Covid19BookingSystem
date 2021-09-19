@@ -1,10 +1,7 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
-import com.example.covid19bookingsystem.domain.Address;
-import com.example.covid19bookingsystem.domain.HealthCareProvider;
-import com.example.covid19bookingsystem.domain.Timeslot;
-import com.example.covid19bookingsystem.domain.VaccineRecipient;
+import com.example.covid19bookingsystem.domain.*;
 import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import java.sql.PreparedStatement;
@@ -15,6 +12,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.covid19bookingsystem.utils.EnumUtils.TimeslotStatus.valueOf;
 
 public class TimeslotMapper {
 
@@ -71,7 +70,7 @@ public class TimeslotMapper {
                 timeslot.setHealthcareProvider(healthCareProvider);
 
                 timeslot.setVaccineType(rs.getString("vaccine_type"));
-                timeslot.setStatus(EnumUtils.TimeslotStatus.valueOf(rs.getString("status")));
+                timeslot.setStatus(valueOf(rs.getString("status")));
                 timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
                 timeslot.setDuration(rs.getInt("duration"));
 
@@ -99,16 +98,21 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static List<Timeslot> findTimeslotByHcpAndStatus(HealthCareProvider HCP, String status) {
-        String sql = "SELECT * FROM timeslot WHERE health_care_provider = ? AND status = 'BOOKED'";
+    public static List<Timeslot> findTimeslotByHcpAndStatus(Integer id) {
+        String sql = "SELECT * FROM timeslot WHERE health_care_provider = ? AND status = 'BOOKED' AND date_time <= ?";
 
         PreparedStatement statement = null;
         ResultSet rs = null;
         List<Timeslot> timeslots = new ArrayList<>();
 
         try {
+            LocalDateTime today = LocalDateTime.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formatDateTime = today.format(format);
+
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, HCP.getId());
+            statement.setInt(1, id);
+            statement.setTimestamp(2, Timestamp.valueOf(formatDateTime));
             rs = statement.executeQuery();
             while (rs.next()) {
                 Timeslot timeslot = new Timeslot();
@@ -118,8 +122,10 @@ public class TimeslotMapper {
                 healthCareProvider.setId(rs.getInt("health_care_provider"));
                 timeslot.setHealthcareProvider(healthCareProvider);
 
+                VaccineRecipient vaccineRecipient = VaccineRecipientMapper.findVRById(rs.getInt("vaccine_recipient"));
+                timeslot.setVaccineRecipient(vaccineRecipient);
                 timeslot.setVaccineType(rs.getString("vaccine_type"));
-                timeslot.setStatus(EnumUtils.TimeslotStatus.valueOf(rs.getString("status")));
+                timeslot.setStatus(valueOf(rs.getString("status")));
                 timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
                 timeslot.setDuration(rs.getInt("duration"));
 
@@ -147,7 +153,7 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static void update(Timeslot timeslot, VaccineRecipient vr) {
+    public static void book(Timeslot timeslot, VaccineRecipient vr) {
         String sql = "UPDATE timeslot SET vaccine_recipient = ?, status = ? WHERE id = ?";
 
         PreparedStatement statement = null;

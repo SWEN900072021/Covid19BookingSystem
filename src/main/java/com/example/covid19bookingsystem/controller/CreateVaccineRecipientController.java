@@ -71,7 +71,7 @@ public class CreateVaccineRecipientController extends HttpServlet {
 
         // set contact details
         vrAccount.setPhoneNumber(request.getParameter("phoneNumber"));
-        vrAccount.setEmail(request.getParameter("email"));
+        vrAccount.setEmailAddress(request.getParameter("email"));
     }
 
 

@@ -1,12 +1,8 @@
 package com.example.covid19bookingsystem.controller;
 
-import com.example.covid19bookingsystem.domain.Address;
-import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
-import com.example.covid19bookingsystem.mapper.HealthCareProviderMapper;
 import com.example.covid19bookingsystem.mapper.TimeslotMapper;
-import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,7 +40,7 @@ public class BookTimeController extends HttpServlet {
                 request.getSession().getAttribute("userDetails") != null) {
             Timeslot timeslot = (Timeslot) request.getSession().getAttribute("chosenTimeslot");
             VaccineRecipient vr = (VaccineRecipient) request.getSession().getAttribute("userDetails");
-            TimeslotMapper.update(timeslot, vr);
+            TimeslotMapper.book(timeslot, vr);
             response.sendRedirect("home");
         }
     }

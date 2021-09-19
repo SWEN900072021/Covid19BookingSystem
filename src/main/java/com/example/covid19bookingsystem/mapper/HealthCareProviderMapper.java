@@ -99,17 +99,17 @@ public class HealthCareProviderMapper {
         PreparedStatement statement = null;
         ResultSet rs = null;
 
-        HealthCareProvider HCP = new HealthCareProvider();
+        HealthCareProvider hcp = new HealthCareProvider();
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, id);
             rs = statement.executeQuery();
             if (rs.next()) {
-                HCP.setOrganisationalId(rs.getInt("organisational_id"));
-                HCP.setHealthCareProviderName(rs.getString("health_care_provider_name"));
-                HCP.setHealthCareProviderType(EnumUtils.HealthCareProviderType.valueOf(rs.getString("health_care_provider_type").toUpperCase()));
-                HCP.setPostcode(rs.getString("postcode"));
+                hcp.setOrganisationalId(rs.getInt("organisational_id"));
+                hcp.setHealthCareProviderName(rs.getString("health_care_provider_name"));
+                hcp.setHealthCareProviderType(EnumUtils.HealthCareProviderType.valueOf(rs.getString("health_care_provider_type").toUpperCase()));
+                hcp.setPostcode(rs.getString("postcode"));
             }
         } catch (SQLException e) {
             System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
@@ -121,7 +121,7 @@ public class HealthCareProviderMapper {
             }
         }
 
-        return HCP;
+        return hcp;
     }
 
     public static HealthCareProvider findHCPByAccount(Integer accountId) {
@@ -137,7 +137,11 @@ public class HealthCareProviderMapper {
             statement.setInt(1, accountId);
             rs = statement.executeQuery();
             if (rs.next()) {
-                hcp.setId(rs.getInt(1));
+                hcp.setId(rs.getInt("id"));
+                hcp.setOrganisationalId(rs.getInt("organisational_id"));
+                hcp.setHealthCareProviderName(rs.getString("health_care_provider_name"));
+                hcp.setHealthCareProviderType(EnumUtils.HealthCareProviderType.valueOf(rs.getString("health_care_provider_type").toUpperCase()));
+                hcp.setPostcode(rs.getString("postcode"));
             }
         } catch (SQLException e) {
             System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
