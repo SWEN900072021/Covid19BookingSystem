@@ -1,4 +1,4 @@
-package com.example.covid19bookingsystem.controller.admin;
+package com.example.covid19bookingsystem.controller;
 
 import com.example.covid19bookingsystem.domain.*;
 import com.example.covid19bookingsystem.mapper.QuestionMapper;
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
 
-@WebServlet(name = "addVaccineType", value = "/addVaccineType")
-public class addVaccineType extends HttpServlet {
+@WebServlet(name = "addVaccineTypeController", value = "/addVaccineType")
+public class AddVaccineTypeController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

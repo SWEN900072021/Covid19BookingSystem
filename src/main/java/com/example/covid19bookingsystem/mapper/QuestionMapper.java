@@ -38,7 +38,7 @@ public class QuestionMapper {
     }
 
     public static Question getQuestionById(Question question) {
-        String sql = "SELECT question, success_answer FROM question WHERE question_id = ?";
+        String sql = "SELECT question, success_answer FROM question WHERE id = ?";
 
         PreparedStatement statement = null;
         ResultSet rs = null;

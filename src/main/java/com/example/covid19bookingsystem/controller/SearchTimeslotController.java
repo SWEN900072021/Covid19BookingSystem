@@ -1,10 +1,9 @@
 package com.example.covid19bookingsystem.controller;
 
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
-import com.example.covid19bookingsystem.domain.Question;
 import com.example.covid19bookingsystem.domain.Timeslot;
-import com.example.covid19bookingsystem.domain.VaccineType;
-import com.example.covid19bookingsystem.mapper.*;
+import com.example.covid19bookingsystem.mapper.HealthCareProviderMapper;
+import com.example.covid19bookingsystem.mapper.TimeslotMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,29 +25,6 @@ public class SearchTimeslotController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        // VaccineTypes display for dropdown
-        ArrayList<VaccineType> allVaccineTypes = VaccineTypeMapper.getAllVaccineTypes();
-        request.getSession().setAttribute("allVaccineTypes", allVaccineTypes);
-        request.getRequestDispatcher("vr/searchType.jsp").forward(request, response);
-
-        // Question display
-        if(request.getParameter("vaccineType") != null){
-            List<Question> questionsForVaccineType
-                    = VaccineQuestionMapper.getQuestionIdsForVaccineType(request.getParameter("vaccineType"));
-
-            List<Question> questionsToDisplay = new ArrayList<>();
-
-            for (Question question : questionsForVaccineType){
-                Question questionToDisplay = QuestionMapper.getQuestionById(question);
-                questionsToDisplay.add(questionToDisplay);
-            }
-            request.getSession().setAttribute("questionNumber", questionsToDisplay.size());
-            request.getSession().setAttribute("questionsToDisplay", questionsToDisplay);
-        }
-
-        // Result
-
         Boolean result = processSearchTypeRequest(request, response);
         if (!result) {
             request.setAttribute("failure", "true");
@@ -84,15 +60,4 @@ public class SearchTimeslotController extends HttpServlet {
         }
         return false;
     }
-    private Boolean sendVaccineTypesList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ArrayList<VaccineType> allVaccineTypes = VaccineTypeMapper.getAllVaccineTypes();
-        if (!allVaccineTypes.isEmpty()) {
-            request.getSession().setAttribute("allVaccineTypes", allVaccineTypes);
-            request.getRequestDispatcher("/searchType.jsp").forward(request, response);
-            System.out.println(allVaccineTypes);
-            return true;
-        }
-        return false;
-    }
-
 }

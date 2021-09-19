@@ -11,31 +11,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>Search Type</title>
+    <script>
+
+    </script>
+
     <%
-        // test
-        System.out.println("test");
-        String test = (String) request.getSession().getAttribute("test");
-        System.out.println(test);
 
-        ArrayList<VaccineType> allVaccineTypes = (ArrayList<VaccineType>) request.getSession().getAttribute("allVaccineTypes");
-        ArrayList<String> vaccineNames = new ArrayList<>();
-        System.out.println("vaccines");
-        System.out.println(allVaccineTypes);
-
-        for (VaccineType vaccineType: allVaccineTypes) {
-            String vaccineName = vaccineType.getName();
-            vaccineNames.add(vaccineName);
-        }
-
-        int questionNumber = (Integer) request.getSession().getAttribute("questionNumber");
-        ArrayList<Question> questions = (ArrayList<Question>) request.getSession().getAttribute("questionsToDisplay");
-        ArrayList<String> questionStrings = new ArrayList<>();
-        for (Question question: questions) {
-            String questionString = question.getQuestion();
-            questionStrings.add(questionString);
-        }
+        String vaccineType = (String) request.getSession().getAttribute("vaccineType");
+        System.out.println("yp");
+        System.out.println(vaccineType);
 
     %>
+
     <%
         if (request.getAttribute("failure") != null) {
     %>
@@ -63,47 +50,6 @@
                 <input type="hidden"
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>
-                <div class="form-group row">
-                    <label class="col-sm-5 col-form-label" for="inputVaccineType">Vaccine Type:</label>
-                    <div class="col-sm-7">
-                        <select id="inputVaccineType" class="form-control" name = "vaccineType">
-                            <option value="pfizer">pfizer</option>
-                            <option value="astra">astra</option>
-                        <%
-                            for (String vaccineName: vaccineNames) {
-                        %>
-                            <option value=<%= vaccineName%>> <%= vaccineName%> </option>
-                        <%
-                            }
-                        %>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-5 col-form-label" for="inputVaccineType">Questions:</label>
-                    <div class="col-sm-7">
-                        <div id="questions" class="form-control">
-                            <%
-                                int questionIterator = 0;
-                                for (String question: questionStrings) {
-
-                            %>
-                            <div>
-                                <%= question%>
-                                <select id="vaccineQuestionAnswer"
-                                        class="form-control"
-                                        name = 'vaccineQuestionAnswer' %2B <%= questionIterator%>>
-                                    <option value="true">Yes</option>
-                                    <option value="false">No</option>
-                                </select>
-                            </div>
-                            <%
-                                    questionIterator++;
-                                }
-                            %>
-                        </div>
-                    </div>
-                </div>
                 <fieldset class="form-group">
                     <div class="row">
                         <legend class="col-form-label col-sm-5 pt-0">Search by:</legend>
