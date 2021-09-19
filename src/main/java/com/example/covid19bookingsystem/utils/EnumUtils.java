@@ -22,4 +22,10 @@ public class EnumUtils {
         OTHER
     }
 
+    public enum TimeslotStatus {
+        BOOKED,
+        COMPLETED,
+        OPEN
+    }
+
 }

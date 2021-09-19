@@ -4,6 +4,7 @@ import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
+import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,7 @@ public class TimeslotMapper {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, timeslot.getHealthcareProvider().getId());
             statement.setString(2, timeslot.getVaccineType());
-            statement.setString(3, timeslot.getStatus());
+            statement.setString(3, timeslot.getStatus().toString());
             statement.setTimestamp(4, timeslot.getDateTime());
             statement.setInt(5, timeslot.getDuration());
             statement.setString(6, timeslot.getAddress().getAddressLine1());
@@ -69,6 +70,55 @@ public class TimeslotMapper {
                 timeslot.setHealthcareProvider(healthCareProvider);
 
                 timeslot.setVaccineType(rs.getString("vaccination_type"));
+                timeslot.setStatus(EnumUtils.TimeslotStatus.valueOf(rs.getString("status")));
+                timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
+                timeslot.setDuration(rs.getInt("duration"));
+
+                Address address = new Address();
+                address.setAddressLine1(rs.getString("address_line_1"));
+                address.setAddressLine2(rs.getString("address_line_2"));
+                address.setPostcode(rs.getString("postcode"));
+                address.setState(rs.getString("state"));
+                address.setCountry(rs.getString("country"));
+                timeslot.setAddress(address);
+
+                timeslots.add(timeslot);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return timeslots;
+    }
+
+    public static List<Timeslot> findTimeslotByHcpAndStatus(HealthCareProvider HCP, String status) {
+        String sql = "SELECT * FROM timeslot WHERE health_care_provider = ? AND status = 'BOOKED'";
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        List<Timeslot> timeslots = new ArrayList<>();
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setInt(1, HCP.getId());
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                Timeslot timeslot = new Timeslot();
+                timeslot.setId(rs.getInt("id"));
+
+                HealthCareProvider healthCareProvider = new HealthCareProvider();
+                healthCareProvider.setId(rs.getInt("health_care_provider"));
+                timeslot.setHealthcareProvider(healthCareProvider);
+
+                timeslot.setVaccineType(rs.getString("vaccination_type"));
+                timeslot.setStatus(EnumUtils.TimeslotStatus.valueOf(rs.getString("status")));
                 timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
                 timeslot.setDuration(rs.getInt("duration"));
 

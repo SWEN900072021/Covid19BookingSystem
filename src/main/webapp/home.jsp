@@ -59,6 +59,13 @@
                                 </div>
                             </div>
                         </form>
+                        <form name="record vaccination" method="get" action="recordVaccination">
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn btn-dark">Record Completed Vaccination</button>
+                                </div>
+                            </div>
+                        </form>
                     </sec:authorize>
                 </div>
             </div>
