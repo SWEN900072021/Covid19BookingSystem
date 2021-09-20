@@ -14,13 +14,12 @@ public class Timeslot {
 
     private Integer id;
 
-    private Integer vaccineRecipient;
+    private VaccineRecipient vaccineRecipient;
 
     private HealthCareProvider healthcareProvider = new HealthCareProvider();
 
     private Integer questionnaire;
 
-    //need to validate that this is an existing row in VaccineType table?
     private String vaccineType;
 
     private TimeslotStatus status;
