@@ -17,7 +17,7 @@
     <%
         ArrayList<Account> accounts = (ArrayList<Account>) request.getSession().getAttribute("accountList");
         HashMap<Integer, String> vrVaccineTypes = null;
-        if (request.getSession().getAttribute("vaccineTypes")!=null){
+        if (request.getSession().getAttribute("vaccineTypes")!=null && request.getParameter("filterOption")!=null){
             vrVaccineTypes = (HashMap<Integer, String>) request.getSession().getAttribute("vaccineTypes");
         }
 
@@ -95,7 +95,10 @@
                     for (Account account: accounts){
                         String vaccineType = "N/A";
                         if (account.getAccountType()==EnumUtils.AccountType.VR && vrVaccineTypes!=null){
-                            vaccineType = vrVaccineTypes.get(account.getAccountId());
+                            VaccineRecipient vr = (VaccineRecipient) account;
+                            if (vrVaccineTypes.get(vr.getId())!=null){
+                                vaccineType = vrVaccineTypes.get(vr.getId());
+                            }
                         }
                 %>
                 <tr>

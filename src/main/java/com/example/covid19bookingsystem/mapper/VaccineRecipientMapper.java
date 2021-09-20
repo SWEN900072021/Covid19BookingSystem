@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.example.covid19bookingsystem.utils.EnumUtils.AccountType.valueOf;
 
@@ -79,7 +80,7 @@ public class VaccineRecipientMapper {
     }
 
     public static ArrayList<Account> getAllVaccineRecipients(){
-        String sql = "SELECT account.id, username, account_type FROM account INNER JOIN vaccine_recipient ON account.id = vaccine_recipient.account_id ;";
+        String sql = "SELECT account.id as account_id , vaccine_recipient.id as id , username, account_type FROM account INNER JOIN vaccine_recipient ON account.id = vaccine_recipient.account_id ;";
         PreparedStatement statement = null;
         ResultSet rs = null;
         ArrayList<Account> accounts = new ArrayList<>();
@@ -87,9 +88,12 @@ public class VaccineRecipientMapper {
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             rs = statement.executeQuery();
+
             while (rs.next()){
                 VaccineRecipient account = new VaccineRecipient();
-                account.setAccountId(rs.getInt("id"));
+
+                account.setAccountId(rs.getInt("account_id"));
+                account.setId(rs.getInt("id"));
                 account.setUsername(rs.getString("username"));
                 account.setAccountType(valueOf(rs.getString("account_type")));
                 accounts.add(account);
@@ -105,9 +109,32 @@ public class VaccineRecipientMapper {
             }
         }
 
-        // Get vaccine certificates
-
-
         return accounts;
+    }
+
+    public static HashMap<Integer,String> getVRVaccineTypes(){
+        String sql = "SELECT * FROM vaccine_certificate ;";
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        HashMap<Integer,String> vaccineTypes = new HashMap<>();
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            rs = statement.executeQuery();
+            while (rs.next()){
+                vaccineTypes.put(rs.getInt("vaccine_recipient"), rs.getString("vaccination_type"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Account Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return vaccineTypes;
     }
 }

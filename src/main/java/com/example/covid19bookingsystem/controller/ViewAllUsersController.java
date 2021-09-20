@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @WebServlet(name = "viewAllUsersController", value = "/viewAllUsers")
 public class ViewAllUsersController extends HttpServlet {
@@ -34,6 +35,8 @@ public class ViewAllUsersController extends HttpServlet {
         if (request.getParameter("filterOption").equals("ALLVR")){
             ArrayList<Account> accounts = VaccineRecipientMapper.getAllVaccineRecipients();
             request.getSession().setAttribute("accountList", accounts);
+            HashMap<Integer,String> vaccineTypes = VaccineRecipientMapper.getVRVaccineTypes();
+            request.getSession().setAttribute("vaccineTypes", vaccineTypes);
         }
         doGet(request, response);
     }
