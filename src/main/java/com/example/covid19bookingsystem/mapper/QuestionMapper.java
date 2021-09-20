@@ -49,6 +49,7 @@ public class QuestionMapper {
             statement.setInt(1, question.getId());
             rs = statement.executeQuery();
             while (rs.next()) {
+                questionFromId.setId(question.getId());
                 questionFromId.setQuestion(rs.getString("question"));
                 questionFromId.setSuccessAnswer(rs.getBoolean("success_answer"));
             }

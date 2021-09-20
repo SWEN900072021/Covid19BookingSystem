@@ -50,7 +50,7 @@ public class HealthCareProvider extends Account {
     }
 
     private void load() {
-        HealthCareProvider hcp = HealthCareProviderMapper.findHCPById(this.id);
+        HealthCareProvider hcp = HealthCareProviderMapper.findHealthCareProviderById(this.id);
         if (this.organisationalId == null) {
             this.organisationalId = hcp.getOrganisationalId();
         }

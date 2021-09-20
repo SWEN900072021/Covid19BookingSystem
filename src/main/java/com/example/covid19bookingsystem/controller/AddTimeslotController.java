@@ -3,7 +3,6 @@ package com.example.covid19bookingsystem.controller;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
-import com.example.covid19bookingsystem.mapper.TimeslotMapper;
 import com.example.covid19bookingsystem.utils.EnumUtils;
 import com.example.covid19bookingsystem.utils.UnitOfWork;
 
@@ -23,7 +22,7 @@ public class AddTimeslotController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("UoW") == null){
+        if (request.getSession().getAttribute("UoW") == null) {
             request.getSession().setAttribute("UoW", new UnitOfWork());
         }
         request.getRequestDispatcher("/hcp/addTimeslot.jsp").forward(request, response);
@@ -32,16 +31,15 @@ public class AddTimeslotController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        if (request.getParameter("commit") != null){
+        if (request.getParameter("commit") != null) {
             try {
                 //commit UoW
                 UnitOfWork uow = (UnitOfWork) request.getSession().getAttribute("UoW");
-                if (uow != null){
-                    if(uow.getNewObjList().isEmpty()) {
+                if (uow != null) {
+                    if (uow.getNewObjList().isEmpty()) {
                         request.setAttribute("alert", "true");
                         doGet(request, response);
-                    }
-                    else {
+                    } else {
                         uow.commit();
                         request.getSession().setAttribute("UoW", null);
                         request.getRequestDispatcher("/home").forward(request, response);

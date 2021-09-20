@@ -44,12 +44,12 @@ CREATE TABLE IF NOT EXISTS vaccine_recipient (
 
 CREATE TABLE IF NOT EXISTS vaccine_certificate (
     vaccine_recipient INT UNIQUE NOT NULL,
-    vaccination_type VARCHAR(50),
+    vaccine_type VARCHAR(50),
     FOREIGN KEY (vaccine_recipient)
         REFERENCES vaccine_recipient (id),
-    FOREIGN KEY (vaccination_type)
+    FOREIGN KEY (vaccine_type)
         REFERENCES vaccine_type (name),
-    PRIMARY KEY (vaccine_recipient, vaccination_type)
+    PRIMARY KEY (vaccine_recipient, vaccine_type)
 );
 
 CREATE TABLE IF NOT EXISTS question (

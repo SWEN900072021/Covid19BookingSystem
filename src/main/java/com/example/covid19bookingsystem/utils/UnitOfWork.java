@@ -1,4 +1,5 @@
 package com.example.covid19bookingsystem.utils;
+
 import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Question;
 import com.example.covid19bookingsystem.domain.Timeslot;
@@ -31,8 +32,8 @@ public class UnitOfWork {
     public void commit() throws SQLException {
         DBConnection.getDbConnection().setAutoCommit(false);
 
-        for (Object o : newObjList){
-            if (o instanceof Timeslot){
+        for (Object o : newObjList) {
+            if (o instanceof Timeslot) {
                 TimeslotMapper.insert((Timeslot) o);
             }
             if (o instanceof VaccineType){
@@ -48,7 +49,7 @@ public class UnitOfWork {
 
         // Commit all queries
         DBConnection.getDbConnection().commit();
-        DBConnection.close(null,null);
+        DBConnection.close(null, null);
         DBConnection.getDbConnection().setAutoCommit(true);
 
         // Reset UoW

@@ -1,7 +1,7 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
-import com.example.covid19bookingsystem.domain.Question;
+import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.domain.VaccineType;
 
 import java.sql.PreparedStatement;
@@ -10,19 +10,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VaccineQuestionMapper {
+import static com.example.covid19bookingsystem.mapper.VaccineRecipientMapper.findVaccineRecipientById;
 
-    public static void insert(VaccineType vaccineType, Question question) {
-        String sql = "INSERT INTO vaccine_question (vaccine_type, question_id) VALUES (?::varchar(50), ?::integer);";
+public class VaccineCertificateMapper {
+
+    public static void insert(Integer vaccineRecipient, String vaccineType) {
+        String sql = "INSERT INTO vaccine_certificate (vaccine_recipient, vaccine_type) VALUES (?, ?);";
         PreparedStatement statement = null;
-
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(1, vaccineType.getName());
-            statement.setInt(2, question.getId());
+            statement.setInt(1, vaccineRecipient);
+            statement.setString(2, vaccineType);
             statement.execute();
         } catch (SQLException e) {
-            System.out.println("Vaccine Question Mapper Error: " + e.getMessage());
+            System.out.println("Vaccine Certificate Mapper Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, null);
@@ -32,25 +33,24 @@ public class VaccineQuestionMapper {
         }
     }
 
-    public static List<Question> getQuestionIdsForVaccineType(String vaccineType) {
-        String sql = "SELECT question_id FROM vaccine_question WHERE vaccine_type = ?";
+    public static List<String> findVaccineCertificatesByVaccineRecipientId(Integer id) {
+        String sql = "SELECT * FROM vaccine_certificate WHERE vaccine_recipient = ?;";
 
         PreparedStatement statement = null;
         ResultSet rs = null;
-        List<Question> questions = new ArrayList<>();
+        List<String> vaccineCertificates = new ArrayList<>();
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(1, vaccineType);
+            statement.setInt(1, id);
             rs = statement.executeQuery();
             while (rs.next()) {
-                // question mapper here
-                Question question = new Question();
-                question.setId(rs.getInt("question_id"));
-                questions.add(question);
+                String vaccineType = rs.getString("vaccine_type");
+                vaccineCertificates.add(vaccineType);
             }
+
         } catch (SQLException e) {
-            System.out.println("Vaccine Question Mapper - get questions - Error: " + e.getMessage());
+            System.out.println("Timeslot Mapper Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, rs);
@@ -59,7 +59,7 @@ public class VaccineQuestionMapper {
             }
         }
 
-        return questions;
+        return vaccineCertificates;
     }
 
 }

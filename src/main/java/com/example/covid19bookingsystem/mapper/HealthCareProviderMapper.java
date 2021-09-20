@@ -35,7 +35,7 @@ public class HealthCareProviderMapper {
         }
     }
 
-    public static List<HealthCareProvider> findHCPByPostCode(String postcode) {
+    public static List<HealthCareProvider> findHealthCareProvidersByPostCode(String postcode) {
         String sql = "SELECT id FROM health_care_provider WHERE postcode = ?";
 
         PreparedStatement statement = null;
@@ -64,7 +64,7 @@ public class HealthCareProviderMapper {
         return HCPs;
     }
 
-    public static List<HealthCareProvider> findHCPByName(String name) {
+    public static List<HealthCareProvider> findHealthCareProvidersByName(String name) {
         String sql = "SELECT id FROM health_care_provider WHERE health_care_provider_name = ?";
 
         PreparedStatement statement = null;
@@ -93,23 +93,23 @@ public class HealthCareProviderMapper {
         return HCPs;
     }
 
-    public static HealthCareProvider findHCPById(Integer id) {
+    public static HealthCareProvider findHealthCareProviderById(Integer id) {
         String sql = "SELECT * FROM health_care_provider WHERE id = ?";
 
         PreparedStatement statement = null;
         ResultSet rs = null;
 
-        HealthCareProvider HCP = new HealthCareProvider();
+        HealthCareProvider hcp = new HealthCareProvider();
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, id);
             rs = statement.executeQuery();
             if (rs.next()) {
-                HCP.setOrganisationalId(rs.getInt("organisational_id"));
-                HCP.setHealthCareProviderName(rs.getString("health_care_provider_name"));
-                HCP.setHealthCareProviderType(EnumUtils.HealthCareProviderType.valueOf(rs.getString("health_care_provider_type").toUpperCase()));
-                HCP.setPostcode(rs.getString("postcode"));
+                hcp.setOrganisationalId(rs.getInt("organisational_id"));
+                hcp.setHealthCareProviderName(rs.getString("health_care_provider_name"));
+                hcp.setHealthCareProviderType(EnumUtils.HealthCareProviderType.valueOf(rs.getString("health_care_provider_type").toUpperCase()));
+                hcp.setPostcode(rs.getString("postcode"));
             }
         } catch (SQLException e) {
             System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
@@ -121,11 +121,11 @@ public class HealthCareProviderMapper {
             }
         }
 
-        return HCP;
+        return hcp;
     }
 
-    public static HealthCareProvider findHCPByAccount(Integer accountId) {
-        String sql = "SELECT id FROM health_care_provider WHERE account_id = ?";
+    public static HealthCareProvider findHealthCareProviderByAccountId(Integer accountId) {
+        String sql = "SELECT * FROM health_care_provider WHERE account_id = ?";
 
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -137,7 +137,11 @@ public class HealthCareProviderMapper {
             statement.setInt(1, accountId);
             rs = statement.executeQuery();
             if (rs.next()) {
-                hcp.setId(rs.getInt(1));
+                hcp.setId(rs.getInt("id"));
+                hcp.setOrganisationalId(rs.getInt("organisational_id"));
+                hcp.setHealthCareProviderName(rs.getString("health_care_provider_name"));
+                hcp.setHealthCareProviderType(EnumUtils.HealthCareProviderType.valueOf(rs.getString("health_care_provider_type").toUpperCase()));
+                hcp.setPostcode(rs.getString("postcode"));
             }
         } catch (SQLException e) {
             System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
