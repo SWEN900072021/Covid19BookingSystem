@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "viewAllTimeslotsController", value = "/viewAllTimeslots")
+@WebServlet(name = "viewAllAvailableTimeslotsController", value = "/viewAllAvailableTimeslots")
 public class ViewAllTimeslotsController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Timeslot> availableTimeslots = TimeslotMapper.findAllAvailableTimeslots();
         if (!availableTimeslots.isEmpty()) {
-            String view = "admin/viewAllTimeslots.jsp";
+            String view = "admin/viewAllAvailableTimeslots.jsp";
             request.getSession().setAttribute("unbookedTimeslots", availableTimeslots);
             request.getRequestDispatcher(view).forward(request, response);
         }

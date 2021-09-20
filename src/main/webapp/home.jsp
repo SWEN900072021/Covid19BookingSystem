@@ -37,6 +37,13 @@
                                 </div>
                             </div>
                         </form>
+                        <form name="view_timeslots_admin" method="get" action="viewAllAvailableTimeslots">
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn btn-dark">View All Available Timeslots</button>
+                                </div>
+                            </div>
+                        </form>
                     </sec:authorize>
                 </div>
                 <div>
