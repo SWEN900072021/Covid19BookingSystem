@@ -1,7 +1,6 @@
 package com.example.covid19bookingsystem.controller;
 
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
-import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.mapper.AccountMapper;
 import com.example.covid19bookingsystem.mapper.HealthCareProviderMapper;
 import com.example.covid19bookingsystem.utils.EnumUtils;

@@ -1,7 +1,6 @@
 package com.example.covid19bookingsystem.security;
 
 import com.example.covid19bookingsystem.domain.Account;
-import com.example.covid19bookingsystem.utils.EnumUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

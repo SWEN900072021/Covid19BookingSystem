@@ -26,5 +26,5 @@ public class VaccineRecipient extends Account {
 
     private String phoneNumber;
 
-    private String email;
+    private String emailAddress;
 }
