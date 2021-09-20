@@ -1,3 +1,9 @@
+<%@ page import="com.example.covid19bookingsystem.domain.Account" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.covid19bookingsystem.utils.EnumUtils" %>
+<%@ page import="com.example.covid19bookingsystem.domain.VaccineRecipient" %>
+<%@ page import="java.util.HashMap" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -8,6 +14,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <title>View All Users</title>
+    <%
+        ArrayList<Account> accounts = (ArrayList<Account>) request.getSession().getAttribute("accountList");
+        HashMap<Integer, String> vrVaccineTypes = null;
+        if (request.getSession().getAttribute("vaccineTypes")!=null){
+            vrVaccineTypes = (HashMap<Integer, String>) request.getSession().getAttribute("vaccineTypes");
+        }
+
+    %>
 </head>
 <body>
     <h4
@@ -35,13 +49,13 @@
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="filterOption" id="AZ" value="ASTRAZENECA" checked>
+                                <input class="form-check-input" type="radio" name="filterOption" id="AZ" value="ASTRAZENECA">
                                 <label class="form-check-label" for="AZ">
                                     Astrazeneca Vaccine Recipients
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="vaccineType" id="Pfizer" value="PFIZER">
+                                <input class="form-check-input" type="radio" name="filterOption" id="Pfizer" value="PFIZER">
                                 <label class="form-check-label" for="Pfizer">
                                     Pfizer Vaccine Recipients
                                 </label>
@@ -77,12 +91,22 @@
                 </tr>
                 </thead>
                 <tbody>
+                <%
+                    for (Account account: accounts){
+                        String vaccineType = "N/A";
+                        if (account.getAccountType()==EnumUtils.AccountType.VR && vrVaccineTypes!=null){
+                            vaccineType = vrVaccineTypes.get(account.getAccountId());
+                        }
+                %>
                 <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>HCP</td>
-                    <td>N/A</td>
+                    <td><%= account.getAccountId().toString()%></td>
+                    <td><%= account.getUsername()%></td>
+                    <td><%= account.getAccountType().toString()%></td>
+                    <td><%= vaccineType%></td>
                 </tr>
+                <%
+                    }
+                %>
                 </tbody>
             </table>
         </div>

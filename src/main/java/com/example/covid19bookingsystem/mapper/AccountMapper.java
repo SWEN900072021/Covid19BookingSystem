@@ -6,6 +6,7 @@ import com.example.covid19bookingsystem.domain.Account;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static com.example.covid19bookingsystem.utils.EnumUtils.AccountType.valueOf;
 
@@ -61,6 +62,35 @@ public class AccountMapper {
             }
         }
         return null;
+    }
+
+    public static ArrayList<Account> getUsers(){
+        String sql = "SELECT * FROM account ;";
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        ArrayList<Account> accounts = new ArrayList<>();
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            rs = statement.executeQuery();
+            while (rs.next()){
+                Account account = new Account();
+                account.setAccountId(rs.getInt("id"));
+                account.setUsername(rs.getString("username"));
+                account.setAccountType(valueOf(rs.getString("account_type")));
+                accounts.add(account);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Account Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return accounts;
     }
 
 }

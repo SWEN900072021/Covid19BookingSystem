@@ -1,6 +1,7 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
+import com.example.covid19bookingsystem.domain.Account;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.utils.EnumUtils;
@@ -10,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+import static com.example.covid19bookingsystem.utils.EnumUtils.AccountType.valueOf;
 
 public class VaccineRecipientMapper {
     public static void insert(VaccineRecipient vaccineRecipient) {
@@ -72,5 +76,38 @@ public class VaccineRecipientMapper {
         }
 
         return vr;
+    }
+
+    public static ArrayList<Account> getAllVaccineRecipients(){
+        String sql = "SELECT account.id, username, account_type FROM account INNER JOIN vaccine_recipient ON account.id = vaccine_recipient.account_id ;";
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        ArrayList<Account> accounts = new ArrayList<>();
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            rs = statement.executeQuery();
+            while (rs.next()){
+                VaccineRecipient account = new VaccineRecipient();
+                account.setAccountId(rs.getInt("id"));
+                account.setUsername(rs.getString("username"));
+                account.setAccountType(valueOf(rs.getString("account_type")));
+                accounts.add(account);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Account Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Get vaccine certificates
+
+
+        return accounts;
     }
 }
