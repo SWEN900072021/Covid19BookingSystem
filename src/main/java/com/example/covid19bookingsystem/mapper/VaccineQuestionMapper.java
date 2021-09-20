@@ -32,7 +32,7 @@ public class VaccineQuestionMapper {
         }
     }
 
-    public static List<Question> getQuestionIdsForVaccineType(String vaccineType) {
+    public static List<Question> getQuestionsForVaccineType(String vaccineType) {
         String sql = "SELECT question_id FROM vaccine_question WHERE vaccine_type = ?";
 
         PreparedStatement statement = null;
@@ -44,10 +44,9 @@ public class VaccineQuestionMapper {
             statement.setString(1, vaccineType);
             rs = statement.executeQuery();
             while (rs.next()) {
-                // question mapper here
-                Question question = new Question();
-                question.setId(rs.getInt("question_id"));
+                Question question = QuestionMapper.getQuestionById(rs.getInt("question_id"));
                 questions.add(question);
+
             }
         } catch (SQLException e) {
             System.out.println("Vaccine Question Mapper - get questions - Error: " + e.getMessage());

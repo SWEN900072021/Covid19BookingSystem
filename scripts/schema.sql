@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS vaccine_certificate (
 );
 
 CREATE TABLE IF NOT EXISTS question (
-    question_id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     question VARCHAR(50),
     success_answer BOOLEAN
 );

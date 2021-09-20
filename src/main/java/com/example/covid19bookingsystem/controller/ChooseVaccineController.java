@@ -38,20 +38,11 @@ public class ChooseVaccineController extends HttpServlet {
     private void ForwardVaccineQuestionsForSelection(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(request.getParameter("vaccineType") != null){
 
-            List<Question> questionsForVaccineType
-                    = VaccineQuestionMapper.getQuestionIdsForVaccineType(request.getParameter("vaccineType"));
-
-            List<Question> questionsToDisplay = new ArrayList<>();
-
-            for (Question question : questionsForVaccineType){
-
-                Question questionToDisplay = QuestionMapper.getQuestionById(question);
-                questionsToDisplay.add(questionToDisplay);
-            }
+            List<Question> questionsForVaccineType = VaccineQuestionMapper.getQuestionsForVaccineType(request.getParameter("vaccineType"));
 
             request.getSession().setAttribute("vaccineType", request.getParameter("vaccineType"));
-            request.getSession().setAttribute("questionNumber", questionsToDisplay.size());
-            request.getSession().setAttribute("questionsToDisplay", questionsToDisplay);
+            request.getSession().setAttribute("questionNumber", questionsForVaccineType.size());
+            request.getSession().setAttribute("questionsToDisplay", questionsForVaccineType);
             request.getRequestDispatcher("vr/vaccineQuestionnaire.jsp").forward(request, response);
         }
     }

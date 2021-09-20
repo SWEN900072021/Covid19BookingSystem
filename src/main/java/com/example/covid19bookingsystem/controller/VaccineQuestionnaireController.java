@@ -28,9 +28,9 @@ public class VaccineQuestionnaireController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String view = "vr/vaccineQuestionnaire.jsp";
 
-        List<Question> vaccineQuestions = getQuestionsForVaccineType(request.getParameter("vaccineType"));
+        List<Question> questionsForVaccineType = VaccineQuestionMapper.getQuestionsForVaccineType(request.getParameter("vaccineType"));
 
-        Boolean questionnairePassed = questionnaireChecker(vaccineQuestions, request);
+        Boolean questionnairePassed = questionnaireChecker(questionsForVaccineType, request);
 
         if (questionnairePassed){
             request.getSession().setAttribute("vaccineType", request.getParameter("vaccineType"));
@@ -39,21 +39,6 @@ public class VaccineQuestionnaireController extends HttpServlet {
             request.getSession().setAttribute("questionnairePassed", questionnairePassed);
             request.getRequestDispatcher("vr/chooseVaccine.jsp").forward(request, response);
         }
-    }
-
-    private List<Question> getQuestionsForVaccineType(String VaccineType) throws ServletException, IOException {
-        List<Question> questionsForVaccineType
-                = VaccineQuestionMapper.getQuestionIdsForVaccineType(VaccineType);
-
-        List<Question> questionsToDisplay = new ArrayList<>();
-
-        for (Question question : questionsForVaccineType) {
-
-            Question questionToDisplay = QuestionMapper.getQuestionById(question);
-            questionsToDisplay.add(questionToDisplay);
-
-        }
-        return questionsToDisplay;
     }
 
     private Boolean questionnaireChecker(List<Question> questions, HttpServletRequest request) throws ServletException, IOException {

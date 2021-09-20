@@ -37,7 +37,7 @@ public class QuestionMapper {
         return question;
     }
 
-    public static Question getQuestionById(Question question) {
+    public static Question getQuestionById(int question_id) {
         String sql = "SELECT question, success_answer FROM question WHERE id = ?";
 
         PreparedStatement statement = null;
@@ -46,10 +46,10 @@ public class QuestionMapper {
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, question.getId());
+            statement.setInt(1, question_id);
             rs = statement.executeQuery();
             while (rs.next()) {
-                questionFromId.setId(question.getId());
+                questionFromId.setId(question_id);
                 questionFromId.setQuestion(rs.getString("question"));
                 questionFromId.setSuccessAnswer(rs.getBoolean("success_answer"));
             }
