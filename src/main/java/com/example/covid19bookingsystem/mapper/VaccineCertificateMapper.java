@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.example.covid19bookingsystem.mapper.VaccineRecipientMapper.findVaccineRecipientById;
@@ -60,6 +61,32 @@ public class VaccineCertificateMapper {
         }
 
         return vaccineCertificates;
+    }
+
+    public static HashMap<Integer,String> getAllCertificates(HashMap<Integer, Integer> vaccineRecipients){
+        String sql = "SELECT * FROM vaccine_certificate;";
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        HashMap<Integer,String> vaccineTypes = new HashMap<>();
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            rs = statement.executeQuery();
+            while (rs.next()){
+                Integer vrAccountId = vaccineRecipients.get(rs.getInt("vaccine_recipient"));
+                vaccineTypes.put(vrAccountId, rs.getString("vaccine_type"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Account Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return vaccineTypes;
     }
 
 }

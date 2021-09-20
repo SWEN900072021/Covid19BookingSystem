@@ -6,6 +6,7 @@ import com.example.covid19bookingsystem.domain.VaccineType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class VaccineTypeMapper {
@@ -29,5 +30,31 @@ public class VaccineTypeMapper {
         }
     }
 
+    public static ArrayList<VaccineType> getAllVaccineTypes() {
+        String sql = "SELECT * FROM vaccine_type ";
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        ArrayList<VaccineType> vaccineTypes = new ArrayList<>();
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                VaccineType vaccineType = new VaccineType();
+                vaccineType.setName(rs.getString("name"));
+                vaccineTypes.add(vaccineType);
+            }
+        } catch (SQLException e) {
+            System.out.println("Vaccine Mapper - get all - Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return vaccineTypes;
+    }
 
 }

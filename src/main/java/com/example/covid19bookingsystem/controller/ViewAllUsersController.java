@@ -23,6 +23,8 @@ public class ViewAllUsersController extends HttpServlet {
         if (request.getParameter("filterOption")==null){
             ArrayList<Account> accounts = AccountMapper.getUsers();
             request.getSession().setAttribute("accountList", accounts);
+            HashMap<Integer,String> vaccineTypes = VaccineRecipientMapper.getAllVRVaccineTypes();
+            request.getSession().setAttribute("vaccineTypes", vaccineTypes);
             request.getRequestDispatcher("/admin/viewAllUsers.jsp").forward(request, response);
         }
         else{
@@ -34,24 +36,30 @@ public class ViewAllUsersController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("filterOption").equals("ALLVR")){
-            ArrayList<Account> accounts = VaccineRecipientMapper.getAllVaccineRecipients();
+            ArrayList<Account> accounts = AccountMapper.getAllVaccineRecipients();
             request.getSession().setAttribute("accountList", accounts);
-            HashMap<Integer,String> vaccineTypes = VaccineRecipientMapper.getVRVaccineTypes();
+            HashMap<Integer,String> vaccineTypes = VaccineRecipientMapper.getAllVRVaccineTypes();
             request.getSession().setAttribute("vaccineTypes", vaccineTypes);
         }
         else if (request.getParameter("filterOption").equals("ALL")){
             ArrayList<Account> accounts = AccountMapper.getUsers();
             request.getSession().setAttribute("accountList", accounts);
-            request.getSession().setAttribute("vaccineTypes", null);
+            HashMap<Integer,String> vaccineTypes = VaccineRecipientMapper.getAllVRVaccineTypes();
+            request.getSession().setAttribute("vaccineTypes", vaccineTypes);
         }
         else if (request.getParameter("filterOption").equals("ALLHCP")){
             request.getSession().setAttribute("vaccineTypes", null);
+            ArrayList<Account> accounts = AccountMapper.getAllHealthCareProviders();
+            request.getSession().setAttribute("accountList", accounts);
 
         }
         else{
             // handle vaccine types
             String vaccineType = request.getParameter("filterOption");
             ArrayList<Account> accounts = VaccineRecipientMapper.getVaccineRecipientsByVaccineType(vaccineType);
+            request.getSession().setAttribute("accountList", accounts);
+            HashMap<Integer,String> vaccineTypes = VaccineRecipientMapper.getAllVRVaccineTypes();
+            request.getSession().setAttribute("vaccineTypes", vaccineTypes);
         }
 
         doGet(request, response);

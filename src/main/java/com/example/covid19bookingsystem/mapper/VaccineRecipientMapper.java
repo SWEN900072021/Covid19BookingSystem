@@ -5,6 +5,7 @@ import com.example.covid19bookingsystem.domain.Account;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
+import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,8 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.example.covid19bookingsystem.utils.EnumUtils.AccountType.valueOf;
+import java.util.Map;
 
 import static com.example.covid19bookingsystem.utils.EnumUtils.Gender.valueOf;
 
@@ -139,24 +139,19 @@ public class VaccineRecipientMapper {
         return vr;
     }
 
-    public static ArrayList<Account> getAllVaccineRecipients(){
-        String sql = "SELECT account.id as account_id , vaccine_recipient.id as id , username, account_type FROM account INNER JOIN vaccine_recipient ON account.id = vaccine_recipient.account_id ;";
+    public static HashMap<Integer,String> getAllVRVaccineTypes(){
+        String sql = "SELECT * FROM vaccine_recipient ;";
         PreparedStatement statement = null;
         ResultSet rs = null;
-        ArrayList<Account> accounts = new ArrayList<>();
+        // <id,account_id>
+        HashMap<Integer,Integer> vaccineRecipients = new HashMap<>();
+        HashMap<Integer,String> vrVaccineTypes = null;
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             rs = statement.executeQuery();
-
             while (rs.next()){
-                VaccineRecipient account = new VaccineRecipient();
-
-                account.setAccountId(rs.getInt("account_id"));
-                account.setId(rs.getInt("id"));
-                account.setUsername(rs.getString("username"));
-                account.setAccountType(valueOf(rs.getString("account_type")));
-                accounts.add(account);
+                vaccineRecipients.put(rs.getInt("id"), rs.getInt("account_id"));
             }
 
         } catch (SQLException e) {
@@ -169,37 +164,24 @@ public class VaccineRecipientMapper {
             }
         }
 
-        return accounts;
-    }
+        // Get Vaccine Types for vaccinated vr
+        vrVaccineTypes = VaccineCertificateMapper.getAllCertificates(vaccineRecipients);
 
-    public static HashMap<Integer,String> getVRVaccineTypes(){
-        String sql = "SELECT * FROM vaccine_certificate ;";
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        HashMap<Integer,String> vaccineTypes = new HashMap<>();
-
-        try {
-            statement = DBConnection.getDbConnection().prepareStatement(sql);
-            rs = statement.executeQuery();
-            while (rs.next()){
-                vaccineTypes.put(rs.getInt("vaccine_recipient"), rs.getString("vaccination_type"));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Account Mapper Error: " + e.getMessage());
-        } finally {
-            try {
-                DBConnection.close(statement, null);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return vaccineTypes;
+        return vrVaccineTypes;
     }
 
 
     public static ArrayList<Account> getVaccineRecipientsByVaccineType(String vaccineType){
-        String sql = "SELECT * FROM vaccine_recipient WHERE ;";
+        HashMap<Integer,String> allVRVaccineTypes = getAllVRVaccineTypes();
+        ArrayList<Account> vrWithVaccineType = new ArrayList<>();
+
+        for (Map.Entry vrVaccineType: allVRVaccineTypes.entrySet()){
+            Integer id = (Integer)vrVaccineType.getKey();
+            if (vrVaccineType.getValue().equals(vaccineType)){
+                vrWithVaccineType.add(AccountMapper.findAccountByID(id));
+            }
+        }
+
+        return vrWithVaccineType;
     }
 }
