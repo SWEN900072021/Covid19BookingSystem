@@ -28,11 +28,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/hcp/**").hasRole("HCP")
                 .antMatchers("/vr/**").hasRole("VR")
                 .anyRequest().authenticated()
-            .and()
+                .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .defaultSuccessUrl("/home", true)
-            .and()
+                .and()
                 .logout();
     }
 }

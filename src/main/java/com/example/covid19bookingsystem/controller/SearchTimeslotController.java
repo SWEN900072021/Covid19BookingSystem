@@ -43,7 +43,7 @@ public class SearchTimeslotController extends HttpServlet {
             }
             return false;
         } else {
-            List<HealthCareProvider> HCPs = HealthCareProviderMapper.findHCPByName(request.getParameter("queryField"));
+            List<HealthCareProvider> HCPs = HealthCareProviderMapper.findHealthCareProvidersByName(request.getParameter("queryField"));
             return findTimeslotsHelper(HCPs, request, response);
         }
     }
@@ -52,7 +52,7 @@ public class SearchTimeslotController extends HttpServlet {
         if (!HCPs.isEmpty()) {
             List<Timeslot> timeslots = new ArrayList<>();
             for (HealthCareProvider HCP : HCPs) {
-                List<Timeslot> timeslotsForHCP = TimeslotMapper.findTimeslotByHcpAndVaccineType(HCP, request.getParameter("vaccineType"));
+                List<Timeslot> timeslotsForHCP = TimeslotMapper.findTimeslotsByHcpAndVaccineType(HCP, request.getParameter("vaccineType"));
                 if (!timeslotsForHCP.isEmpty()) {
                     timeslots.addAll(timeslotsForHCP);
                 }
