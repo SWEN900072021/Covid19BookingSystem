@@ -46,7 +46,7 @@ public class SearchTimeslotController extends HttpServlet {
         if (!HCPs.isEmpty()) {
             List<Timeslot> timeslots = new ArrayList<>();
             for (HealthCareProvider HCP : HCPs) {
-                List<Timeslot> timeslotsForHCP = TimeslotMapper.findTimeslotByHcpAndVaccineType(HCP, request.getParameter("vaccineType"));
+                List<Timeslot> timeslotsForHCP = TimeslotMapper.findTimeslotByHcpAndVaccineType(HCP, (String) request.getSession().getAttribute("vaccineType"));
                 if (!timeslotsForHCP.isEmpty()) {
                     timeslots.addAll(timeslotsForHCP);
                 }

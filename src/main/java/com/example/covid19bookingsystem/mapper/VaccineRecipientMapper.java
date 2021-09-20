@@ -62,7 +62,7 @@ public class VaccineRecipientMapper {
                 vr.setId(rs.getInt(1));
             }
         } catch (SQLException e) {
-            System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
+            System.out.println("VaccineRecipient Mapper Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, rs);
