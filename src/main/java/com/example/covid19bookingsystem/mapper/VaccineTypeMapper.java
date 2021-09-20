@@ -4,7 +4,9 @@ import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.VaccineType;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class VaccineTypeMapper {
 
@@ -26,5 +28,6 @@ public class VaccineTypeMapper {
             }
         }
     }
+
 
 }

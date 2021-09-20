@@ -43,6 +43,18 @@
                     <div class="row">
                         <div class="col-sm-8" style="text-align: left">
                             <div class="form-check">
+                                <input class="form-check-input" type="radio" name="filterOption" id="All" value="ALL" checked>
+                                <label class="form-check-label" for="All">
+                                    All Users
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="filterOption" id="AllHCP" value="ALLHCP">
+                                <label class="form-check-label" for="AllHCP">
+                                    All Health Care Providers
+                                </label>
+                            </div>
+                            <div class="form-check">
                                 <input class="form-check-input" type="radio" name="filterOption" id="AllVR" value="ALLVR">
                                 <label class="form-check-label" for="AllVR">
                                     All Vaccine Recipients

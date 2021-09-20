@@ -137,4 +137,9 @@ public class VaccineRecipientMapper {
 
         return vaccineTypes;
     }
+
+
+    public static ArrayList<Account> getVaccineRecipientsByVaccineType(String vaccineType){
+        String sql = "SELECT * FROM vaccine_recipient WHERE ;";
+    }
 }

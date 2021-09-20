@@ -4,6 +4,7 @@ import com.example.covid19bookingsystem.domain.Account;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.mapper.AccountMapper;
 import com.example.covid19bookingsystem.mapper.VaccineRecipientMapper;
+import com.example.covid19bookingsystem.mapper.VaccineTypeMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,6 +39,21 @@ public class ViewAllUsersController extends HttpServlet {
             HashMap<Integer,String> vaccineTypes = VaccineRecipientMapper.getVRVaccineTypes();
             request.getSession().setAttribute("vaccineTypes", vaccineTypes);
         }
+        else if (request.getParameter("filterOption").equals("ALL")){
+            ArrayList<Account> accounts = AccountMapper.getUsers();
+            request.getSession().setAttribute("accountList", accounts);
+            request.getSession().setAttribute("vaccineTypes", null);
+        }
+        else if (request.getParameter("filterOption").equals("ALLHCP")){
+            request.getSession().setAttribute("vaccineTypes", null);
+
+        }
+        else{
+            // handle vaccine types
+            String vaccineType = request.getParameter("filterOption");
+            ArrayList<Account> accounts = VaccineRecipientMapper.getVaccineRecipientsByVaccineType(vaccineType);
+        }
+
         doGet(request, response);
     }
 }
