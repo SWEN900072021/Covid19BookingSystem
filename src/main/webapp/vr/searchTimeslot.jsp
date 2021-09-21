@@ -48,14 +48,14 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="searchBy" id="Area" value="area" checked>
                             <label class="form-check-label" for="Area">
-                                Area
+                                Area (By postcode)
                             </label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="searchBy" id="HCP"
                                    value="healthCareProvider">
                             <label class="form-check-label" for="HCP">
-                                Health Care Provider
+                                Health Care Provider (By name)
                             </label>
                         </div>
                     </div>

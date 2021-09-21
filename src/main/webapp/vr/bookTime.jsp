@@ -27,9 +27,9 @@
         for (Timeslot timeslot : allAvailableTimeslotDates) {
             Date date = new Date(timeslot.getDateTime().getTime());
             SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("hh:mm aa");
             if (dateFormatter.format(date).equals(dateClicked)) {
-                strTimes.add(dateTimeFormatter.format(date));
+                strTimes.add(dateTimeFormatter.format(date).toUpperCase());
             }
         }
         Collections.sort(strTimes);
