@@ -29,7 +29,6 @@ public class BookTimeController extends HttpServlet {
         request.getRequestDispatcher(view).forward(request, response);
     }
 
-    @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("timeClicked") != null && request.getParameter("dateClicked") != null) {
@@ -50,8 +49,13 @@ public class BookTimeController extends HttpServlet {
         }
     }
 
-    private void processBookTimeRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
-        Date time = new SimpleDateFormat("hh:mm aa").parse(request.getParameter("timeClicked").toLowerCase());
+    private void processBookTimeRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Date time = new Date();
+        try {
+            time = new SimpleDateFormat("hh:mm aa").parse(request.getParameter("timeClicked").toLowerCase());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("HH:mm");
         String dateTime = request.getParameter("dateClicked") + " " + dateTimeFormatter.format(time) + ":00";
         List<Timeslot> allAvailableTimeslotDates =
