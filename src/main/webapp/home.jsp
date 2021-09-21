@@ -25,6 +25,7 @@
     Welcome back, <sec:authentication property="name"/>
 </h4>
 <br/>
+
 <div class="card text-center border-secondary mb-3"
      style="width: 25rem;margin: 0 auto;float: none;margin-bottom: 10px;">
     <div class="card-body">
@@ -48,6 +49,13 @@
                     <div class="form-group row">
                         <div class="col-sm-12">
                             <button type="submit" class="btn btn btn-dark">View All Available Timeslots</button>
+                        </div>
+                    </div>
+                </form>
+                <form name="add_vaccine_type" method="get" action="addVaccineType">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn btn-dark">Add Vaccine Type</button>
                         </div>
                     </div>
                 </form>

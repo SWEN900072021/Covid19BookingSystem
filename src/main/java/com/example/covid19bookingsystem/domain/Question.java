@@ -9,7 +9,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class Question {
 
-    private String id;
+    private Integer id;
 
     private String question;
 
