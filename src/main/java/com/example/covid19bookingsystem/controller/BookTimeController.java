@@ -3,6 +3,7 @@ package com.example.covid19bookingsystem.controller;
 import com.example.covid19bookingsystem.domain.Timeslot;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.mapper.TimeslotMapper;
+import lombok.SneakyThrows;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -46,7 +50,14 @@ public class BookTimeController extends HttpServlet {
     }
 
     private void processBookTimeRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String dateTime = request.getParameter("dateClicked") + " " + request.getParameter("timeClicked") + ":00";
+        Date time = new Date();
+        try {
+            time = new SimpleDateFormat("hh:mm aa").parse(request.getParameter("timeClicked").toLowerCase());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("HH:mm");
+        String dateTime = request.getParameter("dateClicked") + " " + dateTimeFormatter.format(time) + ":00";
         List<Timeslot> allAvailableTimeslotDates =
                 (List<Timeslot>) request.getSession().getAttribute("allAvailableTimeslotDates");
         HashMap<String, String> confirmationDetails = new HashMap<String, String>();
