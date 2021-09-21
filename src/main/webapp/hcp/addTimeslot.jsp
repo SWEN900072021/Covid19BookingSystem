@@ -1,5 +1,7 @@
 <%@ page import="com.example.covid19bookingsystem.domain.Account" %>
 <%@ page import="com.example.covid19bookingsystem.domain.HealthCareProvider" %>
+<%@ page import="com.example.covid19bookingsystem.domain.VaccineType" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -20,6 +22,15 @@
         %>
     </script>
     <%
+
+        ArrayList<VaccineType> allVaccineTypes = (ArrayList<VaccineType>) request.getSession().getAttribute("allVaccineTypes");
+        ArrayList<String> vaccineNames = new ArrayList<>();
+
+        for (VaccineType vaccineType: allVaccineTypes) {
+            String vaccineName = vaccineType.getName();
+            vaccineNames.add(vaccineName);
+        }
+
         HealthCareProvider hcp = new HealthCareProvider();
         if (request.getSession().getAttribute("userDetails") != null) {
             hcp = (HealthCareProvider) request.getSession().getAttribute("userDetails");
@@ -83,21 +94,17 @@
             </div>
             <fieldset class="row mb-3">
                 <div class="row">
-                    <legend class="col-form-label col-sm-4 pt-0"><strong>Vaccine Type:</strong></legend>
-                    <div class="col-sm-8" style="text-align: left">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="vaccineType" id="AZ" value="ASTRAZENECA"
-                                   checked>
-                            <label class="form-check-label" for="AZ">
-                                Astrazeneca
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="vaccineType" id="Pfizer" value="PFIZER">
-                            <label class="form-check-label" for="Pfizer">
-                                Pfizer
-                            </label>
-                        </div>
+                    <label class="col-sm-4 col-form-label" for="inputVaccineType"><strong>Vaccine Type:</strong></label>
+                    <div class="col-sm-8">
+                        <select id="inputVaccineType" class="form-control" name = "vaccineType">
+                            <%
+                                for (String vaccineName: vaccineNames) {
+                            %>
+                            <option value=<%= vaccineName%>> <%= vaccineName%> </option>
+                            <%
+                                }
+                            %>
+                        </select>
                     </div>
                 </div>
             </fieldset>

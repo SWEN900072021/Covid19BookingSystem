@@ -1,10 +1,14 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
-import com.example.covid19bookingsystem.domain.VaccineType;
+import com.example.covid19bookingsystem.domain.*;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VaccineTypeMapper {
 
@@ -17,7 +21,7 @@ public class VaccineTypeMapper {
             statement.setString(1, vaccineType.getName());
             statement.execute();
         } catch (SQLException e) {
-            System.out.println("Account Mapper Error: " + e.getMessage());
+            System.out.println("Vaccine Type Mapper - insert - Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, null);
@@ -27,4 +31,30 @@ public class VaccineTypeMapper {
         }
     }
 
+    public static ArrayList<VaccineType> getAllVaccineTypes() {
+        String sql = "SELECT * FROM vaccine_type ";
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        ArrayList<VaccineType> vaccineTypes = new ArrayList<>();
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                VaccineType vaccineType = new VaccineType();
+                vaccineType.setName(rs.getString("name"));
+                vaccineTypes.add(vaccineType);
+            }
+        } catch (SQLException e) {
+            System.out.println("Vaccine Mapper - get all - Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return vaccineTypes;
+    }
 }
