@@ -63,10 +63,10 @@
         </div>
         <div>
             <sec:authorize access="hasRole('VR')">
-                <form name="searchTimeslot" method="get" action="searchTimeslot">
+                <form name="chooseVaccine" method="get" action="chooseVaccine">
                     <div class="form-group row">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn btn-dark">Search Timeslot</button>
+                            <button type="submit" class="btn btn btn-dark">Book Timeslot</button>
                         </div>
                     </div>
                 </form>
