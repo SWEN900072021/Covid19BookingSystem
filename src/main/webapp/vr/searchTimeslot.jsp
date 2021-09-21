@@ -41,15 +41,6 @@
             <input type="hidden"
                    name="${_csrf.parameterName}"
                    value="${_csrf.token}"/>
-            <div class="form-group row">
-                <label class="col-sm-5 col-form-label" for="inputVaccineType">Vaccine Type:</label>
-                <div class="col-sm-7">
-                    <select id="inputVaccineType" class="form-control" name="vaccineType">
-                        <option value="ASTRAZENECA" selected>Astrazeneca</option>
-                        <option value="PFIZER">Pfizer</option>
-                    </select>
-                </div>
-            </div>
             <fieldset class="form-group">
                 <div class="row">
                     <legend class="col-form-label col-sm-5 pt-0">Search by:</legend>

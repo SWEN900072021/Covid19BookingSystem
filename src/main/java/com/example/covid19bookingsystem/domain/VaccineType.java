@@ -11,3 +11,4 @@ public class VaccineType {
 
     private String name;
 }
+

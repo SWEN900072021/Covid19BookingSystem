@@ -3,6 +3,8 @@ package com.example.covid19bookingsystem.controller;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
+import com.example.covid19bookingsystem.domain.VaccineType;
+import com.example.covid19bookingsystem.mapper.VaccineTypeMapper;
 import com.example.covid19bookingsystem.utils.EnumUtils;
 import com.example.covid19bookingsystem.utils.UnitOfWork;
 
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 import static java.sql.Timestamp.valueOf;
@@ -22,6 +25,9 @@ public class AddTimeslotController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ArrayList<VaccineType> allVaccineTypes = VaccineTypeMapper.getAllVaccineTypes();
+        request.getSession().setAttribute("allVaccineTypes", allVaccineTypes);
+
         if (request.getSession().getAttribute("UoW") == null) {
             request.getSession().setAttribute("UoW", new UnitOfWork());
         }
