@@ -1,14 +1,20 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
+import com.example.covid19bookingsystem.domain.Account;
+import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
+import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.covid19bookingsystem.utils.EnumUtils.Gender.valueOf;
 
@@ -131,5 +137,50 @@ public class VaccineRecipientMapper {
         }
 
         return vr;
+    }
+
+    public static HashMap<Integer,String> getAllVRVaccineTypes(){
+        String sql = "SELECT * FROM vaccine_recipient ;";
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        // <id,account_id>
+        HashMap<Integer,Integer> vaccineRecipients = new HashMap<>();
+        HashMap<Integer,String> vrVaccineTypes = null;
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            rs = statement.executeQuery();
+            while (rs.next()){
+                vaccineRecipients.put(rs.getInt("id"), rs.getInt("account_id"));
+            }
+
+            vrVaccineTypes = VaccineCertificateMapper.getAllCertificates(vaccineRecipients);
+
+        } catch (SQLException e) {
+            System.out.println("Account Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return vrVaccineTypes;
+    }
+
+
+    public static ArrayList<Account> getVaccineRecipientsByVaccineType(String vaccineType){
+        HashMap<Integer,String> allVRVaccineTypes = getAllVRVaccineTypes();
+        ArrayList<Account> vrWithVaccineType = new ArrayList<>();
+
+        for (Map.Entry vrVaccineType: allVRVaccineTypes.entrySet()){
+            Integer id = (Integer)vrVaccineType.getKey();
+            if (vrVaccineType.getValue().equals(vaccineType)){
+                vrWithVaccineType.add(AccountMapper.findAccountByID(id));
+            }
+        }
+
+        return vrWithVaccineType;
     }
 }
