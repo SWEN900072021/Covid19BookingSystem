@@ -154,6 +154,8 @@ public class VaccineRecipientMapper {
                 vaccineRecipients.put(rs.getInt("id"), rs.getInt("account_id"));
             }
 
+            vrVaccineTypes = VaccineCertificateMapper.getAllCertificates(vaccineRecipients);
+
         } catch (SQLException e) {
             System.out.println("Account Mapper Error: " + e.getMessage());
         } finally {
@@ -163,10 +165,7 @@ public class VaccineRecipientMapper {
                 e.printStackTrace();
             }
         }
-
-        // Get Vaccine Types for vaccinated vr
-        vrVaccineTypes = VaccineCertificateMapper.getAllCertificates(vaccineRecipients);
-
+        
         return vrVaccineTypes;
     }
 

@@ -93,7 +93,7 @@ public class AccountMapper {
         return null;
     }
 
-    public static ArrayList<Account> getUsers(){
+    public static ArrayList<Account> getAllAccounts(){
         String sql = "SELECT * FROM account ;";
         PreparedStatement statement = null;
         ResultSet rs = null;

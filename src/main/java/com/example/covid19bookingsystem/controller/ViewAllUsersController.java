@@ -1,10 +1,8 @@
 package com.example.covid19bookingsystem.controller;
 
 import com.example.covid19bookingsystem.domain.Account;
-import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.mapper.AccountMapper;
 import com.example.covid19bookingsystem.mapper.VaccineRecipientMapper;
-import com.example.covid19bookingsystem.mapper.VaccineTypeMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,16 +19,13 @@ public class ViewAllUsersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("filterOption")==null){
-            ArrayList<Account> accounts = AccountMapper.getUsers();
+            ArrayList<Account> accounts = AccountMapper.getAllAccounts();
             request.getSession().setAttribute("accountList", accounts);
             HashMap<Integer,String> vaccineTypes = VaccineRecipientMapper.getAllVRVaccineTypes();
             request.getSession().setAttribute("vaccineTypes", vaccineTypes);
-            request.getRequestDispatcher("/admin/viewAllUsers.jsp").forward(request, response);
-        }
-        else{
-            request.getRequestDispatcher("/admin/viewAllUsers.jsp").forward(request, response);
         }
 
+        request.getRequestDispatcher("/admin/viewAllUsers.jsp").forward(request, response);
     }
 
     @Override
@@ -42,7 +37,7 @@ public class ViewAllUsersController extends HttpServlet {
             request.getSession().setAttribute("vaccineTypes", vaccineTypes);
         }
         else if (request.getParameter("filterOption").equals("ALL")){
-            ArrayList<Account> accounts = AccountMapper.getUsers();
+            ArrayList<Account> accounts = AccountMapper.getAllAccounts();
             request.getSession().setAttribute("accountList", accounts);
             HashMap<Integer,String> vaccineTypes = VaccineRecipientMapper.getAllVRVaccineTypes();
             request.getSession().setAttribute("vaccineTypes", vaccineTypes);
