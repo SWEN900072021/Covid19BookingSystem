@@ -1,0 +1,67 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam linetype polyline
+
+participant ":Client" as Client
+participant ":SearchTimeslotController" as SearchController
+participant ":BookTimeController" as BookController
+participant ":HealthCareProvider" as HCP
+participant ":Timeslot" as Timeslot
+participant ":TimeslotMapper" as TimeslotMapper
+participant ":HealthCareProviderMapper" as HCPMapper
+database "Database" as DB
+
+== Lazy Loading Initialization ==
+Client -> SearchController: searchTimeslots(vaccineType, postcode)
+activate Client
+activate SearchController
+SearchController -> TimeslotMapper: findTimeslots(vaccineType, postcode)
+activate TimeslotMapper
+TimeslotMapper -> DB: findTimeslots(vaccineType, postcode)
+DB --> TimeslotMapper: resultSet{Timeslots}
+loop ResultSet{Timeslots}
+    TimeslotMapper -> Timeslot: Timeslot(details)
+    activate Timeslot
+    Timeslot -> HCP: HealthCareProvider(null)
+    activate HCP
+    HCP --> Timeslot: HealthCareProvider{null}
+    deactivate HCP
+    Timeslot --> TimeslotMapper: Timeslot{details}
+    deactivate Timeslot
+end
+TimeslotMapper --> SearchController: List <Timeslot{details}>
+deactivate TimeslotMapper
+SearchController --> Client: List <Timeslot{details}>
+deactivate SearchController
+deactivate Client
+
+== Lazy Loading Implementation ==
+Client -> BookController: viewTimeslot(chosenTime)
+activate Client
+activate BookController
+loop Timeslot{details} in List <Timeslot{details}>
+    BookController -> Timeslot: Timeslot{details}.getDateTime()
+    activate Timeslot
+    Timeslot --> BookController: returnedTime
+    deactivate Timeslot
+    alt (returnedTime) == (chosenTime)
+        BookController -> HCP: Timeslot{details}.getHealthCareProvider().getName()
+        activate HCP
+        alt this.name == null
+            HCP -> HCP: load()
+            HCP -> HCPMapper: findHealthCareProviderById(this.id)
+            activate HCPMapper
+            HCPMapper -> DB: findHealthCareProviderById(id)
+            DB --> HCPMapper: resultSet(HealthCareProvider{details..., name})
+            HCPMapper --> HCP: HealthCareProvider{details..., name}
+            deactivate HCPMapper
+        end
+        HCP --> BookController: this.name
+        deactivate HCP
+    end
+end
+BookController --> Client: session.setAttribute("name", name)
+deactivate BookController
+deactivate Client
+@enduml
