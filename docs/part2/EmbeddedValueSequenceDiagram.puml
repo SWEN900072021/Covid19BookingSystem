@@ -1,0 +1,32 @@
+@startuml
+
+skinparam linetype polyline
+
+participant "Client" as C
+participant "CreateVaccineRecipientController" as Controller
+participant "VaccineRecipient" as VR
+participant "Address" as A
+participant "VaccineRecipient Table" as VRT
+
+== Embedded Value ==
+C -> Controller: createVaccineRecipientAccount(address1, postcode...)
+activate C
+activate Controller
+Controller -> VR: new VaccineRecipient(address1, postcode...)
+activate VR
+VR -> A: new Address(address1, postcode...)
+activate A
+A --> VR: Address
+deactivate A
+VR -> VR: add Address
+VR -> VRT: insert vaccineRecipient(Address)
+activate VRT
+VRT --> VR: OK
+deactivate VRT
+VR --> Controller: OK
+deactivate VR
+Controller --> C: OK
+deactivate Controller
+deactivate C
+
+@enduml

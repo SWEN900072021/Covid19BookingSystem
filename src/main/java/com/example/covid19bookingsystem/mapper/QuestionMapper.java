@@ -54,7 +54,7 @@ public class QuestionMapper {
                 questionFromId.setSuccessAnswer(rs.getBoolean("success_answer"));
             }
         } catch (SQLException e) {
-            System.out.println("Vaccine Question Mapper - get questions - Error: " + e.getMessage());
+            System.out.println("Question Mapper - get questions - Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, rs);

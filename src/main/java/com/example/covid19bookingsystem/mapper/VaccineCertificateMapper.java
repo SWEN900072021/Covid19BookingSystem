@@ -78,7 +78,7 @@ public class VaccineCertificateMapper {
             }
 
         } catch (SQLException e) {
-            System.out.println("Account Mapper Error: " + e.getMessage());
+            System.out.println("Vaccine Certificate Mapper Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, null);

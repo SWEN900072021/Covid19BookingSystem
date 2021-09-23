@@ -1,0 +1,42 @@
++@startuml
+
+skinparam linetype polyline
+
+participant "Client" as C
+participant "VaccineQuestionnaireController" as Controller
+participant "Vaccine_Question Mapper" as VQM
+participant “Vaccine_Question_Table" as VQ
+participant "Question Mapper" as QM
+participant "Question Table" as QT
+
+== Association Table ==
+C -> Controller: choose(vaccineType)
+activate C
+activate Controller
+Controller -> VQM: getQuestionsForVaccineType(vaccineType)
+activate VQM
+
+VQM -> VQ: getQuestionsIdsForVaccineType(vaccineType)
+activate VQ
+VQ --> VQM: return List<int> questionIds
+deactivate VQ
+
+loop
+VQM -> QM: getQuestionById(questionId)
+activate QM
+QM -> QT: find(id)
+activate QT
+QT --> QM: return data
+deactivate QT
+QM --> VQM: return Question
+deactivate QM
+
+VQM -> VQM: List.add(Question)
+end
+VQM --> Controller: return List<Question>
+deactivate VQM
+Controller --> C: return List<Question>
+deactivate Controller
+deactivate C
+
+@enduml

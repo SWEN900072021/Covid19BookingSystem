@@ -157,7 +157,7 @@ public class VaccineRecipientMapper {
             vrVaccineTypes = VaccineCertificateMapper.getAllCertificates(vaccineRecipients);
 
         } catch (SQLException e) {
-            System.out.println("Account Mapper Error: " + e.getMessage());
+            System.out.println("VaccineRecipient Mapper Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, null);
