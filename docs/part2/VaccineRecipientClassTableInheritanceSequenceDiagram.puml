@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam linetype polyline
+
+participant "Client" as Client
+participant "CreateVaccineRecipientController" as CVRC
+participant "Domain Layer" as DL
+participant "AccountMapper" as AM
+participant "VaccineRecipientMapper" as VRM
+participant "Account Table" as AT
+participant "VaccineRecipient Table" as VRT
+
+== Vaccine Recipient Class Table Inheritance ==
+Client -> CVRC: createVaccineRecipient(requestDetails)
+activate Client
+activate CVRC
+CVRC -> DL: new VaccineRecipient(requestDetails)
+DL --> CVRC: VaccineRecipient{requestDetails}
+CVRC -> AM: insert(VaccineRecipient{requestDetails})
+activate AM
+AM -> AT: insert Account{details}
+note left: accountType = VR
+AT --> AM: OK
+AM --> CVRC: OK
+deactivate AM
+CVRC -> VRM: insert(VaccineRecipient{requestDetails})
+activate VRM
+VRM -> VRT: insert VaccineRecipient{details}
+VRT --> VRM: OK
+VRM --> CVRC: OK
+deactivate VRM
+CVRC --> Client: OK
+deactivate CVRC
+deactivate Client
+@enduml
