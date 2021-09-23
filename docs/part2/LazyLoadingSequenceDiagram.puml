@@ -30,38 +30,34 @@ loop ResultSet{Timeslots}
     Timeslot --> TimeslotMapper: Timeslot{details}
     deactivate Timeslot
 end
-TimeslotMapper --> SearchController: List <Timeslot{details}>
+TimeslotMapper --> SearchController: List<Timeslot{details}>
 deactivate TimeslotMapper
-SearchController --> Client: List <Timeslot{details}>
+SearchController --> Client: List<Timeslot{details}>
 deactivate SearchController
 deactivate Client
 
 == Lazy Loading Implementation ==
-Client -> BookController: viewTimeslot(chosenTime)
+Client -> BookController: viewTimeslot(timeslotId)
 activate Client
 activate BookController
-loop Timeslot{details} in List <Timeslot{details}>
-    BookController -> Timeslot: Timeslot{details}.getDateTime()
-    activate Timeslot
-    Timeslot --> BookController: returnedTime
-    deactivate Timeslot
-    alt (returnedTime) == (chosenTime)
-        BookController -> HCP: Timeslot{details}.getHealthCareProvider().getName()
-        activate HCP
-        alt this.name == null
-            HCP -> HCP: load()
-            HCP -> HCPMapper: findHealthCareProviderById(this.id)
-            activate HCPMapper
-            HCPMapper -> DB: findHealthCareProviderById(id)
-            DB --> HCPMapper: resultSet(HealthCareProvider{details..., name})
-            HCPMapper --> HCP: HealthCareProvider{details..., name}
-            deactivate HCPMapper
-        end
-        HCP --> BookController: this.name
-        deactivate HCP
-    end
+BookController -> Timeslot: List<Timeslot{details}>.getTimeslotById(timeslotId)
+activate Timeslot
+Timeslot --> BookController: Timeslot{details}
+deactivate Timeslot
+BookController -> HCP: Timeslot{details}.getHealthCareProvider().getName()
+activate HCP
+alt this.name == null
+    HCP -> HCP: load()
+    HCP -> HCPMapper: findHealthCareProviderById(this.id)
+    activate HCPMapper
+    HCPMapper -> DB: findHealthCareProviderById(id)
+    DB --> HCPMapper: resultSet(HealthCareProvider{details..., name})
+    HCPMapper --> HCP: HealthCareProvider{details..., name}
+    deactivate HCPMapper
 end
-BookController --> Client: session.setAttribute("name", name)
+HCP --> BookController: this.name
+deactivate HCP
+BookController --> Client: display(name)
 deactivate BookController
 deactivate Client
 @enduml
