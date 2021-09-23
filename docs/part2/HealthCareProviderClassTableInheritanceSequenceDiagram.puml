@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam linetype polyline
+
+participant "Client" as Client
+participant "CreateHealthCareProviderController" as CHCPC
+participant "Domain Layer" as DL
+participant "AccountMapper" as AM
+participant "HealthCareProviderMapper" as HCPM
+participant "Account Table" as AT
+participant "HealthCareProvider Table" as HCPT
+
+== Health Care Provider Class Table Inheritance ==
+Client -> CHCPC: createHealthCareProvider(requestDetails)
+activate Client
+activate CHCPC
+CHCPC -> DL: new HealthCareProvider(requestDetails)
+DL --> CHCPC: HealthCareProvider{requestDetails}
+CHCPC -> AM: insert(HealthCareProvider{requestDetails})
+activate AM
+AM -> AT: insert Account{details}
+note left: accountType = HCP
+AT --> AM: OK
+AM --> CHCPC: OK
+deactivate AM
+CHCPC -> HCPM: insert(HealthCareProvider{requestDetails})
+activate HCPM
+HCPM -> HCPT: insert HealthCareProvider{details}
+HCPT --> HCPM: OK
+HCPM --> CHCPC: OK
+deactivate HCPM
+CHCPC --> Client: OK
+deactivate CHCPC
+deactivate Client
+@enduml

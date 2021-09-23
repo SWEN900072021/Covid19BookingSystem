@@ -47,7 +47,7 @@ public class VaccineTypeMapper {
                 vaccineTypes.add(vaccineType);
             }
         } catch (SQLException e) {
-            System.out.println("Vaccine Mapper - get all - Error: " + e.getMessage());
+            System.out.println("Vaccine Type Mapper - get all - Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, rs);
