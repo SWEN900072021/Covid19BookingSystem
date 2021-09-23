@@ -22,28 +22,14 @@
         String dateClicked = request.getParameter("dateClicked");
         List<Timeslot> allAvailableTimeslotDates =
                 (List<Timeslot>) request.getSession().getAttribute("allAvailableTimeslotDates");
-        List<String> strTimes = new ArrayList<>();
-
-        for (Timeslot timeslot : allAvailableTimeslotDates) {
-            Date date = new Date(timeslot.getDateTime().getTime());
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("hh:mm aa");
-            if (dateFormatter.format(date).equals(dateClicked)) {
-                strTimes.add(dateTimeFormatter.format(date).toUpperCase());
-            }
-        }
-        Collections.sort(strTimes);
-    %>
-
-    <%
         if (request.getAttribute("confirmationDetails") != null) {
             confirmationDetails = (HashMap<String, String>) request.getAttribute("confirmationDetails");
     %>
-    <script>
-        $(document).ready(function () {
-            $('#confirmationModal').modal('show');
-        });
-    </script>
+            <script>
+                $(document).ready(function () {
+                    $('#confirmationModal').modal('show');
+                });
+            </script>
     <%
         }
     %>
@@ -68,25 +54,25 @@
             form.submit();
         }
 
-        function selectTime(timeClicked) {
+        function selectTime(timeslotId) {
             var form = document.createElement('form');
             var csrfInput = document.createElement('input');
-            var dateInput = document.createElement('input');
-            var timeInput = document.createElement('input');
+            var timeslotIdInput = document.createElement('input');
+            var dateClickedInput = document.createElement('input');
             csrfInput.setAttribute("type", "hidden");
             csrfInput.setAttribute("name", "${_csrf.parameterName}");
             csrfInput.setAttribute("value", "${_csrf.token}");
-            timeInput.setAttribute("type", "hidden");
-            timeInput.setAttribute("name", "timeClicked");
-            timeInput.setAttribute("value", timeClicked);
-            dateInput.setAttribute("type", "hidden");
-            dateInput.setAttribute("name", "dateClicked");
-            dateInput.setAttribute("value", '<%= dateClicked%>');
+            timeslotIdInput.setAttribute("type", "hidden");
+            timeslotIdInput.setAttribute("name", "timeslotId");
+            timeslotIdInput.setAttribute("value", timeslotId);
+            dateClickedInput.setAttribute("type", "hidden");
+            dateClickedInput.setAttribute("name", "dateClicked");
+            dateClickedInput.setAttribute("value", "<%= dateClicked%>");
             form.setAttribute('method', 'post');
             form.setAttribute('action', 'bookTime');
             form.appendChild(csrfInput);
-            form.appendChild(dateInput);
-            form.appendChild(timeInput);
+            form.appendChild(timeslotIdInput);
+            form.appendChild(dateClickedInput);
             document.body.appendChild(form)
             form.submit();
         }
@@ -105,15 +91,20 @@
     <div class="card-body">
         <div class="list-group">
             <%
-                for (String dateTime : strTimes) {
+                for (Timeslot timeslot : allAvailableTimeslotDates) {
+                    Date date = new Date(timeslot.getDateTime().getTime());
+                    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("hh:mm aa");
+                    if (dateFormatter.format(date).equals(dateClicked)) {
             %>
-            <button
-                    class="list-group-item list-group-item-action"
-                    onclick="selectTime('<%= dateTime%>');"
-            >
-                <%= dateTime%>
-            </button>
+                        <button
+                                class="list-group-item list-group-item-action"
+                                onclick="selectTime('<%= timeslot.getId()%>');"
+                        >
+                            <%= dateTimeFormatter.format(date).toUpperCase()%>
+                        </button>
             <%
+                    }
                 }
             %>
         </div>

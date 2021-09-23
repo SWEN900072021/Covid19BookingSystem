@@ -31,7 +31,7 @@ public class BookTimeController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("timeClicked") != null && request.getParameter("dateClicked") != null) {
+        if (request.getParameter("timeslotId") != null) {
             processBookTimeRequest(request, response);
         }
         if (request.getParameter("confirmed") != null) {
@@ -50,20 +50,13 @@ public class BookTimeController extends HttpServlet {
     }
 
     private void processBookTimeRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Date time = new Date();
-        try {
-            time = new SimpleDateFormat("hh:mm aa").parse(request.getParameter("timeClicked").toLowerCase());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("HH:mm");
-        String dateTime = request.getParameter("dateClicked") + " " + dateTimeFormatter.format(time) + ":00";
+        SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm aa");
         List<Timeslot> allAvailableTimeslotDates =
                 (List<Timeslot>) request.getSession().getAttribute("allAvailableTimeslotDates");
         HashMap<String, String> confirmationDetails = new HashMap<String, String>();
         for (Timeslot timeslot : allAvailableTimeslotDates) {
-            if (Objects.equals(timeslot.getDateTime(), valueOf(dateTime))) {
-                confirmationDetails.put("dateTime", dateTime);
+            if (timeslot.getId() == Integer.parseInt(request.getParameter("timeslotId"))) {
+                confirmationDetails.put("dateTime", dateTimeFormatter.format(timeslot.getDateTime().getTime()).toUpperCase());
                 confirmationDetails.put("vaccineType", timeslot.getVaccineType());
                 confirmationDetails.put("duration", timeslot.getDuration().toString());
                 confirmationDetails.put("location", timeslot.getAddress().getFullAddress());
