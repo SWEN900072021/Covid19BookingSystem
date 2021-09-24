@@ -26,11 +26,15 @@ public class CreateHealthCareProviderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HealthCareProvider healthCareProviderAccount = processHCPAccount(request);
-        AccountMapper.insert(healthCareProviderAccount);
         processHealthCareProviderRequest(request, healthCareProviderAccount);
-        HealthCareProviderMapper.insert(healthCareProviderAccount);
+        Boolean result = HealthCareProviderMapper.insert(healthCareProviderAccount);
 
-        request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
+        if (result) {
+            request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
+        }
+        else {
+            request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
+        }
     }
 
     private HealthCareProvider processHCPAccount(HttpServletRequest request) {
