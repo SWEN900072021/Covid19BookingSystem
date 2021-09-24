@@ -9,6 +9,7 @@ participant "Data Mapper" as M
 participant "Database" as DB
 == Data Mapper ==
 Client -> C: doPost(request, response)
+activate Client
 activate C
 C -> O: new Object()
 activate O
@@ -26,6 +27,6 @@ deactivate M
 
 C --> Client: OK
 deactivate C
-
+deactivate Client
 
 @enduml
