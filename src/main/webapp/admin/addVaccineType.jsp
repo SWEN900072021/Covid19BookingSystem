@@ -35,7 +35,7 @@
                 <br>
                 <div class="col-sm-5 col-form">
                     <div id="certificationtog">
-                        <input type="button" id="addquestions" name="addQuestions" class="btn btn-outline-dark"
+                        <input type="button" id="addquestions" name="addQuestions" class="btn btn-dark"
                                value="Add Question" onclick="addQuestion();">
                         <br>
                     </div>
@@ -47,7 +47,7 @@
             <div class="form-group row">
                 <div class="col-sm-12">
                     <button type="submit"
-                            class="btn btn-outline-dark"
+                            class="btn btn-dark"
                             onclick=submitQuestionNumber()
                     >Submit Vaccine Type</button>
                 </div>

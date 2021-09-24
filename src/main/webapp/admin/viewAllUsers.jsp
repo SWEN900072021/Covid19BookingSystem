@@ -1,20 +1,17 @@
 <%@ page import="com.example.covid19bookingsystem.domain.Account" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %>
 <%@ page import="com.example.covid19bookingsystem.utils.EnumUtils" %>
-<%@ page import="com.example.covid19bookingsystem.domain.VaccineRecipient" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="com.example.covid19bookingsystem.mapper.VaccineTypeMapper" %>
 <%@ page import="com.example.covid19bookingsystem.domain.VaccineType" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.css' rel='stylesheet' />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-          crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+            rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+            crossorigin="anonymous"
+    >
     <title>View All Users</title>
     <%
         ArrayList<Account> accounts = (ArrayList<Account>) request.getSession().getAttribute("accountList");
@@ -33,9 +30,10 @@
     >
         View All Users
     </h4>
+    <br/>
     <div class="card text-center border-secondary mb-3" style="width: 35rem;margin: 0 auto;float: none;margin-bottom: 2px;">
         <div class="card-body">
-            <legend class="col-form-label col-sm-4 pt-0"><strong>Filter By:</strong></legend>
+            <legend class="col-form-label col-sm-4 pt-0" style="display: flex;"><strong>Filter By:</strong></legend>
             <form action = "viewAllUsers" method = "post">
                 <input
                         type="hidden"
@@ -94,39 +92,36 @@
             </form>
         </div>
     </div>
-    <div class="card text-center border-secondary mb-3" style="width: 50rem;margin: 0 auto;float: none;margin-bottom: 10px;">
-        <div class="card-body">
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Username</th>
-                    <th scope="col">Account Type</th>
-                    <th scope="col">Vaccine Type</th>
-                </tr>
-                </thead>
-                <tbody>
-                <%
-                    for (Account account: accounts){
-                        String vaccineType = "N/A";
-                        if (account.getAccountType()==EnumUtils.AccountType.VR && vrVaccineTypes!=null){
+    <table class="table table-bordered table-striped table-hover"
+           style="width: 70rem;margin: 0 auto;float: none;margin-bottom: 10px;border: 1px">
+        <thead class="table-dark">
+            <tr style="text-align: center">
+                <th scope="col">Username</th>
+                <th scope="col">Account Type</th>
+                <th scope="col">Vaccine Type</th>
+            </tr>
+        </thead>
+        <tbody>
+        <%
+            for (Account account: accounts){
+                String vaccineType = "N/A";
+                if (account.getAccountType()==EnumUtils.AccountType.VR && vrVaccineTypes!=null){
 
-                            if (vrVaccineTypes.get(account.getAccountId())!=null){
-                                vaccineType = vrVaccineTypes.get(account.getAccountId());
-                            }
-                        }
-                %>
-                <tr>
-                    <td><%= account.getUsername()%></td>
-                    <td><%= account.getAccountType().toString()%></td>
-                    <td><%= vaccineType%></td>
-                </tr>
-                <%
+                    if (vrVaccineTypes.get(account.getAccountId())!=null){
+                        vaccineType = vrVaccineTypes.get(account.getAccountId());
                     }
-                %>
-                </tbody>
-            </table>
-        </div>
-    </div>
+                }
+        %>
+            <tr style="text-align: center">
+                <td><%= account.getUsername()%></td>
+                <td><%= account.getAccountType().toString()%></td>
+                <td><%= vaccineType%></td>
+            </tr>
+        <%
+            }
+        %>
+        </tbody>
+    </table>
     <div>
         <form name="return_home" method="get" action="home"
               style="position: absolute;bottom: 0;left: 1%;">
@@ -137,5 +132,17 @@
             </div>
         </form>
     </div>
+    <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+            integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"
+            crossorigin="anonymous"
+    >
+    </script>
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
+            integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
+            crossorigin="anonymous"
+    >
+    </script>
 </body>
 </html>

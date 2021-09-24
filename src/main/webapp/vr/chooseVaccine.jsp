@@ -20,6 +20,11 @@
     %>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </symbol>
+</svg>
     <h4
             class="display-4"
             style="display: flex;justify-content: center;margin-top: 20px;font-size: 45px"
@@ -27,43 +32,45 @@
         Choose Vaccine
     </h4>
     <br/>
-    <br/>
+    <%
+        if(questionnairePassed != null && !questionnairePassed){
+
+    %>
+        <div class="alert alert-danger d-flex align-items-center" role="alert"
+             style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+            <div style="margin-left: 15px;">
+                Ineligible for selected vaccine, please choose another.
+            </div>
+        </div>
+        <br/>
+    <%
+        }
+    %>
     <div class="card text-center border-secondary mb-3" style="width: 50rem;margin: 0 auto;float: none;margin-bottom: 10px;">
         <div class="card-body">
             <form action = "chooseVaccine" method = "post">
                 <input type="hidden"
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>
-                <%
-                    if(questionnairePassed != null && !questionnairePassed){
-
-                %>
                 <div class="form-group row">
-                    <label class="col-sm-12" style="color: #f0483c" >
-                        Ineligible for selected vaccine, please choose another.
-                    </label>
-                    <br>
-                </div>
-                <%
-                    }
-                %>
-                <div class="form-group row">
-                    <label class="col-sm-5 col-form-label" for="inputVaccineType">Vaccine Type:</label>
+                    <label class="col-sm-5 col-form-label" for="inputVaccineType"><strong>Vaccine Type:</strong></label>
                     <div class="col-sm-7">
                         <select id="inputVaccineType" class="form-control" name = "vaccineType">
                         <%
                             for (String vaccineName: vaccineNames) {
                         %>
-                            <option value=<%= vaccineName%>> <%= vaccineName%> </option>
+                                <option value=<%= vaccineName%>> <%= vaccineName%> </option>
                         <%
                             }
                         %>
                         </select>
                     </div>
                 </div>
+                <br/>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-outline-dark"> Next </button>
+                        <button type="submit" class="btn btn-dark"> Next </button>
                     </div>
                 </div>
             </form>

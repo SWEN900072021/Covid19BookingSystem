@@ -24,7 +24,8 @@
     List of All Available Timeslots
 </h4>
 <br/>
-<table class="table table-bordered table-striped table-hover" style="width: 85rem;margin: 0 auto;float: none;margin-bottom: 10px;border: 1px">
+<table class="table table-bordered table-striped table-hover"
+       style="width: 85rem;margin: 0 auto;float: none;margin-bottom: 10px;border: 1px">
     <thead class="table-dark">
         <tr style="text-align: center">
             <th scope="col">Date and Time</th>
