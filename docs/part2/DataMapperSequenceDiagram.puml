@@ -7,7 +7,6 @@ participant "Controller" as C
 participant “Domain Object" as O
 participant "Data Mapper" as M
 participant "Database" as DB
-
 == Data Mapper ==
 Client -> C: doPost(request, response)
 activate C
@@ -16,11 +15,17 @@ activate O
 O --> C: return object
 deactivate O
 C -> M: Mapper.insert(object)
-deactivate C
+
 activate M
 M -> DB: insert()
 activate DB
 DB --> M: OK
-deactivate M
 deactivate DB
+M --> C: OK
+deactivate M
+
+C --> Client: OK
+deactivate C
+
+
 @enduml
