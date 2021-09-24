@@ -26,9 +26,6 @@ public class VaccineQuestionnaireController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String view = "vr/vaccineQuestionnaire.jsp";
-
-
         List<Question> questionsForVaccineType = VaccineQuestionMapper.getQuestionsForVaccineType(request.getParameter("vaccineType"));
 
         Boolean questionnairePassed = questionnaireChecker(questionsForVaccineType, request);

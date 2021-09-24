@@ -26,17 +26,19 @@ public class RecordVaccinationController extends HttpServlet {
         if (request.getSession().getAttribute("userDetails") != null) {
             HealthCareProvider hcp = (HealthCareProvider) request.getSession().getAttribute("userDetails");
             List<Timeslot> timeslots = findTimeslotsByHcpAndStatus(hcp.getId());
-            request.getSession().setAttribute("bookedTimeslots", timeslots);
+            if (!timeslots.isEmpty()) {
+                request.getSession().setAttribute("bookedTimeslots", timeslots);
 
-            String view = "/hcp/recordVaccination.jsp";
-            ServletContext servletContext = getServletContext();
-            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(view);
-            requestDispatcher.forward(request, response);
+                String view = "/hcp/recordVaccination.jsp";
+                ServletContext servletContext = getServletContext();
+                RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(view);
+                requestDispatcher.forward(request, response);
+            }
+            else {
+                request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
+            }
         } else {
-            String view = "home";
-            ServletContext servletContext = getServletContext();
-            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(view);
-            requestDispatcher.forward(request, response);
+            request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
         }
     }
 

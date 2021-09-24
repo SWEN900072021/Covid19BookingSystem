@@ -38,9 +38,7 @@ public class AddVaccineTypeController extends HttpServlet {
             VaccineQuestionMapper.insert(vaccineType, questionWithID);
         }
 
-        response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().println("<h3>Vaccine Type added</h3/");
+        request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
 
     }
 

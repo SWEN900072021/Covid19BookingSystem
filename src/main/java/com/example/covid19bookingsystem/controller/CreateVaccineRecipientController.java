@@ -37,9 +37,9 @@ public class CreateVaccineRecipientController extends HttpServlet {
         VaccineRecipientMapper.insert(vrAccount);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken) {
-            response.sendRedirect("login");
+            request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
         } else {
-            response.sendRedirect("home");
+            request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
         }
     }
 

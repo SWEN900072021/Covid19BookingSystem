@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,18 +35,26 @@ public class BookTimeController extends HttpServlet {
         if (request.getParameter("timeslotId") != null) {
             processBookTimeRequest(request, response);
         }
-        if (request.getParameter("confirmed") != null) {
+        else if (request.getParameter("confirmed") != null) {
             submitTimeslotRequest(request, response);
+        }
+        else {
+            request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
         }
     }
 
-    private void submitTimeslotRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void submitTimeslotRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (request.getSession().getAttribute("chosenTimeslot") != null &&
                 request.getSession().getAttribute("userDetails") != null) {
             Timeslot timeslot = (Timeslot) request.getSession().getAttribute("chosenTimeslot");
             VaccineRecipient vr = (VaccineRecipient) request.getSession().getAttribute("userDetails");
-            TimeslotMapper.bookTimeslot(timeslot, vr);
-            response.sendRedirect("home");
+            Boolean result = TimeslotMapper.bookTimeslot(timeslot, vr);
+            if (result) {
+                request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
+            }
+            else {
+                request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
+            }
         }
     }
 
@@ -67,8 +76,13 @@ public class BookTimeController extends HttpServlet {
                 request.getSession().setAttribute("chosenTimeslot", timeslot);
             }
         }
-        request.setAttribute("confirmationDetails", confirmationDetails);
-        request.getRequestDispatcher("vr/bookTime.jsp").forward(request, response);
+        if (request.getSession().getAttribute("chosenTimeslot") != null) {
+            request.setAttribute("confirmationDetails", confirmationDetails);
+            request.getRequestDispatcher("vr/bookTime.jsp").forward(request, response);
+        }
+        else {
+            request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
+        }
     }
 
 }

@@ -93,19 +93,17 @@
                 </div>
             </div>
             <fieldset class="row mb-3">
-                <div class="row">
-                    <label class="col-sm-4 col-form-label" for="inputVaccineType"><strong>Vaccine Type:</strong></label>
-                    <div class="col-sm-8">
-                        <select id="inputVaccineType" class="form-control" name = "vaccineType">
-                            <%
-                                for (String vaccineName: vaccineNames) {
-                            %>
-                            <option value=<%= vaccineName%>> <%= vaccineName%> </option>
-                            <%
-                                }
-                            %>
-                        </select>
-                    </div>
+                <label class="col-sm-4 col-form-label" for="inputVaccineType"><strong>Vaccine Type:</strong></label>
+                <div class="col-sm-8">
+                    <select id="inputVaccineType" class="form-control" name = "vaccineType">
+                        <%
+                            for (String vaccineName: vaccineNames) {
+                        %>
+                        <option value=<%= vaccineName%>> <%= vaccineName%> </option>
+                        <%
+                            }
+                        %>
+                    </select>
                 </div>
             </fieldset>
             <div class="row mb-3">

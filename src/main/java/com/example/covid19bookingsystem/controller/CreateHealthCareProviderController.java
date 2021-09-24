@@ -30,7 +30,7 @@ public class CreateHealthCareProviderController extends HttpServlet {
         processHealthCareProviderRequest(request, healthCareProviderAccount);
         HealthCareProviderMapper.insert(healthCareProviderAccount);
 
-        response.sendRedirect("home");
+        request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
     }
 
     private HealthCareProvider processHCPAccount(HttpServletRequest request) {
