@@ -1,0 +1,68 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam linetype polyline
+
+participant ":Client" as Client
+participant ":SearchTimeslotController" as SearchController
+participant ":BookTimeController" as BookController
+participant ":HealthCareProvider" as HCP
+participant ":Timeslot" as Timeslot
+participant ":TimeslotMapper" as TimeslotMapper
+participant ":HealthCareProviderMapper" as HCPMapper
+database "Database" as DB
+
+== Lazy Loading Initialization ==
+Client -> SearchController: searchTimeslots(vaccineType, postcode)
+activate Client
+activate SearchController
+SearchController -> TimeslotMapper: findTimeslots(vaccineType, postcode)
+activate TimeslotMapper
+TimeslotMapper -> DB: findTimeslots(vaccineType, postcode)
+DB --> TimeslotMapper: resultSet{Timeslots}
+loop ResultSet{Timeslots}
+    TimeslotMapper -> Timeslot: Timeslot(details)
+    activate Timeslot
+    Timeslot -> HCP: HealthCareProvider(null)
+    activate HCP
+    HCP --> Timeslot: HealthCareProvider{null}
+    deactivate HCP
+    Timeslot --> TimeslotMapper: Timeslot{details}
+    deactivate Timeslot
+end
+TimeslotMapper --> SearchController: List<Timeslot{details}>
+deactivate TimeslotMapper
+SearchController --> Client: List<Timeslot{details}>
+deactivate SearchController
+deactivate Client
+
+== Lazy Loading Implementation ==
+Client -> BookController: viewTimeslot(timeslotId)
+activate Client
+activate BookController
+BookController -> Timeslot: List<Timeslot{details}>.getTimeslotById(timeslotId)
+activate Timeslot
+Timeslot --> BookController: Timeslot{details}
+deactivate Timeslot
+BookController -> HCP: Timeslot{details}.getHealthCareProvider().getName()
+note left
+Name is one example.
+OrgId, postcode, etc.
+    are also returned.
+end note
+activate HCP
+alt this.name == null
+    HCP -> HCP: load()
+    HCP -> HCPMapper: findHealthCareProviderById(this.id)
+    activate HCPMapper
+    HCPMapper -> DB: findHealthCareProviderById(id)
+    DB --> HCPMapper: resultSet(HealthCareProvider{details..., name})
+    HCPMapper --> HCP: HealthCareProvider{details..., name}
+    deactivate HCPMapper
+end
+HCP --> BookController: HealthCareProvider{details..., name}
+deactivate HCP
+BookController --> Client: display(name, orgId, postcode, etc.)
+deactivate BookController
+deactivate Client
+@enduml
