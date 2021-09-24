@@ -4,8 +4,8 @@ skinparam linetype polyline
 
 participant "Client" as C
 participant "VaccineQuestionnaireController" as Controller
-participant "Vaccine_Question Mapper" as VQM
-participant “Vaccine_Question_Table" as VQ
+participant "VaccineQuestionMapper" as VQM
+participant “VaccineQuestion Table" as VQ
 participant "Question Mapper" as QM
 participant "Question Table" as QT
 

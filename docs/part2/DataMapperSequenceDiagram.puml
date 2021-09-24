@@ -6,7 +6,7 @@ participant "Client" as Client
 participant "Controller" as C
 participant “Domain Object" as O
 participant "Data Mapper" as M
-participant "Database" as DB
+database "Database" as DB
 
 == Data Mapper ==
 Client -> C: doPost(request, response)

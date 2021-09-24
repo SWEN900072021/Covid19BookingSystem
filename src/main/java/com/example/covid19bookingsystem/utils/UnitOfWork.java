@@ -36,15 +36,6 @@ public class UnitOfWork {
             if (o instanceof Timeslot) {
                 TimeslotMapper.insert((Timeslot) o);
             }
-            if (o instanceof VaccineType){
-                VaccineTypeMapper.insert((VaccineType) o);
-                vaccineType = (VaccineType) o;
-            }
-            if (o instanceof Question){
-                QuestionMapper.insert((Question) o);
-                VaccineQuestionMapper.insert(vaccineType, (Question) o);
-            }
-
         }
 
         // Commit all queries

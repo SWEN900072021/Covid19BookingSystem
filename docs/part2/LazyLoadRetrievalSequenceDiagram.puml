@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam linetype polyline
+
+participant "Client" as Client
+participant "BookTimeController" as BTC
+participant "HealthCareProvider" as HCP
+participant "Timeslot" as Timeslot
+participant "HealthCareProviderMapper" as HCPMapper
+database "Database" as DB
+
+== Lazy Load Retrieval ==
+Client -> BTC: viewTimeslot(timeslotId)
+activate Client
+activate BTC
+BTC -> Timeslot: List<Timeslot{details}>.getTimeslotById(timeslotId)
+activate Timeslot
+Timeslot --> BTC: Timeslot{details}
+deactivate Timeslot
+BTC -> HCP: Timeslot{details}.getHealthCareProvider().getName()
+note left
+Name is one example.
+OrgId, postcode, etc.
+    are also returned.
+end note
+activate HCP
+alt this.name == null
+    HCP -> HCP: load()
+    HCP -> HCPMapper: findHealthCareProviderById(this.id)
+    activate HCPMapper
+    HCPMapper -> DB: findHealthCareProviderById(id)
+    DB --> HCPMapper: resultSet(HealthCareProvider{details..., name})
+    HCPMapper --> HCP: HealthCareProvider{details..., name}
+    deactivate HCPMapper
+end
+HCP --> BTC: HealthCareProvider{details..., name}
+deactivate HCP
+BTC -> BTC: addHealthCareProviderDetailsToTimeslot(HealthCareProvider{})
+BTC --> Client: displayTimeslot(timeslotDetails, hcpName, hcpOrgId, postcode, ...)
+deactivate BTC
+deactivate Client
+@enduml

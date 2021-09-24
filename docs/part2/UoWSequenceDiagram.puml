@@ -4,45 +4,45 @@
 skinparam linetype polyline
 
 participant "Client" as Client
-participant "Timeslot Controller" as ATS_Controller
-participant "Time Slot Object" as TS
+participant "TimeslotController" as TC
+participant "Timeslot Object" as TO
 participant "Unit of Work" as UoW
-participant "Time Slot Data Mapper" as TS_Mapper
-participant "Database" as DB
+participant "TimeslotMapper" as TM
+database "Database" as DB
 
 
 
 == Unit of Work ==
-Client -> ATS_Controller: doGet(request, response)
+Client -> TC: doGet(request, response)
 activate Client
-activate ATS_Controller
-ATS_Controller -> UoW: new UnitofWork()
+activate TC
+TC -> UoW: new UnitofWork()
 activate UoW
-UoW --> ATS_Controller: return unitOfWork
-ATS_Controller --> Client: response(AddTimeslotJSP)
+UoW --> TC: return unitOfWork
+TC --> Client: response(AddTimeslotJSP)
 
 loop
-Client -> ATS_Controller: doPost(request, response)
-ATS_Controller -> ATS_Controller: processRequest(timeslotDetails)
-ATS_Controller -> TS: new TimeSlot(timeslotDetails)
-activate TS
-TS --> ATS_Controller: return timeslot
-deactivate TS
-ATS_Controller -> UoW: registerNew(timeslot)
+Client -> TC: doPost(request, response)
+TC -> TC: processRequest(timeslotDetails)
+TC -> TO: new TimeSlot(timeslotDetails)
+activate TO
+TO --> TC: return timeslot
+deactivate TO
+TC -> UoW: registerNew(timeslot)
 end
 
-Client -> ATS_Controller: doPost(request, response)
+Client -> TC: doPost(request, response)
 deactivate Client
-ATS_Controller -> UoW: commit()
-deactivate ATS_Controller
+TC -> UoW: commit()
+deactivate TC
 
 loop
-UoW -> TS_Mapper: insert(timeslot)
+UoW -> TM: insert(timeslot)
 deactivate UoW
-activate TS_Mapper
-TS_Mapper -> DB: sqlQuery.execute()
+activate TM
+TM -> DB: sqlQuery.execute()
 activate DB
-DB --> TS_Mapper : OK
+DB --> TM : OK
 deactivate DB
 end
 

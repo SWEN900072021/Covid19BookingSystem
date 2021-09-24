@@ -7,7 +7,7 @@ participant "Client" as Client
 participant "Controller" as Controller
 participant "Spring Security Filter" as SSF
 participant "AuthenticationService \n(Authentication and Authorisation Enforcer)" as AS
-participant "Database" as DB
+database "Database" as DB
 participant "Account Table" as AT
 
 == Authentication ==
