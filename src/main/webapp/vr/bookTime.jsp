@@ -101,7 +101,7 @@
                                 class="list-group-item list-group-item-action"
                                 onclick="selectTime('<%= timeslot.getId()%>');"
                         >
-                            <%= dateTimeFormatter.format(date).toUpperCase()%>
+                           <strong><%= dateTimeFormatter.format(date).toUpperCase()%></strong>
                         </button>
             <%
                     }
@@ -120,7 +120,7 @@
             <div class="modal-body" style="text-align: center">
                 <form>
                     <div class="form-group row">
-                        <label for="dateTimeId" class="col-sm-6 col-form-label">Date and Time:</label>
+                        <label for="dateTimeId" class="col-sm-6 col-form-label"><strong>Date:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -132,7 +132,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="vaccineTypeId" class="col-sm-6 col-form-label">Vaccine Type:</label>
+                        <label for="vaccineTypeId" class="col-sm-6 col-form-label"><strong>Vaccine Type:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -144,7 +144,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="durationId" class="col-sm-6 col-form-label">Duration:</label>
+                        <label for="durationId" class="col-sm-6 col-form-label"><strong>Duration:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -156,7 +156,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="locationId" class="col-sm-6 col-form-label">Location:</label>
+                        <label for="locationId" class="col-sm-6 col-form-label"><strong>Location:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -168,7 +168,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="hcpOrgId" class="col-sm-6 col-form-label">Health Care Provider Org Id:</label>
+                        <label for="hcpOrgId" class="col-sm-6 col-form-label"><strong>Health Care Provider Org Id:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -180,7 +180,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="hcpNameId" class="col-sm-6 col-form-label">Health Care Provider Name:</label>
+                        <label for="hcpNameId" class="col-sm-6 col-form-label"><strong>Health Care Provider Name:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -192,7 +192,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="hcpTypeId" class="col-sm-6 col-form-label">Health Care Provider Type:</label>
+                        <label for="hcpTypeId" class="col-sm-6 col-form-label"><strong>Health Care Provider Type:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -203,24 +203,11 @@
                             >
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="hcpPostcodeId" class="col-sm-6 col-form-label">Health Care Provider
-                            Postcode:</label>
-                        <div class="col-sm-6">
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    id="hcpPostcodeId"
-                                    placeholder="<%= confirmationDetails.get("hcpPostcode")%>"
-                                    disabled
-                            >
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="confirmTimeslot()">Book Vaccine</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="confirmTimeslot()">Book Vaccine</button>
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

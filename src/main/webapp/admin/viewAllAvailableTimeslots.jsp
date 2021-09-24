@@ -28,7 +28,7 @@
        style="width: 85rem;margin: 0 auto;float: none;margin-bottom: 10px;border: 1px">
     <thead class="table-dark">
         <tr style="text-align: center">
-            <th scope="col">Date and Time</th>
+            <th scope="col">Date</th>
             <th scope="col">Vaccine Type</th>
             <th scope="col">Duration</th>
             <th scope="col">Address (Line 1)</th>

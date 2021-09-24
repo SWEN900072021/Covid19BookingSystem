@@ -10,15 +10,22 @@
 </head>
 <body>
 <% List<String> vaccineCertificates = (List<String>) request.getSession().getAttribute("vaccineCertificates"); %>
+<h4
+        class="display-4"
+        style="display: flex;justify-content: center;margin-top: 20px;font-size: 45px"
+>
+    Vaccine Certificates Received
+</h4>
+<br/>
 <div class="card text-center border-secondary mb-3"
      style="width: 50rem;margin: 0 auto;float: none;margin-bottom: 10px;">
     <div class="card-body">
         <div class="list-group">
-            <h3>Vaccine Certificates</h3>
             <%
                 for (String vaccineCertificate : vaccineCertificates) {
             %>
-            <li class="list-group-item">Vaccine Received: <%= vaccineCertificate %>
+            <li class="list-group-item">
+                <strong><%= vaccineCertificate %></strong>
             </li>
             <%
                 }
