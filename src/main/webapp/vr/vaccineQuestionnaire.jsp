@@ -86,5 +86,15 @@
             </form>
         </div>
     </div>
+    <div>
+        <form name="return_home" method="get" action="home"
+              style="position: absolute;bottom: 0;left: 1%;">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn btn-dark">Return Home</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
