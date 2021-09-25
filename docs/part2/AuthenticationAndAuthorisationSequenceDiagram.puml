@@ -5,8 +5,9 @@ skinparam linetype polyline
 
 participant "Client" as Client
 participant "Controller" as Controller
-participant "Spring Security Filter" as SSF
-participant "AuthenticationService \n(Authentication and Authorisation Enforcer)" as AS
+participant "Authentication Enforcer" as AEE
+participant "Authorisation Enforcer" as AOE
+participant "Security Config" as SC
 database "Database" as DB
 participant "Account Table" as AT
 
@@ -14,16 +15,16 @@ participant "Account Table" as AT
 Client -> Controller: login(accountDetails)
 Activate Client
 Activate Controller
-Controller -> AS: validateUser(accountDetails)
-Activate AS
-AS -> DB: findUsername(accountDetails)
+Controller -> AEE: validateUser(accountDetails)
+Activate AEE
+AEE -> DB: findUsername(accountDetails)
 Activate DB
 DB -> AT: findAccountByUsername(username)
 AT --> DB: Account{details}
-DB --> AS: Account{details}
+DB --> AEE: Account{details}
 Deactivate DB
-AS -> AS: authenticate(accountDetails, retrievedDetails)
-AS --> Controller: confirmAuthenticated()
+AEE -> AEE: authenticate(accountDetails, retrievedDetails)
+AEE --> Controller: confirmAuthenticated()
 Deactivate AS
 Controller --> Client: redirectToHomeJSP()
 Deactivate AS
