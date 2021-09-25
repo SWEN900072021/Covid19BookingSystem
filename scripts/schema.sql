@@ -72,7 +72,6 @@ CREATE TABLE IF NOT EXISTS timeslot (
     id SERIAL PRIMARY KEY,
     vaccine_recipient INT,
     health_care_provider INT NOT NULL,
-    questionnaire INT,
     vaccine_type VARCHAR(50),
     status VARCHAR(50),
     date_time TIMESTAMP NOT NULL,
