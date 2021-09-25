@@ -6,9 +6,7 @@ skinparam linetype polyline
 participant ":Client" as Client
 participant ":HomeController" as HomeController
 participant ":Account" as Account
-'participant ":VaccineRecipient" as VR
 participant ":AccountMapper" as AccountMapper
-'participant ":VaccineRecipientMapper" as VRMapper
 database "Database" as DB
 
 == Identity Field ==
