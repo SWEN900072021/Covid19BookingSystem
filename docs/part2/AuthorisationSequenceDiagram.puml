@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam linetype polyline
+
+participant "Client" as Client
+participant "Controller" as Controller
+participant "Authorisation Enforcer" as AOE
+
+== Authorisation ==
+Client -> Controller: viewRestrictedPage()
+Activate Client
+Activate Controller
+Controller -> AOE: checkRolePrivileges(accountDetails, requestedPage)
+Activate AOE
+AOE -> AOE: runAuthorisationCheck(accountDetails, requestedPage)
+note left: using .antMatcher()
+AOE --> Controller: permitRequest(requestedPage)
+Deactivate AOE
+Controller --> Client: loadPage(requestPage)
+Deactivate Controller
+Deactivate Client
+@enduml
