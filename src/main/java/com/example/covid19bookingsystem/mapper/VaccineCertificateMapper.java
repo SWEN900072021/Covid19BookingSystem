@@ -51,7 +51,7 @@ public class VaccineCertificateMapper {
             }
 
         } catch (SQLException e) {
-            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+            System.out.println("Vaccine Certificate Mapper Error: " + e.getMessage());
         } finally {
             try {
                 DBConnection.close(statement, rs);
@@ -74,14 +74,20 @@ public class VaccineCertificateMapper {
             rs = statement.executeQuery();
             while (rs.next()){
                 Integer vrAccountId = vaccineRecipients.get(rs.getInt("vaccine_recipient"));
-                vaccineTypes.put(vrAccountId, rs.getString("vaccine_type"));
+                if (vaccineTypes.containsKey(vrAccountId)) {
+                    String newVaccineType = vaccineTypes.get(vrAccountId);
+                    String sumVaccineTypes = String.format("%s, %s", rs.getString("vaccine_type"), newVaccineType);
+                    vaccineTypes.put(vrAccountId, sumVaccineTypes);
+                } else {
+                    vaccineTypes.put(vrAccountId, rs.getString("vaccine_type"));
+                }
             }
 
         } catch (SQLException e) {
             System.out.println("Vaccine Certificate Mapper Error: " + e.getMessage());
         } finally {
             try {
-                DBConnection.close(statement, null);
+                DBConnection.close(statement, rs);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

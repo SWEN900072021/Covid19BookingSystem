@@ -43,7 +43,7 @@
                    value="${_csrf.token}"/>
             <fieldset class="form-group">
                 <div class="row">
-                    <legend class="col-form-label col-sm-5 pt-0">Search by:</legend>
+                    <legend class="col-form-label col-sm-5 pt-0"><strong>Search by:</strong></legend>
                     <div class="col-sm-7" style="text-align: left">
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="searchBy" id="Area" value="area" checked>
@@ -62,8 +62,8 @@
                 </div>
             </fieldset>
             <div class="form-group row">
-                <label for="inputQuery" class="col-sm-5 col-form-label">Health Care Provider name / Area
-                    postcode:</label>
+                <label for="inputQuery" class="col-sm-5 col-form-label"><strong>Health Care Provider name /
+                    <br/>Area postcode:</strong></label>
                 <div class="col-sm-7">
                     <input
                             type="text"
@@ -97,6 +97,16 @@
             </div>
         </div>
     </div>
+</div>
+<div>
+    <form name="return_home" method="get" action="home"
+          style="position: absolute;bottom: 0;left: 1%;">
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn btn-dark">Return Home</button>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

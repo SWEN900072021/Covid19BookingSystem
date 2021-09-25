@@ -22,7 +22,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/createVaccineRecipient", "/login").permitAll()
                 .antMatchers("/home").hasAnyRole("ADMIN", "VR", "HCP")
                 .antMatchers("/createHealthCareProvider").hasRole("ADMIN")
+                .antMatchers("/addVaccineType").hasRole("ADMIN")
+                .antMatchers("/viewAllAvailableTimeslots").hasRole("ADMIN")
+                .antMatchers("/viewAllUsers").hasRole("ADMIN")
                 .antMatchers("/addTimeslot").hasRole("HCP")
+                .antMatchers("/recordVaccination").hasRole("HCP")
+                .antMatchers("/bookDate").hasRole("VR")
+                .antMatchers("/bookTime").hasRole("VR")
+                .antMatchers("/chooseVaccine").hasRole("VR")
+                .antMatchers("/searchTimeslot").hasRole("VR")
+                .antMatchers("/vaccineCertificate").hasRole("VR")
+                .antMatchers("/vaccineQuestionnaire").hasRole("VR")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/hcp/**").hasRole("HCP")
                 .antMatchers("/vr/**").hasRole("VR")
@@ -32,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login").permitAll()
                 .defaultSuccessUrl("/home", true)
                 .and()
-                .logout();
+                .logout()
+                .invalidateHttpSession(true);
     }
 }

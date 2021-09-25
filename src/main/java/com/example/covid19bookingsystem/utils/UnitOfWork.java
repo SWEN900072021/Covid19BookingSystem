@@ -36,6 +36,7 @@ public class UnitOfWork {
             if (o instanceof Timeslot) {
                 TimeslotMapper.insert((Timeslot) o);
             }
+
         }
 
         // Commit all queries

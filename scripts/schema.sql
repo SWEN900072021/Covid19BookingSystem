@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS vaccine_recipient (
 );
 
 CREATE TABLE IF NOT EXISTS vaccine_certificate (
-    vaccine_recipient INT UNIQUE NOT NULL,
+    vaccine_recipient INT NOT NULL,
     vaccine_type VARCHAR(50),
     FOREIGN KEY (vaccine_recipient)
         REFERENCES vaccine_recipient (id),
@@ -72,7 +72,6 @@ CREATE TABLE IF NOT EXISTS timeslot (
     id SERIAL PRIMARY KEY,
     vaccine_recipient INT,
     health_care_provider INT NOT NULL,
-    questionnaire INT,
     vaccine_type VARCHAR(50),
     status VARCHAR(50),
     date_time TIMESTAMP NOT NULL,

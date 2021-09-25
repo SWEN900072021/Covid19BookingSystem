@@ -23,7 +23,7 @@ public class ViewAllTimeslotsController extends HttpServlet{
             request.getRequestDispatcher(view).forward(request, response);
         }
         else {
-            request.getRequestDispatcher("home").forward(request, response);
+            request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
         }
     }
 
