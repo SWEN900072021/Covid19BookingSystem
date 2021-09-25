@@ -98,7 +98,7 @@
             <tr style="text-align: center">
                 <th scope="col">Username</th>
                 <th scope="col">Account Type</th>
-                <th scope="col">Vaccine Type</th>
+                <th scope="col">Vaccine Received</th>
             </tr>
         </thead>
         <tbody>
