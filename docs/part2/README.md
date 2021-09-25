@@ -42,7 +42,7 @@ To add a vaccine timeslot,
 
 ![Alt Text](resources/add_timeslot.gif)
 
-## Use Case 5: Add a Timeslot ##
+## Use Case 5: Record a completed vaccination ##
 To recorded a completed vaccination,
 1. Log in as a health care provider.
 2. Click on "Record Completed Vaccination". You will be directed to a detailed list showing all unrecorded vaccinations for this health care provider.
