@@ -16,9 +16,7 @@ Activate Controller
 Controller -> AEE: validateUser(accountDetails)
 Activate AEE
 AEE -> AT: findUsername(accountDetails)
-activate AT
 AT --> AEE: Account{details}
-deactivate AT
 AEE -> AEE: authenticate(accountDetails, retrievedDetails)
 AEE --> Controller: confirmAuthenticated()
 Controller --> Client: redirectToHomeJSP()
