@@ -30,3 +30,22 @@ To view vaccine certificates received,
 3. You can view all the vaccine certificates you have received.
 
 ![Alt Text](resources/view_vaccine_certificates.gif)
+
+## Use Case 4: Add a Timeslot ##
+To add a vaccine timeslot,
+1. Log in as a health care provider.
+2. Click on "Add Timeslot".
+3. Fill out all the timeslot details.
+4. Click on "Add Timeslot" to add this timeslot. Once clicked, an empty timeslot details page will appear.
+5. If more timeslots are desired, repeat steps 3 and 4.
+6. When finished adding all timeslots, click on "Submit All Timeslots" to submit all your newly created timeslots.
+
+![Alt Text](resources/add_timeslot.gif)
+
+## Use Case 5: Add a Timeslot ##
+To recorded a completed vaccination,
+1. Log in as a health care provider.
+2. Click on "Record Completed Vaccination". You will be directed to a detailed list showing all unrecorded vaccinations for this health care provider.
+3. Click on the vaccination you wish to record. This vaccination entry will then disappear from the list as it is now set to recorded.
+
+![Alt Text](resources/record_completed_vaccination.gif)
