@@ -1,55 +1,87 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-skinparam linetype polyline
-
 participant "Client" as Client
 participant "TimeslotController" as TC
-participant "Timeslot Object" as TO
+participant "Timeslot Object" as TS
 participant "Unit of Work" as UoW
 participant "TimeslotMapper" as TM
+participant "Database Connection" as DBC
+participant "Session" as SS
 database "Database" as DB
 
 
 
+
 == Unit of Work ==
-Client -> TC: doGet(request, response)
+Client -> TC: loadAddTimeslotPage()
 activate Client
 activate TC
 TC -> UoW: new UnitofWork()
 activate UoW
-UoW --> TC: return unitOfWork
+UoW --> TC: return unitOfWork{}
+deactivate UoW
+TC -> SS: storeUnitOfWork(unitOfWork{})
+activate SS
 TC --> Client: response(AddTimeslotJSP)
 
-loop
-Client -> TC: doPost(request, response)
-TC -> TC: processRequest(timeslotDetails)
-TC -> TO: new TimeSlot(timeslotDetails)
-activate TO
-TO --> TC: return timeslot
-deactivate TO
-TC -> UoW: registerNew(timeslot)
+loop user can add multiple timeslots
+Client -> TC: addTimeslot(details)
+TC -> TC: processRequest(details)
+TC -> TS: new TimeSlot(details)
+activate TS
+TS --> TC: return timeslot{details}
+deactivate TS
+TC -> SS: getUnitOfWork()
+SS -> UoW: getUnitOfWork()
+activate UoW
+UoW --> TC: return unitOfWork{}
+TC -> UoW: registerNew(timeslot{details})
+deactivate UoW
+TC -> SS: updateUnitOfWork(unitOfWork{})
 end
 
-Client -> TC: doPost(request, response)
-deactivate Client
+Client -> TC: submitAllTimeslots()
+TC -> SS: getUnitOfWork()
+SS -> UoW: getUnitOfWork()
+deactivate SS
+activate UoW
+UoW --> TC: return unitOfWork{}
 TC -> UoW: commit()
-deactivate TC
 
-loop
-UoW -> TM: insert(timeslot)
-deactivate UoW
+UoW -> DBC : setAutoCommit(false)
+loop UoW clears all objects in each list
+UoW -> TM: insert(timeslot{details})
+
 activate TM
-TM -> DB: sqlQuery.execute()
+TM -> DBC: stageQuery(insertQuery)
+activate DBC
+DBC --> TM : OK
+deactivate TM
+end
+alt Success
+UoW -> DBC: commitAllQueries()
+DBC -> DB: commitTransaction()
 activate DB
-DB --> TM : OK
+DB --> DBC: OK
+deactivate DB
+DBC --> UoW: OK
+else One query fails
+UoW -> DBC: commitAllQueries()
+DBC -> DB: commitTransaction()
+activate DB
+DB -> DB: rollback()
+DB --> DBC: transactionFailed
+DBC --> UoW: transactionFailed
 deactivate DB
 end
 
+UoW -> DBC: setAutoCommit(true)
+deactivate DBC
+UoW --> TC: OK
+deactivate UoW
 
-
-
-
-
-
+TC --> Client: OK
+deactivate TC
+deactivate Client
 @enduml
