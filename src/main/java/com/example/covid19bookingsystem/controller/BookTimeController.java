@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,39 +32,40 @@ public class BookTimeController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("timeClicked") != null && request.getParameter("dateClicked") != null) {
+        if (request.getParameter("timeslotId") != null) {
             processBookTimeRequest(request, response);
         }
-        if (request.getParameter("confirmed") != null) {
+        else if (request.getParameter("confirmed") != null) {
             submitTimeslotRequest(request, response);
+        }
+        else {
+            request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
         }
     }
 
-    private void submitTimeslotRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void submitTimeslotRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (request.getSession().getAttribute("chosenTimeslot") != null &&
                 request.getSession().getAttribute("userDetails") != null) {
             Timeslot timeslot = (Timeslot) request.getSession().getAttribute("chosenTimeslot");
             VaccineRecipient vr = (VaccineRecipient) request.getSession().getAttribute("userDetails");
-            TimeslotMapper.bookTimeslot(timeslot, vr);
-            response.sendRedirect("home");
+            Boolean result = TimeslotMapper.bookTimeslot(timeslot, vr);
+            if (result) {
+                request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
+            }
+            else {
+                request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
+            }
         }
     }
 
     private void processBookTimeRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Date time = new Date();
-        try {
-            time = new SimpleDateFormat("hh:mm aa").parse(request.getParameter("timeClicked").toLowerCase());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("HH:mm");
-        String dateTime = request.getParameter("dateClicked") + " " + dateTimeFormatter.format(time) + ":00";
+        SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm aa");
         List<Timeslot> allAvailableTimeslotDates =
                 (List<Timeslot>) request.getSession().getAttribute("allAvailableTimeslotDates");
         HashMap<String, String> confirmationDetails = new HashMap<String, String>();
         for (Timeslot timeslot : allAvailableTimeslotDates) {
-            if (Objects.equals(timeslot.getDateTime(), valueOf(dateTime))) {
-                confirmationDetails.put("dateTime", dateTime);
+            if (timeslot.getId() == Integer.parseInt(request.getParameter("timeslotId"))) {
+                confirmationDetails.put("dateTime", dateTimeFormatter.format(timeslot.getDateTime().getTime()).toUpperCase());
                 confirmationDetails.put("vaccineType", timeslot.getVaccineType());
                 confirmationDetails.put("duration", timeslot.getDuration().toString());
                 confirmationDetails.put("location", timeslot.getAddress().getFullAddress());
@@ -74,8 +76,13 @@ public class BookTimeController extends HttpServlet {
                 request.getSession().setAttribute("chosenTimeslot", timeslot);
             }
         }
-        request.setAttribute("confirmationDetails", confirmationDetails);
-        request.getRequestDispatcher("vr/bookTime.jsp").forward(request, response);
+        if (request.getSession().getAttribute("chosenTimeslot") != null) {
+            request.setAttribute("confirmationDetails", confirmationDetails);
+            request.getRequestDispatcher("vr/bookTime.jsp").forward(request, response);
+        }
+        else {
+            request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
+        }
     }
 
 }

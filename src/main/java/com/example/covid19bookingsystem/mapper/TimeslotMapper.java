@@ -208,7 +208,7 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static void bookTimeslot(Timeslot timeslot, VaccineRecipient vr) {
+    public static Boolean bookTimeslot(Timeslot timeslot, VaccineRecipient vr) {
         String sql = "UPDATE timeslot SET vaccine_recipient = ?, status = ? WHERE id = ?";
 
         PreparedStatement statement = null;
@@ -218,8 +218,10 @@ public class TimeslotMapper {
             statement.setString(2, EnumUtils.TimeslotStatus.BOOKED.name());
             statement.setInt(3, timeslot.getId());
             statement.execute();
+            return true;
         } catch (SQLException e) {
             System.out.println("Timeslot Mapper Error: " + e.getMessage());
+            return false;
         }
     }
 

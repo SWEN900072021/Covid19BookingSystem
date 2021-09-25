@@ -10,21 +10,38 @@
 </head>
 <body>
 <% List<String> vaccineCertificates = (List<String>) request.getSession().getAttribute("vaccineCertificates"); %>
+<h4
+        class="display-4"
+        style="display: flex;justify-content: center;margin-top: 20px;font-size: 45px"
+>
+    Vaccine Certificates Received
+</h4>
+<br/>
 <div class="card text-center border-secondary mb-3"
      style="width: 50rem;margin: 0 auto;float: none;margin-bottom: 10px;">
     <div class="card-body">
         <div class="list-group">
-            <h3>Vaccine Certificates</h3>
             <%
                 for (String vaccineCertificate : vaccineCertificates) {
             %>
-            <li class="list-group-item">Vaccine Received: <%= vaccineCertificate %>
+            <li class="list-group-item">
+                <strong><%= vaccineCertificate %></strong>
             </li>
             <%
                 }
             %>
         </div>
     </div>
+</div>
+<div>
+    <form name="return_home" method="get" action="home"
+          style="position: absolute;bottom: 1%;left: 1%;">
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn btn-dark">Return Home</button>
+            </div>
+        </div>
+    </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
         integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"

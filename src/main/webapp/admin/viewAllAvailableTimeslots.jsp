@@ -24,10 +24,11 @@
     List of All Available Timeslots
 </h4>
 <br/>
-<table class="table table-bordered table-striped table-hover" style="width: 85rem;margin: 0 auto;float: none;margin-bottom: 10px;border: 1px">
+<table class="table table-bordered table-striped table-hover"
+       style="width: 85rem;margin: 0 auto;float: none;margin-bottom: 10px;border: 1px">
     <thead class="table-dark">
         <tr style="text-align: center">
-            <th scope="col">Date and Time</th>
+            <th scope="col">Date</th>
             <th scope="col">Vaccine Type</th>
             <th scope="col">Duration</th>
             <th scope="col">Address (Line 1)</th>
@@ -56,6 +57,16 @@
         %>
     </tbody>
 </table>
+<div>
+    <form name="return_home" method="get" action="home"
+          style="position: absolute;bottom: 0;left: 1%;">
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn btn-dark">Return Home</button>
+            </div>
+        </div>
+    </form>
+</div>
 <script
     src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
     integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"

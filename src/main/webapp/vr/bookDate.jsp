@@ -124,7 +124,7 @@
 <div class="d-grid gap-2 col-6 mx-auto">
     <button
             type="button"
-            class="btn btn-outline-dark btn-lg"
+            class="btn btn-dark btn-lg"
             onclick="proceed();"
     >
         Proceed
@@ -137,5 +137,15 @@
             value="${_csrf.token}"
     />
 </form>
+<div>
+    <form name="return_home" method="get" action="home"
+          style="position: absolute;bottom: 0;left: 1%;">
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn btn-dark">Return Home</button>
+            </div>
+        </div>
+    </form>
+</div>
 </body>
 </html>

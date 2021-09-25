@@ -22,17 +22,19 @@ public class VaccineCertificateController extends HttpServlet {
         if (request.getSession().getAttribute("userDetails") != null) {
             VaccineRecipient vr = (VaccineRecipient) request.getSession().getAttribute("userDetails");
             List<String> vaccineCertificates = findVaccineCertificatesByVaccineRecipientId(vr.getId());
-            request.getSession().setAttribute("vaccineCertificates", vaccineCertificates);
+            if (!vaccineCertificates.isEmpty()) {
+                request.getSession().setAttribute("vaccineCertificates", vaccineCertificates);
 
-            String view = "/vr/viewVaccineCertificate.jsp";
-            ServletContext servletContext = getServletContext();
-            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(view);
-            requestDispatcher.forward(request, response);
+                String view = "/vr/viewVaccineCertificate.jsp";
+                ServletContext servletContext = getServletContext();
+                RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(view);
+                requestDispatcher.forward(request, response);
+            }
+            else {
+                request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
+            }
         } else {
-            String view = "home";
-            ServletContext servletContext = getServletContext();
-            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(view);
-            requestDispatcher.forward(request, response);
+            request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
         }
     }
 

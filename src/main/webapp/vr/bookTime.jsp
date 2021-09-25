@@ -22,28 +22,14 @@
         String dateClicked = request.getParameter("dateClicked");
         List<Timeslot> allAvailableTimeslotDates =
                 (List<Timeslot>) request.getSession().getAttribute("allAvailableTimeslotDates");
-        List<String> strTimes = new ArrayList<>();
-
-        for (Timeslot timeslot : allAvailableTimeslotDates) {
-            Date date = new Date(timeslot.getDateTime().getTime());
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-            SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("hh:mm aa");
-            if (dateFormatter.format(date).equals(dateClicked)) {
-                strTimes.add(dateTimeFormatter.format(date).toUpperCase());
-            }
-        }
-        Collections.sort(strTimes);
-    %>
-
-    <%
         if (request.getAttribute("confirmationDetails") != null) {
             confirmationDetails = (HashMap<String, String>) request.getAttribute("confirmationDetails");
     %>
-    <script>
-        $(document).ready(function () {
-            $('#confirmationModal').modal('show');
-        });
-    </script>
+            <script>
+                $(document).ready(function () {
+                    $('#confirmationModal').modal('show');
+                });
+            </script>
     <%
         }
     %>
@@ -68,25 +54,25 @@
             form.submit();
         }
 
-        function selectTime(timeClicked) {
+        function selectTime(timeslotId) {
             var form = document.createElement('form');
             var csrfInput = document.createElement('input');
-            var dateInput = document.createElement('input');
-            var timeInput = document.createElement('input');
+            var timeslotIdInput = document.createElement('input');
+            var dateClickedInput = document.createElement('input');
             csrfInput.setAttribute("type", "hidden");
             csrfInput.setAttribute("name", "${_csrf.parameterName}");
             csrfInput.setAttribute("value", "${_csrf.token}");
-            timeInput.setAttribute("type", "hidden");
-            timeInput.setAttribute("name", "timeClicked");
-            timeInput.setAttribute("value", timeClicked);
-            dateInput.setAttribute("type", "hidden");
-            dateInput.setAttribute("name", "dateClicked");
-            dateInput.setAttribute("value", '<%= dateClicked%>');
+            timeslotIdInput.setAttribute("type", "hidden");
+            timeslotIdInput.setAttribute("name", "timeslotId");
+            timeslotIdInput.setAttribute("value", timeslotId);
+            dateClickedInput.setAttribute("type", "hidden");
+            dateClickedInput.setAttribute("name", "dateClicked");
+            dateClickedInput.setAttribute("value", "<%= dateClicked%>");
             form.setAttribute('method', 'post');
             form.setAttribute('action', 'bookTime');
             form.appendChild(csrfInput);
-            form.appendChild(dateInput);
-            form.appendChild(timeInput);
+            form.appendChild(timeslotIdInput);
+            form.appendChild(dateClickedInput);
             document.body.appendChild(form)
             form.submit();
         }
@@ -105,15 +91,20 @@
     <div class="card-body">
         <div class="list-group">
             <%
-                for (String dateTime : strTimes) {
+                for (Timeslot timeslot : allAvailableTimeslotDates) {
+                    Date date = new Date(timeslot.getDateTime().getTime());
+                    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("hh:mm aa");
+                    if (dateFormatter.format(date).equals(dateClicked)) {
             %>
-            <button
-                    class="list-group-item list-group-item-action"
-                    onclick="selectTime('<%= dateTime%>');"
-            >
-                <%= dateTime%>
-            </button>
+                        <button
+                                class="list-group-item list-group-item-action"
+                                onclick="selectTime('<%= timeslot.getId()%>');"
+                        >
+                           <strong><%= dateTimeFormatter.format(date).toUpperCase()%></strong>
+                        </button>
             <%
+                    }
                 }
             %>
         </div>
@@ -129,7 +120,7 @@
             <div class="modal-body" style="text-align: center">
                 <form>
                     <div class="form-group row">
-                        <label for="dateTimeId" class="col-sm-6 col-form-label">Date and Time:</label>
+                        <label for="dateTimeId" class="col-sm-6 col-form-label"><strong>Date:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -141,7 +132,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="vaccineTypeId" class="col-sm-6 col-form-label">Vaccine Type:</label>
+                        <label for="vaccineTypeId" class="col-sm-6 col-form-label"><strong>Vaccine Type:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -153,7 +144,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="durationId" class="col-sm-6 col-form-label">Duration:</label>
+                        <label for="durationId" class="col-sm-6 col-form-label"><strong>Duration:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -165,7 +156,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="locationId" class="col-sm-6 col-form-label">Location:</label>
+                        <label for="locationId" class="col-sm-6 col-form-label"><strong>Location:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -177,7 +168,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="hcpOrgId" class="col-sm-6 col-form-label">Health Care Provider Org Id:</label>
+                        <label for="hcpOrgId" class="col-sm-6 col-form-label"><strong>Health Care Provider Org Id:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -189,7 +180,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="hcpNameId" class="col-sm-6 col-form-label">Health Care Provider Name:</label>
+                        <label for="hcpNameId" class="col-sm-6 col-form-label"><strong>Health Care Provider Name:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -201,7 +192,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="hcpTypeId" class="col-sm-6 col-form-label">Health Care Provider Type:</label>
+                        <label for="hcpTypeId" class="col-sm-6 col-form-label"><strong>Health Care Provider Type:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
@@ -212,27 +203,24 @@
                             >
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="hcpPostcodeId" class="col-sm-6 col-form-label">Health Care Provider
-                            Postcode:</label>
-                        <div class="col-sm-6">
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    id="hcpPostcodeId"
-                                    placeholder="<%= confirmationDetails.get("hcpPostcode")%>"
-                                    disabled
-                            >
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="confirmTimeslot()">Book Vaccine</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="confirmTimeslot()">Book Vaccine</button>
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+</div>
+<div>
+    <form name="return_home" method="get" action="home"
+          style="position: absolute;bottom: 0;left: 1%;">
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn btn-dark">Return Home</button>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

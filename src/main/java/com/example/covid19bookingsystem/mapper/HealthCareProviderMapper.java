@@ -1,6 +1,7 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
+import com.example.covid19bookingsystem.domain.Account;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.utils.EnumUtils;
 
@@ -12,26 +13,35 @@ import java.util.List;
 
 public class HealthCareProviderMapper {
 
-    public static void insert(HealthCareProvider healthCareProvider) {
+    public static Boolean insert(HealthCareProvider healthCareProvider) {
         String sql = "INSERT INTO health_care_provider (account_id, organisational_id, health_care_provider_name, health_care_provider_type, postcode) VALUES (?, ?, ?, ?, ?);";
         PreparedStatement statement = null;
 
-        try {
-            statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, healthCareProvider.getAccountId());
-            statement.setInt(2, healthCareProvider.getOrganisationalId());
-            statement.setString(3, healthCareProvider.getHealthCareProviderName());
-            statement.setString(4, healthCareProvider.getHealthCareProviderType().toString());
-            statement.setString(5, healthCareProvider.getPostcode());
-            statement.execute();
-        } catch (SQLException e) {
-            System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
-        } finally {
+        Boolean result = AccountMapper.insert(healthCareProvider);
+
+        if (result) {
             try {
-                DBConnection.close(statement, null);
+                statement = DBConnection.getDbConnection().prepareStatement(sql);
+                statement.setInt(1, healthCareProvider.getAccountId());
+                statement.setInt(2, healthCareProvider.getOrganisationalId());
+                statement.setString(3, healthCareProvider.getHealthCareProviderName());
+                statement.setString(4, healthCareProvider.getHealthCareProviderType().toString());
+                statement.setString(5, healthCareProvider.getPostcode());
+                statement.execute();
+                return true;
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
+                return false;
+            } finally {
+                try {
+                    DBConnection.close(statement, null);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
+        }
+        else {
+            return false;
         }
     }
 

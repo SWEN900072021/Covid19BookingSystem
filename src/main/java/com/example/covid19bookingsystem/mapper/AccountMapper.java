@@ -14,7 +14,7 @@ import static com.example.covid19bookingsystem.utils.EnumUtils.AccountType.value
 
 public class AccountMapper {
 
-    public static void insert(Account account) {
+    public static Boolean insert(Account account) {
         String sql = "INSERT INTO account (username, password, account_type) VALUES (?, ?, ?) RETURNING id;";
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -28,8 +28,10 @@ public class AccountMapper {
             if (rs.next()) {
                 account.setAccountId(rs.getInt(1));
             }
+            return true;
         } catch (SQLException e) {
             System.out.println("Account Mapper Error: " + e.getMessage());
+            return false;
         } finally {
             try {
                 DBConnection.close(statement, rs);

@@ -48,10 +48,11 @@ public class AddTimeslotController extends HttpServlet {
                     } else {
                         uow.commit();
                         request.getSession().setAttribute("UoW", null);
-                        request.getRequestDispatcher("/home").forward(request, response);
+                        request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
                     }
                 }
             } catch (SQLException e) {
+                request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
                 e.printStackTrace();
             }
 
