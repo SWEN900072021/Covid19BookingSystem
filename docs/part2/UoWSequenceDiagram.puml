@@ -2,62 +2,62 @@
 'https://plantuml.com/sequence-diagram
 
 participant "Client" as Client
-participant "Timeslot Controller" as ATS_Controller
-participant "Time Slot Object" as TS
+participant "TimeslotController" as TC
+participant "Timeslot Object" as TS
 participant "Unit of Work" as UoW
-participant "Time Slot Data Mapper" as TS_Mapper
+participant "TimeslotMapper" as TM
 participant "Database Connection" as DBC
 participant "Session" as SS
-participant "Database" as DB
+database "Database" as DB
 
 
 
 
 == Unit of Work ==
-Client -> ATS_Controller: loadAddTimeslotPage()
+Client -> TC: loadAddTimeslotPage()
 activate Client
-activate ATS_Controller
-ATS_Controller -> UoW: new UnitofWork()
+activate TC
+TC -> UoW: new UnitofWork()
 activate UoW
-UoW --> ATS_Controller: return unitOfWork{}
+UoW --> TC: return unitOfWork{}
 deactivate UoW
-ATS_Controller -> SS: storeUnitOfWork(unitOfWork{})
+TC -> SS: storeUnitOfWork(unitOfWork{})
 activate SS
-ATS_Controller --> Client: response(AddTimeslotJSP)
+TC --> Client: response(AddTimeslotJSP)
 
 loop user can add multiple timeslots
-Client -> ATS_Controller: addTimeslot(details)
-ATS_Controller -> ATS_Controller: processRequest(details)
-ATS_Controller -> TS: new TimeSlot(details)
+Client -> TC: addTimeslot(details)
+TC -> TC: processRequest(details)
+TC -> TS: new TimeSlot(details)
 activate TS
-TS --> ATS_Controller: return timeslot{details}
+TS --> TC: return timeslot{details}
 deactivate TS
-ATS_Controller -> SS: getUnitOfWork()
+TC -> SS: getUnitOfWork()
 SS -> UoW: getUnitOfWork()
 activate UoW
-UoW --> ATS_Controller: return unitOfWork{}
-ATS_Controller -> UoW: registerNew(timeslot{details})
+UoW --> TC: return unitOfWork{}
+TC -> UoW: registerNew(timeslot{details})
 deactivate UoW
-ATS_Controller -> SS: updateUnitOfWork(unitOfWork{})
+TC -> SS: updateUnitOfWork(unitOfWork{})
 end
 
-Client -> ATS_Controller: submitAllTimeslots()
-ATS_Controller -> SS: getUnitOfWork()
+Client -> TC: submitAllTimeslots()
+TC -> SS: getUnitOfWork()
 SS -> UoW: getUnitOfWork()
 deactivate SS
 activate UoW
-UoW --> ATS_Controller: return unitOfWork{}
-ATS_Controller -> UoW: commit()
+UoW --> TC: return unitOfWork{}
+TC -> UoW: commit()
 
 UoW -> DBC : setAutoCommit(false)
 loop UoW clears all objects in each list
-UoW -> TS_Mapper: insert(timeslot{details})
+UoW -> TM: insert(timeslot{details})
 
-activate TS_Mapper
-TS_Mapper -> DBC: stageQuery(insertQuery)
+activate TM
+TM -> DBC: stageQuery(insertQuery)
 activate DBC
-DBC --> TS_Mapper : OK
-deactivate TS_Mapper
+DBC --> TM : OK
+deactivate TM
 end
 alt Success
 UoW -> DBC: commitAllQueries()
@@ -78,10 +78,10 @@ end
 
 UoW -> DBC: setAutoCommit(true)
 deactivate DBC
-UoW --> ATS_Controller: OK
+UoW --> TC: OK
 deactivate UoW
 
-ATS_Controller --> Client: OK
-deactivate ATS_Controller
+TC --> Client: OK
+deactivate TC
 deactivate Client
 @enduml
