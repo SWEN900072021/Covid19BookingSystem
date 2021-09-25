@@ -89,4 +89,31 @@ public class VaccineCertificateMapper {
         return vaccineTypes;
     }
 
+    public static ArrayList<Integer> getVaccineRecipientsByVaccineType(String vaccineType, HashMap<Integer, Integer> vaccineRecipients){
+        String sql = "SELECT * FROM vaccine_certificate WHERE vaccine_type=?;";
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        ArrayList<Integer> vaccineTypes = new ArrayList<>();
+
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setString(1, vaccineType);
+            rs = statement.executeQuery();
+            while (rs.next()){
+                Integer vrAccountId = vaccineRecipients.get(rs.getInt("vaccine_recipient"));
+                vaccineTypes.add(vrAccountId);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Vaccine Certificate Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return vaccineTypes;
+    }
+
 }
