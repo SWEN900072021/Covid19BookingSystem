@@ -51,9 +51,12 @@ public class ViewAllUsersController extends HttpServlet {
         else{
             // handle vaccine types
             String vaccineType = request.getParameter("filterOption");
-            ArrayList<Account> accounts = VaccineRecipientMapper.getVaccineRecipientsByVaccineType(vaccineType);
+            ArrayList<Account> accounts = VaccineRecipientMapper.getVRVCMappingbyType(vaccineType);
             request.getSession().setAttribute("accountList", accounts);
-            HashMap<Integer,String> vaccineTypes = VaccineRecipientMapper.getAllVRVaccineTypes();
+            HashMap<Integer,String> vaccineTypes = new HashMap<>();
+            for (Account acc: accounts){
+                vaccineTypes.put(acc.getAccountId(), vaccineType);
+            }
             request.getSession().setAttribute("vaccineTypes", vaccineTypes);
         }
 

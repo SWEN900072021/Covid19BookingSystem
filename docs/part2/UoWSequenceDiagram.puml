@@ -22,7 +22,7 @@ activate UoW
 UoW --> TC: return unitOfWork{}
 deactivate UoW
 TC -> SS: storeUnitOfWork(unitOfWork{})
-activate SS
+
 TC --> Client: response(AddTimeslotJSP)
 
 loop user can add multiple timeslots
@@ -44,7 +44,7 @@ end
 Client -> TC: submitAllTimeslots()
 TC -> SS: getUnitOfWork()
 SS -> UoW: getUnitOfWork()
-deactivate SS
+
 activate UoW
 UoW --> TC: return unitOfWork{}
 TC -> UoW: commit()

@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam linetype polyline
+
+participant "Client" as Client
+participant "Controller" as Controller
+participant "Authentication Enforcer" as AEE
+
+participant "Account Table" as AT
+
+== Authentication ==
+Client -> Controller: login(accountDetails)
+Activate Client
+Activate Controller
+Controller -> AEE: validateUser(accountDetails)
+Activate AEE
+AEE -> AT: findUsername(accountDetails)
+AT --> AEE: Account{details}
+AEE -> AEE: authenticate(accountDetails, retrievedDetails)
+AEE --> Controller: confirmAuthenticated()
+Controller --> Client: redirectToHomeJSP()
+Deactivate Controller
+Deactivate Client
+
+@enduml
