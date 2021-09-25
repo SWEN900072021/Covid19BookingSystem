@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant "Client" as Client
+participant "Add Timeslot Controller" as ATC
+participant "Timeslot" as TS
+participant "Health Care Provider" as HPC
+participant "Timeslot Mapper" as TSM
+participant "Timeslot Table" as TST
+
+== Foreign Key Mapping ==
+Client -> ATC: addTimeslot(id)
+activate Client
+activate ATC
+ATC -> HPC: new HealthcareProvider{id}
+activate HPC
+HPC --> ATC:  return HealthcareProvider{id}
+deactivate HPC
+ATC -> TS: new Timeslot{HealthcareProvider{id}, details}
+activate TS
+TS --> ATC: return Timeslot{HealthcareProvider{id}, details}
+deactivate TS
+ATC -> TSM: insert(Timeslot{HealthcareProvider{id}, details})
+activate TSM
+TSM -> TST: insert(Timeslot{id, details})
+activate TST
+TST --> TSM: OK
+deactivate TST
+TSM --> ATC: OK
+deactivate TSM
+ATC --> Client: OK
+deactivate ATC
+
+
+
+@enduml

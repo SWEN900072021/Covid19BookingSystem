@@ -1,55 +1,87 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-skinparam linetype polyline
-
 participant "Client" as Client
 participant "Timeslot Controller" as ATS_Controller
 participant "Time Slot Object" as TS
 participant "Unit of Work" as UoW
 participant "Time Slot Data Mapper" as TS_Mapper
+participant "Database Connection" as DBC
+participant "Session" as SS
 participant "Database" as DB
 
 
 
+
 == Unit of Work ==
-Client -> ATS_Controller: doGet(request, response)
+Client -> ATS_Controller: loadAddTimeslotPage()
 activate Client
 activate ATS_Controller
 ATS_Controller -> UoW: new UnitofWork()
 activate UoW
-UoW --> ATS_Controller: return unitOfWork
+UoW --> ATS_Controller: return unitOfWork{}
+deactivate UoW
+ATS_Controller -> SS: storeUnitOfWork(unitOfWork{})
+activate SS
 ATS_Controller --> Client: response(AddTimeslotJSP)
 
-loop
-Client -> ATS_Controller: doPost(request, response)
-ATS_Controller -> ATS_Controller: processRequest(timeslotDetails)
-ATS_Controller -> TS: new TimeSlot(timeslotDetails)
+loop user can add multiple timeslots
+Client -> ATS_Controller: addTimeslot(details)
+ATS_Controller -> ATS_Controller: processRequest(details)
+ATS_Controller -> TS: new TimeSlot(details)
 activate TS
-TS --> ATS_Controller: return timeslot
+TS --> ATS_Controller: return timeslot{details}
 deactivate TS
-ATS_Controller -> UoW: registerNew(timeslot)
+ATS_Controller -> SS: getUnitOfWork()
+SS -> UoW: getUnitOfWork()
+activate UoW
+UoW --> ATS_Controller: return unitOfWork{}
+ATS_Controller -> UoW: registerNew(timeslot{details})
+deactivate UoW
+ATS_Controller -> SS: updateUnitOfWork(unitOfWork{})
 end
 
-Client -> ATS_Controller: doPost(request, response)
-deactivate Client
+Client -> ATS_Controller: submitAllTimeslots()
+ATS_Controller -> SS: getUnitOfWork()
+SS -> UoW: getUnitOfWork()
+deactivate SS
+activate UoW
+UoW --> ATS_Controller: return unitOfWork{}
 ATS_Controller -> UoW: commit()
-deactivate ATS_Controller
 
-loop
-UoW -> TS_Mapper: insert(timeslot)
-deactivate UoW
+UoW -> DBC : setAutoCommit(false)
+loop UoW clears all objects in each list
+UoW -> TS_Mapper: insert(timeslot{details})
+
 activate TS_Mapper
-TS_Mapper -> DB: sqlQuery.execute()
+TS_Mapper -> DBC: stageQuery(insertQuery)
+activate DBC
+DBC --> TS_Mapper : OK
+deactivate TS_Mapper
+end
+alt Success
+UoW -> DBC: commitAllQueries()
+DBC -> DB: commitTransaction()
 activate DB
-DB --> TS_Mapper : OK
+DB --> DBC: OK
+deactivate DB
+DBC --> UoW: OK
+else One query fails
+UoW -> DBC: commitAllQueries()
+DBC -> DB: commitTransaction()
+activate DB
+DB -> DB: rollback()
+DB --> DBC: transactionFailed
+DBC --> UoW: transactionFailed
 deactivate DB
 end
 
+UoW -> DBC: setAutoCommit(true)
+deactivate DBC
+UoW --> ATS_Controller: OK
+deactivate UoW
 
-
-
-
-
-
+ATS_Controller --> Client: OK
+deactivate ATS_Controller
+deactivate Client
 @enduml
