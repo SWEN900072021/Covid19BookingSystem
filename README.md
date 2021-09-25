@@ -8,6 +8,9 @@
 | Jay Parikh      | jparikh          | 864675     | jparikh@student.unimelb.edu.au  |
 | Jad Saliba      | jads             | 1014680    | jads@student.unimelb.edu.au     |
 
+## Link to Deployed Application: ## 
+[Runtime Terror - COVID-19 Vaccine Booking and Management System](https://runtime-terror-swen90007.herokuapp.com/)
+
 ## Local DB Setup ##
 1. Run the [Postgres Setup SQL Script](scripts/postgres_setup.sql) on your local to set up the tables and types in your postgres local instance **(ONLY ONCE)**.
 2. Create a new environment variable called "**DATABASE_URL**" in your machine with the following value (replace DB_USER, DB_PASSWORD and DB_NAME with the respective credentials of your local postgres instance):

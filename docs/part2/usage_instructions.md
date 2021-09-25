@@ -1,6 +1,8 @@
 # Usage Instructions #
 
-## Use Case 1: Creating a new Vaccine Recipient ##
+### *Note*: Open the "Data Samples and Test Cases" document alongside this document as both are required to test the system. ###
+
+## TC01: Creating a new Vaccine Recipient ##
 To create a new vaccine recipient,
 1. Click on the "Create a Vaccine Recipient Account" button on the login screen (The same button exists in the admin's home page as well).
 2. Fill in all the details in the form.
@@ -9,7 +11,7 @@ To create a new vaccine recipient,
 ![Alt Text](resources/create_new_vr_account.gif)
 
 
-## Use Case 2: Booking a Timeslot ##
+## TC02: Booking a Timeslot ##
 To book a vaccine timeslot,
 1. Log in as a vaccine recipient.
 2. Click on "Book Timeslot".
@@ -23,7 +25,7 @@ To book a vaccine timeslot,
 ![Alt Text](resources/book_timeslot.gif)
 
 
-## Use Case 3: View acquired Vaccine Certificates ##
+## TC03: View acquired Vaccine Certificates ##
 To view vaccine certificates received,
 1. Log in as a vaccine recipient.
 2. Click on "View Vaccine Certificates" (this may redirect you to a failure page in the case that no vaccine certificates are registered in your name).
@@ -31,7 +33,7 @@ To view vaccine certificates received,
 
 ![Alt Text](resources/view_vaccine_certificates.gif)
 
-## Use Case 4: Add a Timeslot ##
+## TC04: Add a Timeslot ##
 To add a vaccine timeslot,
 1. Log in as a health care provider.
 2. Click on "Add Timeslot".
@@ -42,7 +44,7 @@ To add a vaccine timeslot,
 
 ![Alt Text](resources/add_timeslot.gif)
 
-## Use Case 5: Record a completed vaccination ##
+## TC05: Record a completed vaccination ##
 To recorded a completed vaccination,
 1. Log in as a health care provider.
 2. Click on "Record Completed Vaccination". You will be directed to a detailed list showing all unrecorded vaccinations for this health care provider.
