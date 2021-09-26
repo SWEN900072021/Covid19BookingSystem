@@ -1,0 +1,79 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+'formatting
+skinparam linetype ortho
+
+title "COVID-19 Vaccine Booking System"
+
+class Administrator {
+username
+password
+}
+class Timeslot {
+date
+time
+duration
+location
+status
+vaccineRecipient
+healthCareProvider
+}
+class HealthCareProvider {
+name
+postcode
+organisationID
+}
+class "<<enum>> \n HealthCareProviderType" as HealthCareProviderType{
+CLINIC
+HOSPITAL
+GP
+POPUP
+}
+class Question {
+question
+sucessAnswer
+}
+class Questionnaire {
+result
+}
+class VaccineCertificate {
+vaccineRecipient
+vaccineType
+}
+class VaccineRecipient {
+firstName
+lastName
+address
+DOB
+gender
+phoneNumber
+emailAddress
+vaccinationStatus
+vaccineTypeReceived
+}
+class Vaccine {
+}
+class "<<enum>> \n  VaccineType" as VaccineType{
+ASTRAZENECA
+PFIZER
+}
+
+HealthCareProviderType "1" <-- "1" HealthCareProvider : is of
+
+Question "*" <-- "1" Questionnaire : contains
+Question "*" <-- "1" Vaccine : requires
+
+Questionnaire "1" <-- "1" VaccineRecipient : answers
+
+Timeslot "*" <- "1" HealthCareProvider : provides
+Timeslot "1" <-- "1" Questionnaire : unlocks
+
+VaccineCertificate "1" <-- "1" VaccineRecipient : receives
+
+Vaccine "*" <-- "1" HealthCareProvider : administers
+Vaccine "*" <--- "1" VaccineRecipient : receives
+
+VaccineType "*" <-- "1" Administrator : adds
+VaccineType "1" <-- "1" Vaccine : is of
+@enduml
