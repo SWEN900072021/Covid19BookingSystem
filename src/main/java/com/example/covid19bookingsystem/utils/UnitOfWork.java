@@ -41,8 +41,8 @@ public class UnitOfWork {
 
         // Commit all queries
         DBConnection.getDbConnection().commit();
-        DBConnection.close(null, null);
         DBConnection.getDbConnection().setAutoCommit(true);
+        DBConnection.close(null, null);
 
         // Reset UoW
         newObjList.clear();
