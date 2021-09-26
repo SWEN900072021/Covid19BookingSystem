@@ -163,8 +163,6 @@ public class TimeslotMapper {
             LocalDateTime today = LocalDateTime.now();
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formatDateTime = today.format(format);
-            System.out.println("FORMAT DATE TIME: " + formatDateTime);
-            System.out.println("CHECKING TIMESTAMP: " + Timestamp.valueOf(formatDateTime));
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, id);
