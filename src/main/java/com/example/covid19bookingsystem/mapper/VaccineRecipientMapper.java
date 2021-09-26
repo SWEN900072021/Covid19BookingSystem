@@ -174,18 +174,38 @@ public class VaccineRecipientMapper {
         return vrVaccineTypes;
     }
 
+    public static ArrayList<Account> getVRVCMappingbyType(String vaccineType){
+        String sql = "SELECT * FROM vaccine_recipient ;";
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        // <id,account_id>
+        HashMap<Integer,Integer> vaccineRecipients = new HashMap<>();
+        ArrayList<Integer> vrVaccineTypes = null;
+        ArrayList<Account> vrList = new ArrayList<>();
 
-    public static ArrayList<Account> getVaccineRecipientsByVaccineType(String vaccineType){
-        HashMap<Integer,String> allVRVaccineTypes = getAllVRVaccineTypes();
-        ArrayList<Account> vrWithVaccineType = new ArrayList<>();
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            rs = statement.executeQuery();
+            while (rs.next()){
+                vaccineRecipients.put(rs.getInt("id"), rs.getInt("account_id"));
+            }
+            vrVaccineTypes = VaccineCertificateMapper.getVaccineRecipientsByVaccineType(vaccineType, vaccineRecipients);
 
-        for (Map.Entry vrVaccineType: allVRVaccineTypes.entrySet()){
-            Integer id = (Integer)vrVaccineType.getKey();
-            if (vrVaccineType.getValue().equals(vaccineType)){
-                vrWithVaccineType.add(AccountMapper.findAccountByID(id));
+            for (Integer id: vrVaccineTypes){
+                vrList.add(AccountMapper.findAccountByID(id));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("VaccineRecipient Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
 
-        return vrWithVaccineType;
+        return vrList;
     }
+
 }

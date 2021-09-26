@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam linetype polyline
+
+participant ":Client" as Client
+participant ":HomeController" as HomeController
+participant ":Account" as Account
+participant ":AccountMapper" as AccountMapper
+database "Database" as DB
+
+== Identity Field ==
+Client -> HomeController: login(username)
+activate Client
+activate HomeController
+note left: accountType = VR
+HomeController -> AccountMapper: findAccountByUsername(username)
+activate AccountMapper
+AccountMapper -> DB: findAccountByUsername(username)
+DB --> AccountMapper: resultSet{Account}
+AccountMapper -> Account: Account(details)
+activate Account
+Account -> Account: Account.setId(details.Id)
+Account --> AccountMapper: Account{id, details...}
+deactivate Account
+AccountMapper --> HomeController: Account{id, details...}
+deactivate AccountMapper
+HomeController --> Client: redirectTo(home)
+deactivate HomeController
+deactivate Client
+
+@enduml
