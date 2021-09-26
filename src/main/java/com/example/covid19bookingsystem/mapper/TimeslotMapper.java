@@ -167,6 +167,8 @@ public class TimeslotMapper {
             ZonedDateTime melbourneToday = today.atZone(ZoneId.of("Australia/Melbourne"));
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formatDateTime = melbourneToday.format(format);
+            System.out.println("FORMATTED DATE TIME: " + formatDateTime);
+            System.out.println("TIMESTAMP VALUE: " + Timestamp.valueOf(formatDateTime));
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, id);
