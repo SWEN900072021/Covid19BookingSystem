@@ -1,7 +1,10 @@
 <%@ page import="com.example.covid19bookingsystem.domain.Timeslot" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.ZonedDateTime" %>
+<%@ page import="java.time.ZoneId" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!doctype html>
@@ -34,6 +37,14 @@
         Set<String> set = new HashSet<>(stringDates);
         stringDates.clear();
         stringDates.addAll(set);
+
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime todayPlusSixMonths = LocalDateTime.now().plusMonths(6);
+        ZonedDateTime melbourneToday = today.atZone(ZoneId.of("Australia/Melbourne"));
+        ZonedDateTime melbourneTodayPlusSixMonths = todayPlusSixMonths.atZone(ZoneId.of("Australia/Melbourne"));
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String todayDate = melbourneToday.format(format);
+        String todayPlusSixMonthsDate = melbourneTodayPlusSixMonths.format(format);
     %>
     <script>
         var dateClicked = '';
@@ -67,12 +78,12 @@
                     }
                 },
                 selectConstraint: {
-                    start: '<%= LocalDate.now()%>',
-                    end: '<%= LocalDate.now().plusMonths(6)%>'
+                    start: '<%= todayDate%>',
+                    end: '<%= todayPlusSixMonthsDate%>'
                 },
                 dateClick: function (info) {
-                    if (info.dateStr >= '<%= LocalDate.now()%>' &&
-                        info.dateStr <= '<%= LocalDate.now().plusMonths(6)%>') {
+                    if (info.dateStr >= '<%= todayDate%>' &&
+                        info.dateStr <= '<%= todayPlusSixMonthsDate%>') {
 
                         <%
                             for (String date : stringDates) {
