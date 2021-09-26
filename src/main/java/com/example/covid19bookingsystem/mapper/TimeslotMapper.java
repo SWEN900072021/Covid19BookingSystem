@@ -12,8 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,9 +106,8 @@ public class TimeslotMapper {
 
         try {
             LocalDateTime today = LocalDateTime.now();
-            ZonedDateTime melbourneToday = today.atZone(ZoneId.of("Australia/Melbourne"));
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formatDateTime = melbourneToday.format(format);
+            String formatDateTime = today.format(format);
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setString(1, EnumUtils.TimeslotStatus.UNBOOKED.toString());
@@ -164,9 +161,10 @@ public class TimeslotMapper {
 
         try {
             LocalDateTime today = LocalDateTime.now();
-            ZonedDateTime melbourneToday = today.atZone(ZoneId.of("Australia/Melbourne"));
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formatDateTime = melbourneToday.format(format);
+            String formatDateTime = today.format(format);
+            System.out.println("FORMAT DATE TIME: " + formatDateTime);
+            System.out.println("CHECKING TIMESTAMP: " + Timestamp.valueOf(formatDateTime));
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, id);
@@ -242,9 +240,8 @@ public class TimeslotMapper {
 
         try {
             LocalDateTime today = LocalDateTime.now();
-            ZonedDateTime melbourneToday = today.atZone(ZoneId.of("Australia/Melbourne"));
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formatDateTime = melbourneToday.format(format);
+            String formatDateTime = today.format(format);
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setString(1, EnumUtils.TimeslotStatus.UNBOOKED.toString());
@@ -297,9 +294,8 @@ public class TimeslotMapper {
 
         try {
             LocalDateTime today = LocalDateTime.now();
-            ZonedDateTime melbourneToday = today.atZone(ZoneId.of("Australia/Melbourne"));
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formatDateTime = melbourneToday.format(format);
+            String formatDateTime = today.format(format);
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setString(1, EnumUtils.TimeslotStatus.UNBOOKED.toString());
