@@ -152,8 +152,9 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static List<Timeslot> findTimeslotsByHcpAndStatus(Integer id) {
-        String sql = "SELECT * FROM timeslot WHERE health_care_provider = ? AND status = 'BOOKED' AND date_time <= ?";
+    public static List<Timeslot> findTimeslotsByOrganisationalIdAndStatus(Integer organisationalId) {
+        String sql = "SELECT * FROM timeslot INNER JOIN health_care_provider ON timeslot.health_care_provider = health_care_provider.id "
+        + "WHERE health_care_provider.organisational_id = ? AND status = 'BOOKED' AND date_time <= ?";
 
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -165,7 +166,7 @@ public class TimeslotMapper {
             String formatDateTime = today.format(format);
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, id);
+            statement.setInt(1, organisationalId);
             statement.setTimestamp(2, Timestamp.valueOf(formatDateTime));
             rs = statement.executeQuery();
             while (rs.next()) {
