@@ -73,6 +73,7 @@ public class BookTimeController extends HttpServlet {
                 confirmationDetails.put("hcpName", timeslot.getHealthcareProvider().getHealthCareProviderName());
                 confirmationDetails.put("hcpType", timeslot.getHealthcareProvider().getHealthCareProviderType().name());
                 confirmationDetails.put("hcpPostcode", timeslot.getHealthcareProvider().getPostcode());
+                confirmationDetails.put("version", timeslot.getVersion().toString());
                 request.getSession().setAttribute("chosenTimeslot", timeslot);
             }
         }
