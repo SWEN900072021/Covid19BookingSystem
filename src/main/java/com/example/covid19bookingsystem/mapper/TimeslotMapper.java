@@ -215,7 +215,7 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static Boolean bookTimeslot(Timeslot timeslot, VaccineRecipient vr) {
+    public static String bookTimeslot(Timeslot timeslot, VaccineRecipient vr) {
         String sql = "UPDATE timeslot SET vaccine_recipient = ?, status = ?, version = ? WHERE id = ?";
 
         PreparedStatement statement = null;
@@ -226,10 +226,16 @@ public class TimeslotMapper {
             statement.setInt(3, timeslot.getVersion());
             statement.setInt(4, timeslot.getId());
             statement.execute();
-            return true;
+            return "SUCCESS";
         } catch (SQLException e) {
-            System.out.println("Timeslot Mapper Error: " + e.getMessage());
-            return false;
+            if (e.getSQLState().equals("VER01")) {
+                System.out.println("VERSION MISMATCH ALERT: " + e.getMessage());
+                return "VERSION_MISMATCH";
+            }
+            else {
+                System.out.println("Timeslot Mapper Error: " + e.getMessage());
+                return "ERROR";
+            }
         } finally {
             try {
                 DBConnection.close(statement, null);

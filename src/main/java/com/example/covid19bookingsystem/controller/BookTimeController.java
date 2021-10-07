@@ -48,12 +48,15 @@ public class BookTimeController extends HttpServlet {
                 request.getSession().getAttribute("userDetails") != null) {
             Timeslot timeslot = (Timeslot) request.getSession().getAttribute("chosenTimeslot");
             VaccineRecipient vr = (VaccineRecipient) request.getSession().getAttribute("userDetails");
-            Boolean result = TimeslotMapper.bookTimeslot(timeslot, vr);
-            if (result) {
-                request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
+            String result = TimeslotMapper.bookTimeslot(timeslot, vr);
+            if ("SUCCESS".equals(result)) {
+                request.getRequestDispatcher("/outcome.jsp?result=success").forward(request, response);
+            }
+            else if ("VERSION_MISMATCH".equals(result)) {
+                request.getRequestDispatcher("/outcome.jsp?result=version_mismatch").forward(request, response);
             }
             else {
-                request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
+                request.getRequestDispatcher("/outcome.jsp?result=error").forward(request, response);
             }
         }
     }

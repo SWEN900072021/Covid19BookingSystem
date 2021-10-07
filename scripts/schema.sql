@@ -100,7 +100,7 @@ CREATE OR REPLACE FUNCTION verify_version()
     RETURNS TRIGGER AS $$
 BEGIN
     IF new.version IS DISTINCT FROM old.version THEN
-        RAISE EXCEPTION 'version mismatch for % id: %; old: %, new %', tg_table_name, old.id, old.version, new.version;
+        RAISE EXCEPTION 'version mismatch for % id: %; old: %, new %', tg_table_name, old.id, old.version, new.version USING ERRCODE = 'VER01';
     END IF;
     new.version = old.version + 1;
     RETURN new;
