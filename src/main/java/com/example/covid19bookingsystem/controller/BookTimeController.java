@@ -48,9 +48,12 @@ public class BookTimeController extends HttpServlet {
                 request.getSession().getAttribute("userDetails") != null) {
             Timeslot timeslot = (Timeslot) request.getSession().getAttribute("chosenTimeslot");
             VaccineRecipient vr = (VaccineRecipient) request.getSession().getAttribute("userDetails");
-            Boolean result = TimeslotMapper.bookTimeslot(timeslot, vr);
-            if (result) {
+            String result = TimeslotMapper.bookTimeslot(timeslot, vr);
+            if ("SUCCESS".equals(result)) {
                 request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
+            }
+            else if ("VERSION_MISMATCH".equals(result)) {
+                request.getRequestDispatcher("/outcome.jsp?success=version_mismatch").forward(request, response);
             }
             else {
                 request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
@@ -73,6 +76,7 @@ public class BookTimeController extends HttpServlet {
                 confirmationDetails.put("hcpName", timeslot.getHealthcareProvider().getHealthCareProviderName());
                 confirmationDetails.put("hcpType", timeslot.getHealthcareProvider().getHealthCareProviderType().name());
                 confirmationDetails.put("hcpPostcode", timeslot.getHealthcareProvider().getPostcode());
+                confirmationDetails.put("version", timeslot.getVersion().toString());
                 request.getSession().setAttribute("chosenTimeslot", timeslot);
             }
         }

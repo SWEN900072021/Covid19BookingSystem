@@ -29,4 +29,6 @@ public class Timeslot {
     private Integer duration;
 
     private Address address;
+
+    private Integer version;
 }

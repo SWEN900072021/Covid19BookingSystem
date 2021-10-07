@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS timeslot (
     postcode VARCHAR(20),
     state VARCHAR(50),
     country VARCHAR(50),
+    version INT NOT NULL DEFAULT 1,
     FOREIGN KEY (vaccine_recipient)
         REFERENCES vaccine_recipient (id),
     FOREIGN KEY (health_care_provider)
@@ -88,3 +89,20 @@ CREATE TABLE IF NOT EXISTS timeslot (
     FOREIGN KEY (vaccine_type)
         REFERENCES vaccine_type (name)
 );
+
+CREATE TRIGGER timeslot_verify_version
+    BEFORE UPDATE ON timeslot
+    FOR EACH ROW
+    WHEN (new IS DISTINCT FROM old)
+EXECUTE PROCEDURE verify_version();
+
+CREATE OR REPLACE FUNCTION verify_version()
+    RETURNS TRIGGER AS $$
+BEGIN
+    IF new.version IS DISTINCT FROM old.version THEN
+        RAISE EXCEPTION 'version mismatch for % id: %; old: %, new %', tg_table_name, old.id, old.version, new.version USING ERRCODE = 'VER01';
+    END IF;
+    new.version = old.version + 1;
+    RETURN new;
+END;
+$$ LANGUAGE 'plpgsql';

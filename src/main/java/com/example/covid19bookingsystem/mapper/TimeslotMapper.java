@@ -78,6 +78,8 @@ public class TimeslotMapper {
                 address.setState(rs.getString("state"));
                 address.setCountry(rs.getString("country"));
                 timeslot.setAddress(address);
+
+                timeslot.setVersion(rs.getInt("version"));
             }
 
         } catch (SQLException e) {
@@ -136,6 +138,8 @@ public class TimeslotMapper {
                 address.setCountry(rs.getString("country"));
                 timeslot.setAddress(address);
 
+                timeslot.setVersion(rs.getInt("version"));
+
                 timeslots.add(timeslot);
             }
 
@@ -152,8 +156,9 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static List<Timeslot> findTimeslotsByHcpAndStatus(Integer id) {
-        String sql = "SELECT * FROM timeslot WHERE health_care_provider = ? AND status = 'BOOKED' AND date_time <= ?";
+    public static List<Timeslot> findTimeslotsByOrganisationalIdAndStatus(Integer organisationalId) {
+        String sql = "SELECT * FROM timeslot INNER JOIN health_care_provider ON timeslot.health_care_provider = health_care_provider.id "
+        + "WHERE health_care_provider.organisational_id = ? AND status = 'BOOKED' AND date_time <= ?";
 
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -165,7 +170,7 @@ public class TimeslotMapper {
             String formatDateTime = today.format(format);
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, id);
+            statement.setInt(1, organisationalId);
             statement.setTimestamp(2, Timestamp.valueOf(formatDateTime));
             rs = statement.executeQuery();
             while (rs.next()) {
@@ -192,6 +197,8 @@ public class TimeslotMapper {
                 address.setCountry(rs.getString("country"));
                 timeslot.setAddress(address);
 
+                timeslot.setVersion(rs.getInt("version"));
+
                 timeslots.add(timeslot);
             }
 
@@ -208,20 +215,27 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static Boolean bookTimeslot(Timeslot timeslot, VaccineRecipient vr) {
-        String sql = "UPDATE timeslot SET vaccine_recipient = ?, status = ? WHERE id = ?";
+    public static String bookTimeslot(Timeslot timeslot, VaccineRecipient vr) {
+        String sql = "UPDATE timeslot SET vaccine_recipient = ?, status = ?, version = ? WHERE id = ?";
 
         PreparedStatement statement = null;
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, vr.getId());
             statement.setString(2, EnumUtils.TimeslotStatus.BOOKED.name());
-            statement.setInt(3, timeslot.getId());
+            statement.setInt(3, timeslot.getVersion());
+            statement.setInt(4, timeslot.getId());
             statement.execute();
-            return true;
+            return "SUCCESS";
         } catch (SQLException e) {
-            System.out.println("Timeslot Mapper Error: " + e.getMessage());
-            return false;
+            if (e.getSQLState().equals("VER01")) {
+                System.out.println("VERSION MISMATCH ALERT: " + e.getMessage());
+                return "VERSION_MISMATCH";
+            }
+            else {
+                System.out.println("Timeslot Mapper Error: " + e.getMessage());
+                return "ERROR";
+            }
         } finally {
             try {
                 DBConnection.close(statement, null);
@@ -272,6 +286,8 @@ public class TimeslotMapper {
                 address.setState(rs.getString("state"));
                 address.setCountry(rs.getString("country"));
                 timeslot.setAddress(address);
+
+                timeslot.setVersion(rs.getInt("version"));
 
                 timeslots.add(timeslot);
             }
@@ -324,6 +340,8 @@ public class TimeslotMapper {
                 address.setState(rs.getString("state"));
                 address.setCountry(rs.getString("country"));
                 timeslot.setAddress(address);
+
+                timeslot.setVersion(rs.getInt("version"));
 
                 timeslots.add(timeslot);
             }
