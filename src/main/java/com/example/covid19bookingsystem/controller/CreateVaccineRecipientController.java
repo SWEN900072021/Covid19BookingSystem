@@ -39,7 +39,10 @@ public class CreateVaccineRecipientController extends HttpServlet {
             request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
         }
         else {
-            request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
+            request.getSession().setAttribute("usernameUsed", true);
+            request.getSession().setAttribute("vrDetails", vrAccount);
+            doGet(request, response);
+            //request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
         }
     }
 
