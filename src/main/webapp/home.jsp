@@ -95,6 +95,13 @@
                         </div>
                     </div>
                 </form>
+                <form name="timeslot" method="get" action="editTimeslot">
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn btn-dark">Edit Timeslots</button>
+                        </div>
+                    </div>
+                </form>
                 <form name="record vaccination" method="get" action="recordVaccination">
                     <div class="form-group row">
                         <div class="col-sm-12">

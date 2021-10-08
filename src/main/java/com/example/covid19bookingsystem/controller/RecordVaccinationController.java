@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-import static com.example.covid19bookingsystem.mapper.TimeslotMapper.findTimeslotsByOrganisationalIdAndStatus;
+import static com.example.covid19bookingsystem.mapper.TimeslotMapper.findBookedTimeslotsByOrganisationalId;
 
 @WebServlet(name = "recordVaccinationController", value = "/recordVaccination")
 public class RecordVaccinationController extends HttpServlet {
@@ -25,7 +25,7 @@ public class RecordVaccinationController extends HttpServlet {
 
         if (request.getSession().getAttribute("userDetails") != null) {
             HealthCareProvider hcp = (HealthCareProvider) request.getSession().getAttribute("userDetails");
-            List<Timeslot> timeslots = findTimeslotsByOrganisationalIdAndStatus(hcp.getOrganisationalId());
+            List<Timeslot> timeslots = findBookedTimeslotsByOrganisationalId(hcp.getOrganisationalId());
             if (!timeslots.isEmpty()) {
                 request.getSession().setAttribute("bookedTimeslots", timeslots);
 
