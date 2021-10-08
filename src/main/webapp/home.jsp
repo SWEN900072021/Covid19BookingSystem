@@ -16,15 +16,6 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <title>COVID-19 Booking System</title>
-    <%
-        // Reset session variables
-        if (request.getSession().getAttribute("usernameUsed")!=null){
-            request.getSession().setAttribute("usernameUsed",null);
-        }
-        if (request.getSession().getAttribute("vrDetails")!=null){
-            request.getSession().setAttribute("vrDetails",null);
-        }
-    %>
 </head>
 <body>
 <h4
