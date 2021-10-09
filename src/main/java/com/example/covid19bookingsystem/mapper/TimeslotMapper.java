@@ -438,4 +438,37 @@ public class TimeslotMapper {
             }
         }
     }
+
+    public static void updateTimeslotDetails(Timeslot timeslot) {
+        String sql = "UPDATE timeslot SET date_time = ?, vaccine_type = ?, duration = ?, address_line_1 = ?, " +
+                "address_line_2 = ?, state = ?, postcode = ?, country = ? WHERE id = ?";
+
+        PreparedStatement statement = null;
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setTimestamp(1, timeslot.getDateTime());
+            statement.setString(2, timeslot.getVaccineType());
+            statement.setInt(3, timeslot.getDuration());
+            statement.setString(4, timeslot.getAddress().getAddressLine1());
+            statement.setString(5, timeslot.getAddress().getAddressLine2());
+            statement.setString(6, timeslot.getAddress().getState());
+            statement.setString(7, timeslot.getAddress().getPostcode());
+            statement.setString(8, timeslot.getAddress().getCountry());
+            statement.setInt(9, timeslot.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            if (e.getSQLState().equals("VER01")) {
+                System.out.println("VERSION MISMATCH ALERT: " + e.getMessage());
+            }
+            else {
+                System.out.println("Timeslot Mapper Error: " + e.getMessage());
+            }
+        } finally {
+            try {
+                DBConnection.close(statement, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

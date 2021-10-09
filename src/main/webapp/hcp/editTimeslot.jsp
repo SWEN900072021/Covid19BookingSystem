@@ -113,14 +113,20 @@
                 <h5 class="modal-title">Edit Timeslot Details</h5>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body" style="text-align: center">
-                <form action="editTimeslot" method="post">
+            <form action="editTimeslot" method="post">
+                <div class="modal-body" style="text-align: center">
                     <input type="hidden"
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>
                     <input type="hidden"
                            name="completedEditingTimeslot"
                            value="true"/>
+                    <input type="hidden"
+                           name="timeslotId"
+                           value="<%= chosenTimeslotDetails.get("id")%>"/>
+                    <input type="hidden"
+                           name="version"
+                           value="<%= chosenTimeslotDetails.get("version")%>"/>
                     <div class="form-group row">
                         <label for="dateId" class="col-sm-6 col-form-label"><strong>Date:</strong></label>
                         <div class="col-sm-6">
@@ -273,12 +279,12 @@
                             >
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Confirm Details</button>
-                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Confirm Details</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
