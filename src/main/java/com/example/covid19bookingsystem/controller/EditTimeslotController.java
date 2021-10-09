@@ -1,5 +1,6 @@
 package com.example.covid19bookingsystem.controller;
 
+import com.example.covid19bookingsystem.datasource.ExclusiveLockManager;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
@@ -69,6 +70,7 @@ public class EditTimeslotController extends HttpServlet {
         timeslot.setAddress(address);
         timeslot.setVersion(Integer.parseInt(request.getParameter("version")));
         TimeslotMapper.updateTimeslotDetails(timeslot);
+        ExclusiveLockManager.getInstance().releaseLock(Integer.parseInt(request.getParameter("timeslotId")));
         doGet(request, response);
     }
 
@@ -98,10 +100,16 @@ public class EditTimeslotController extends HttpServlet {
             }
         }
         List<VaccineType> allVaccineTypes = VaccineTypeMapper.getAllVaccineTypes();
-        if (chosenTimeslot != null && !allVaccineTypes.isEmpty()) {
-            request.setAttribute("allVaccineTypesToChoose", allVaccineTypes);
-            request.setAttribute("chosenTimeslotDetails", timeslotDetails);
-            request.getRequestDispatcher("/hcp/editTimeslot.jsp").forward(request, response);
+        if (chosenTimeslot != null && !allVaccineTypes.isEmpty() && request.getSession().getAttribute("userDetails") != null) {
+            HealthCareProvider hcp = (HealthCareProvider) request.getSession().getAttribute("userDetails");
+            Boolean outcome = ExclusiveLockManager.getInstance().acquireLock(Integer.parseInt(request.getParameter("timeslotId")), hcp.getId());
+            if (outcome) {
+                request.setAttribute("allVaccineTypesToChoose", allVaccineTypes);
+                request.setAttribute("chosenTimeslotDetails", timeslotDetails);
+                request.getRequestDispatcher("/hcp/editTimeslot.jsp").forward(request, response);
+            } else {
+                request.getRequestDispatcher("/outcome.jsp?success=lock_error").forward(request, response);
+            }
         } else {
             request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
         }

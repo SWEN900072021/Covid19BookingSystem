@@ -106,12 +106,11 @@
         </div>
     </div>
 </div>
-<div id="editTimeslotModal" class="modal fade bd-example-modal-lg">
+<div id="editTimeslotModal" class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Edit Timeslot Details</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <form action="editTimeslot" method="post">
                 <div class="modal-body" style="text-align: center">
@@ -282,7 +281,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Confirm Details</button>
-                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>
