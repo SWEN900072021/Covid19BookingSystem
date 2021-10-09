@@ -35,6 +35,25 @@
         }
     %>
     <script>
+
+        function confirmTimeslotDetails() {
+            var form = document.createElement('form');
+            var csrfInput = document.createElement('input');
+            var confirmInput = document.createElement('input');
+            csrfInput.setAttribute("type", "hidden");
+            csrfInput.setAttribute("name", "${_csrf.parameterName}");
+            csrfInput.setAttribute("value", "${_csrf.token}");
+            confirmInput.setAttribute("type", "hidden");
+            confirmInput.setAttribute("name", "confirmed");
+            confirmInput.setAttribute("value", "true");
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', 'bookTime');
+            form.appendChild(csrfInput);
+            form.appendChild(confirmInput);
+            document.body.appendChild(form)
+            form.submit();
+        }
+
         function selectTimeslot(timeslotId) {
             var form = document.createElement('form');
             var csrfInput = document.createElement('input');
@@ -52,6 +71,7 @@
             document.body.appendChild(form)
             form.submit();
         }
+
     </script>
 </head>
 <body>
@@ -94,12 +114,19 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body" style="text-align: center">
-                <form>
+                <form action="editTimeslot" method="post">
+                    <input type="hidden"
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>
+                    <input type="hidden"
+                           name="completedEditingTimeslot"
+                           value="true"/>
                     <div class="form-group row">
                         <label for="dateId" class="col-sm-6 col-form-label"><strong>Date:</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="date"
+                                    name="date"
                                     class="form-control"
                                     id="dateId"
                                     value="<%= chosenTimeslotDetails.get("date")%>"
@@ -111,6 +138,7 @@
                         <div class="col-sm-6">
                             <input
                                     type="time"
+                                    name="time"
                                     class="form-control"
                                     id="timeId"
                                     value="<%= chosenTimeslotDetails.get("time")%>"
@@ -120,7 +148,7 @@
                     <div class="form-group row">
                         <label class="col-sm-6 col-form-label" for="vaccineTypeId"><strong>Vaccine Type:</strong></label>
                         <div class="col-sm-6">
-                            <select id="vaccineTypeId" class="form-control" name = "vaccineType">
+                            <select id="vaccineTypeId" class="form-control" name="vaccineType">
                                 <%
                                     for (VaccineType vaccine: allVaccineTypes) {
                                         if (vaccine.getName().equals(chosenTimeslotDetails.get("vaccineType"))) {
@@ -137,23 +165,12 @@
                             </select>
                         </div>
                     </div>
-<%--                    <div class="form-group row">--%>
-<%--                        <label for="vaccineTypeId" class="col-sm-6 col-form-label"><strong>Vaccine Type:</strong></label>--%>
-<%--                        <div class="col-sm-6">--%>
-<%--                            <input--%>
-<%--                                    type="text"--%>
-<%--                                    class="form-control"--%>
-<%--                                    id="vaccineTypeId"--%>
-<%--                                    placeholder="<%= chosenTimeslotDetails.get("vaccineType")%>"--%>
-<%--                                    disabled--%>
-<%--                            >--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
                     <div class="form-group row">
                         <label for="durationId" class="col-sm-6 col-form-label"><strong>Duration (in minutes):</strong></label>
                         <div class="col-sm-6">
                             <input
                                     type="text"
+                                    name="duration"
                                     class="form-control"
                                     id="durationId"
                                     value="<%= chosenTimeslotDetails.get("duration")%>"
@@ -165,6 +182,7 @@
                         <div class="col-sm-6">
                             <input
                                     type="text"
+                                    name="addressLine1"
                                     class="form-control"
                                     id="addressLine1Id"
                                     value="<%= chosenTimeslotDetails.get("addressLine1")%>"
@@ -176,6 +194,7 @@
                         <div class="col-sm-6">
                             <input
                                     type="text"
+                                    name="addressLine2"
                                     class="form-control"
                                     id="addressLine2Id"
                                     value="<%= chosenTimeslotDetails.get("addressLine2")%>"
@@ -187,6 +206,7 @@
                         <div class="col-sm-6">
                             <input
                                     type="text"
+                                    name="state"
                                     class="form-control"
                                     id="stateId"
                                     value="<%= chosenTimeslotDetails.get("state")%>"
@@ -198,6 +218,7 @@
                         <div class="col-sm-6">
                             <input
                                     type="text"
+                                    name="postcode"
                                     class="form-control"
                                     id="postcodeId"
                                     value="<%= chosenTimeslotDetails.get("postcode")%>"
@@ -209,6 +230,7 @@
                         <div class="col-sm-6">
                             <input
                                     type="text"
+                                    name="country"
                                     class="form-control"
                                     id="countryId"
                                     value="<%= chosenTimeslotDetails.get("country")%>"
@@ -254,7 +276,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="confirmTimeslot()">Confirm Details</button>
+                <button type="submit" class="btn btn-success">Confirm Details</button>
                 <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
             </div>
         </div>
