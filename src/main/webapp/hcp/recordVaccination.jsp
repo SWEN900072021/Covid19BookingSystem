@@ -33,10 +33,8 @@
     </div>
     </div>
     <%
-        System.out.println(success);
         if (success != null) {
-
-        if (success.equals("version_mismatch")) {
+            if (success.equals("version_mismatch")) {
     %>
     <div class="alert alert-danger d-flex align-items-center" role="alert"
          style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">

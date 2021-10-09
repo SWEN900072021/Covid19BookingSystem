@@ -44,19 +44,17 @@ public class RecordVaccinationController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Timeslot timeslotSubmitted = null;
+
         if (request.getParameter("timeslotSubmitted") != null) {
-
-
             Integer id = Integer.valueOf(request.getParameter("timeslotSubmitted"));
             List<Timeslot> timeslots = (List<Timeslot>) request.getSession().getAttribute("bookedTimeslots");
 
-            for(Timeslot timeslot: timeslots){
-                if(timeslot.getId() == id){
+            for(Timeslot timeslot: timeslots) {
+                if (timeslot.getId().equals(id)) {
                     timeslotSubmitted = timeslot;
                 }
             }
-
-            System.out.println(timeslotSubmitted.getVersion());
+            
             String result = TimeslotMapper.recordVaccinationCompleted(timeslotSubmitted);
 
             if ("SUCCESS".equals(result)) {
