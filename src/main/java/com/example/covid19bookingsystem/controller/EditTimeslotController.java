@@ -2,7 +2,9 @@ package com.example.covid19bookingsystem.controller;
 
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Timeslot;
+import com.example.covid19bookingsystem.domain.VaccineType;
 import com.example.covid19bookingsystem.mapper.TimeslotMapper;
+import com.example.covid19bookingsystem.mapper.VaccineTypeMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -60,7 +62,9 @@ public class EditTimeslotController extends HttpServlet {
                 chosenTimeslot = timeslot;
             }
         }
-        if (chosenTimeslot != null) {
+        List<VaccineType> allVaccineTypes = VaccineTypeMapper.getAllVaccineTypes();
+        if (chosenTimeslot != null && !allVaccineTypes.isEmpty()) {
+            request.setAttribute("allVaccineTypesToChoose", allVaccineTypes);
             request.setAttribute("chosenTimeslotDetails", timeslotDetails);
             request.getRequestDispatcher("/hcp/editTimeslot.jsp").forward(request, response);
         } else {

@@ -1,6 +1,9 @@
 <%@ page import="com.example.covid19bookingsystem.domain.Timeslot" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="com.example.covid19bookingsystem.domain.VaccineType" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -18,7 +21,9 @@
     <title>Edit Timeslot</title>
     <%
         HashMap<String, String> chosenTimeslotDetails = new HashMap<>();
-        if (request.getAttribute("chosenTimeslotDetails") != null) {
+        List<VaccineType> allVaccineTypes = new ArrayList<>();
+        if (request.getAttribute("chosenTimeslotDetails") != null && request.getAttribute("allVaccineTypesToChoose") != null) {
+            allVaccineTypes = (List<VaccineType>) request.getAttribute("allVaccineTypesToChoose");
             chosenTimeslotDetails = (HashMap<String, String>) request.getAttribute("chosenTimeslotDetails");
     %>
             <script>
@@ -52,6 +57,7 @@
 <body>
 <%
     List<Timeslot> editableTimeslots = (List<Timeslot>) request.getSession().getAttribute("editableTimeslots");
+    SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("yyyy-MM-dd hh:mm aa");
 %>
 <h4
         class="display-4"
@@ -71,7 +77,7 @@
                     class="list-group-item list-group-item-action"
                     onclick="selectTimeslot('<%= timeslot.getId()%>');"
             >
-                <strong>Time:</strong> <%= timeslot.getDateTime().toString() %>
+                <strong>Time:</strong> <%= dateTimeFormatter.format(timeslot.getDateTime().getTime()).toUpperCase() %>
                 | <strong>Vaccine Type:</strong> <%= timeslot.getVaccineType() %>
             </button>
             <%
@@ -112,17 +118,37 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="vaccineTypeId" class="col-sm-6 col-form-label"><strong>Vaccine Type:</strong></label>
+                        <label class="col-sm-6 col-form-label" for="vaccineTypeId"><strong>Vaccine Type:</strong></label>
                         <div class="col-sm-6">
-                            <input
-                                    type="text"
-                                    class="form-control"
-                                    id="vaccineTypeId"
-                                    placeholder="<%= chosenTimeslotDetails.get("vaccineType")%>"
-                                    disabled
-                            >
+                            <select id="vaccineTypeId" class="form-control" name = "vaccineType">
+                                <%
+                                    for (VaccineType vaccine: allVaccineTypes) {
+                                        if (vaccine.getName().equals(chosenTimeslotDetails.get("vaccineType"))) {
+                                %>
+                                            <option selected value=<%= vaccine.getName()%>> <%= vaccine.getName()%> </option>
+                                <%
+                                        } else {
+                                %>
+                                            <option value=<%= vaccine.getName()%>> <%= vaccine.getName()%> </option>
+                                <%
+                                        }
+                                    }
+                                %>
+                            </select>
                         </div>
                     </div>
+<%--                    <div class="form-group row">--%>
+<%--                        <label for="vaccineTypeId" class="col-sm-6 col-form-label"><strong>Vaccine Type:</strong></label>--%>
+<%--                        <div class="col-sm-6">--%>
+<%--                            <input--%>
+<%--                                    type="text"--%>
+<%--                                    class="form-control"--%>
+<%--                                    id="vaccineTypeId"--%>
+<%--                                    placeholder="<%= chosenTimeslotDetails.get("vaccineType")%>"--%>
+<%--                                    disabled--%>
+<%--                            >--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
                     <div class="form-group row">
                         <label for="durationId" class="col-sm-6 col-form-label"><strong>Duration (in minutes):</strong></label>
                         <div class="col-sm-6">
