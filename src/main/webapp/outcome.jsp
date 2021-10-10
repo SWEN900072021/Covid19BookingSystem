@@ -55,7 +55,26 @@
                  style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">
                 <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
                 <div>
-                    Someone else has is editing this timeslot. Please try again later.
+                    Someone else is editing this timeslot. Please try again later.
+                </div>
+            </div>
+            <br/>
+            <form name="return_editing_timeslots" method="get" action="editTimeslot"
+                  style="margin: 0 auto;float: none;margin-bottom: 10px;text-align: center">
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn btn-dark">Edit Other Timeslots</button>
+                    </div>
+                </div>
+            </form>
+<%
+        } else if (request.getParameter("success").equals("update_version_error")) {
+%>
+            <div class="alert alert-danger d-flex align-items-center" role="alert"
+                 style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                <div>
+                    Someone else has edited this timeslot. Please try again later.
                 </div>
             </div>
             <br/>

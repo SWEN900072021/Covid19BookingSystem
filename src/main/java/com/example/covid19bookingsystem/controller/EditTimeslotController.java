@@ -69,9 +69,14 @@ public class EditTimeslotController extends HttpServlet {
         address.setCountry(request.getParameter("country"));
         timeslot.setAddress(address);
         timeslot.setVersion(Integer.parseInt(request.getParameter("version")));
-        TimeslotMapper.updateTimeslotDetails(timeslot);
+        String result = TimeslotMapper.updateTimeslotDetails(timeslot);
         ExclusiveLockManager.getInstance().releaseLock(Integer.parseInt(request.getParameter("timeslotId")));
-        doGet(request, response);
+        if (result.equals("VERSION_MISMATCH")) {
+            request.getRequestDispatcher("/outcome.jsp?success=update_version_error").forward(request, response);
+        }
+        else {
+            doGet(request, response);
+        }
     }
 
     private void openTimeslotDetails(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

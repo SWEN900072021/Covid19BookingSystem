@@ -439,7 +439,7 @@ public class TimeslotMapper {
         }
     }
 
-    public static void updateTimeslotDetails(Timeslot timeslot) {
+    public static String updateTimeslotDetails(Timeslot timeslot) {
         String sql = "UPDATE timeslot SET date_time = ?, vaccine_type = ?, duration = ?, address_line_1 = ?, " +
                 "address_line_2 = ?, state = ?, postcode = ?, country = ?, version = ? WHERE id = ?";
 
@@ -460,9 +460,11 @@ public class TimeslotMapper {
         } catch (SQLException e) {
             if (e.getSQLState().equals("VER01")) {
                 System.out.println("VERSION MISMATCH ALERT: " + e.getMessage());
+                return "VERSION_MISMATCH";
             }
             else {
                 System.out.println("Timeslot Mapper Error: " + e.getMessage());
+                return "ERROR";
             }
         } finally {
             try {
@@ -471,5 +473,6 @@ public class TimeslotMapper {
                 e.printStackTrace();
             }
         }
+        return "SUCCESS";
     }
 }

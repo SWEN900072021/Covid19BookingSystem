@@ -91,7 +91,7 @@
                 <form name="timeslot" method="get" action="addTimeslot">
                     <div class="form-group row">
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn btn-dark">Add Timeslot</button>
+                            <button type="submit" class="btn btn btn-dark">Add Timeslots</button>
                         </div>
                     </div>
                 </form>
