@@ -1,3 +1,6 @@
+<%@ page import="com.example.covid19bookingsystem.domain.Account" %>
+<%@ page import="com.example.covid19bookingsystem.domain.VaccineRecipient" %>
+<%@ page import="com.example.covid19bookingsystem.utils.EnumUtils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,6 +16,13 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <title>Sign Up</title>
+    <%
+        VaccineRecipient account = null;
+        if (request.getSession().getAttribute("usernameUsed")!=null){
+            account = (VaccineRecipient) request.getSession().getAttribute("vrDetails");
+        }
+
+    %>
 </head>
 <body>
 <h4
@@ -29,6 +39,21 @@
             <input type="hidden"
                    name="${_csrf.parameterName}"
                    value="${_csrf.token}"/>
+            <%
+                if (account != null){
+            %>
+            <div class="form-group row">
+                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                     style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                    <div>
+                        Username has been taken. Please pick another username.
+                    </div>
+                </div>
+            </div>
+            <%
+                }
+            %>
             <div class="form-group row">
                 <label for="usernameId" class="col-sm-4 col-form-label"><strong>Username:</strong></label>
                 <div class="col-sm-8">
@@ -40,6 +65,7 @@
                     >
                 </div>
             </div>
+
             <div class="form-group row">
                 <label for="passwordId" class="col-sm-4 col-form-label"><strong>Password:</strong></label>
                 <div class="col-sm-8">
@@ -59,6 +85,13 @@
                             class="form-control"
                             id="firstNameId"
                             name="firstName"
+                            <%
+                                if (account != null && account.getFirstName() != null) {
+                            %>
+                            value=<%= account.getFirstName()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
@@ -70,6 +103,13 @@
                             class="form-control"
                             id="lastNameId"
                             name="lastName"
+                            <%
+                                if (account != null && account.getLastName() != null) {
+                            %>
+                            value=<%= account.getLastName()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
@@ -82,6 +122,13 @@
                             id="addressFirstLineId"
                             name="addressLine1"
                             placeholder="Unit Number..."
+                            <%
+                                if (account != null && account.getAddress().getAddressLine1() != null) {
+                            %>
+                            value=<%= account.getAddress().getAddressLine1()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
@@ -95,6 +142,13 @@
                             id="addressSecondLineId"
                             name="addressLine2"
                             placeholder="Street Address..."
+                            <%
+                                if (account != null && account.getAddress().getAddressLine2() != null) {
+                            %>
+                            value=<%= account.getAddress().getAddressLine2()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
@@ -107,6 +161,13 @@
                             id="stateId"
                             name="state"
                             placeholder="VIC, NSW, NT, WA,..."
+                            <%
+                                if (account != null && account.getAddress().getState() != null) {
+                            %>
+                            value=<%= account.getAddress().getState()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
@@ -119,6 +180,13 @@
                             id="postcodeId"
                             name="postcode"
                             placeholder="3000, 3008,..."
+                            <%
+                                if (account != null && account.getAddress().getPostcode() != null) {
+                            %>
+                            value=<%= account.getAddress().getPostcode()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
@@ -131,6 +199,13 @@
                             id="countryId"
                             name="country"
                             placeholder="Australia..."
+                            <%
+                                if (account != null && account.getAddress().getCountry() != null) {
+                            %>
+                            value=<%= account.getAddress().getCountry()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
@@ -143,6 +218,13 @@
                             id="dobId"
                             name="dateOfBirth"
                             required
+                            <%
+                                if (account != null && account.getDateOfBirth() != null) {
+                            %>
+                            value=<%= account.getDateOfBirth()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
@@ -151,21 +233,54 @@
                     <legend class="col-form-label col-sm-4 pt-0"><strong>Gender:</strong></legend>
                     <div class="col-sm-8" style="text-align: left">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="female" value="Female"
-                                   checked>
+                            <%
+                                if (account != null && account.getGender()!= EnumUtils.Gender.FEMALE) {
+                            %>
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="Female">
+                            <%
+                                }
+                                else{
+                            %>
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="Female" checked>
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="female">
                                 Female
                             </label>
                         </div>
                         <div class="form-check">
+                            <%
+                                if (account != null && account.getGender()== EnumUtils.Gender.MALE) {
+                            %>
+                            <input class="form-check-input" type="radio" name="gender" id="male" value="Male" checked>
+                            <%
+                                }
+                                else{
+                            %>
                             <input class="form-check-input" type="radio" name="gender" id="male" value="Male">
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="male">
                                 Male
                             </label>
                         </div>
                         <div class="form-check">
+                            <%
+                                if (account != null && account.getGender()== EnumUtils.Gender.UNDISCLOSED) {
+                            %>
+                            <input class="form-check-input" type="radio" name="gender" id="undisclosed"
+                                   value="Undisclosed" checked>
+                            <%
+                                }
+                                else{
+                            %>
                             <input class="form-check-input" type="radio" name="gender" id="undisclosed"
                                    value="Undisclosed">
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="undisclosed">
                                 Prefer Not to Answer
                             </label>
@@ -181,6 +296,13 @@
                             class="form-control"
                             id="phoneNumberId"
                             name="phoneNumber"
+                            <%
+                                if (account != null && account.getPhoneNumber() != null) {
+                            %>
+                            value=<%= account.getPhoneNumber()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
@@ -192,6 +314,13 @@
                             class="form-control"
                             id="emailId"
                             name="email"
+                            <%
+                                if (account != null && account.getEmailAddress() != null) {
+                            %>
+                            value=<%= account.getEmailAddress()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>

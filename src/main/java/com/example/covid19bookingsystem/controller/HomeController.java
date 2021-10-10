@@ -27,8 +27,15 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String view = "/home.jsp";
+        // Reset session variables
         if (request.getSession().getAttribute("UoW") != null) {
             request.getSession().removeAttribute("UoW");
+        }
+        if (request.getSession().getAttribute("usernameUsed")!=null){
+            request.getSession().removeAttribute("usernameUsed");
+        }
+        if (request.getSession().getAttribute("vrDetails")!=null) {
+            request.getSession().removeAttribute("vrDetails");
         }
         if (request.getSession().getAttribute("success") != null) {
             request.getSession().removeAttribute("success");

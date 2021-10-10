@@ -12,6 +12,13 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Reset session variables
+        if (request.getSession().getAttribute("usernameUsed")!=null){
+            request.getSession().removeAttribute("usernameUsed");
+        }
+        if (request.getSession().getAttribute("vrDetails")!=null){
+            request.getSession().removeAttribute("vrDetails");
+        }
         request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
