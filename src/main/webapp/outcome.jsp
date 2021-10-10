@@ -82,7 +82,7 @@
                   style="margin: 0 auto;float: none;margin-bottom: 10px;text-align: center">
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn btn-dark">Edit Other Timeslots</button>
+                        <button type="submit" class="btn btn btn-dark">Return Home</button>
                     </div>
                 </div>
             </form>

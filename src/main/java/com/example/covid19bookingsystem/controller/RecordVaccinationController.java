@@ -22,7 +22,6 @@ public class RecordVaccinationController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         if (request.getSession().getAttribute("userDetails") != null) {
             HealthCareProvider hcp = (HealthCareProvider) request.getSession().getAttribute("userDetails");
             List<Timeslot> timeslots = findBookedTimeslotsByOrganisationalId(hcp.getOrganisationalId());
@@ -44,11 +43,31 @@ public class RecordVaccinationController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Timeslot timeslotSubmitted = null;
+
         if (request.getParameter("timeslotSubmitted") != null) {
             Integer id = Integer.valueOf(request.getParameter("timeslotSubmitted"));
-            Timeslot timeslot = TimeslotMapper.findTimeslotById(id);
-            TimeslotMapper.recordVaccinationCompleted(id);
-            VaccineCertificateMapper.insert(timeslot.getVaccineRecipient().getId(), timeslot.getVaccineType());
+            List<Timeslot> timeslots = (List<Timeslot>) request.getSession().getAttribute("bookedTimeslots");
+
+            for(Timeslot timeslot: timeslots) {
+                if (timeslot.getId().equals(id)) {
+                    timeslotSubmitted = timeslot;
+                }
+            }
+            
+            String result = TimeslotMapper.recordVaccinationCompleted(timeslotSubmitted);
+
+            if ("SUCCESS".equals(result)) {
+                VaccineCertificateMapper.insert(timeslotSubmitted.getVaccineRecipient().getId(), timeslotSubmitted.getVaccineType());
+                request.getSession().setAttribute("success", "true");
+            }
+            else if ("VERSION_MISMATCH".equals(result)) {
+                request.getSession().setAttribute("success", "version_mismatch");
+            }
+            else {
+                request.getSession().setAttribute("success", "false");
+            }
+
             doGet(request, response);
         }
     }
