@@ -42,6 +42,23 @@
                    name="${_csrf.parameterName}"
                    value="${_csrf.token}"/>
             <fieldset class="form-group">
+                <%
+                    if (request.getParameter("timeslot_taken") != null) {
+                        if (request.getParameter("timeslot_taken").equals("true")) {
+                %>
+                <div class="form-group row">
+                    <div class="alert alert-danger d-flex align-items-center" role="alert"
+                         style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                        <div>
+                            Timeslot has been booked by another user. Please try again.
+                        </div>
+                    </div>
+                </div>
+                <%
+                        }
+                    }
+                %>
                 <div class="row">
                     <legend class="col-form-label col-sm-5 pt-0"><strong>Search by:</strong></legend>
                     <div class="col-sm-7" style="text-align: left">

@@ -53,7 +53,7 @@ public class BookTimeController extends HttpServlet {
                 request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
             }
             else if ("VERSION_MISMATCH".equals(result)) {
-                request.getRequestDispatcher("/outcome.jsp?success=version_mismatch").forward(request, response);
+                request.getRequestDispatcher("vr/searchTimeslot.jsp?timeslot_taken=true").forward(request, response);
             }
             else {
                 request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
