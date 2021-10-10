@@ -7,6 +7,9 @@
     <title>Record a Vaccination</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <%
+        String success = (String) request.getSession().getAttribute("success");
+    %>
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -28,7 +31,22 @@
     <div>
         Clicking on any record below, will automatically record the vaccination as <strong>Completed</strong>.
     </div>
-</div>
+    </div>
+    <%
+        if (success != null) {
+            if (success.equals("version_mismatch")) {
+    %>
+    <div class="alert alert-danger d-flex align-items-center" role="alert"
+         style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+            Someone else has already recorded this vaccination as <strong>Completed</strong>.
+        </div>
+    </div>
+    <%
+            }
+        }
+    %>
 <br/>
 <div class="card text-center border-secondary mb-3"
      style="width: 60rem;margin: 0 auto;float: none;margin-bottom: 10px;">
