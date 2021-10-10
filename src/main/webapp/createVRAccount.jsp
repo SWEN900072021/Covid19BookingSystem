@@ -39,6 +39,21 @@
             <input type="hidden"
                    name="${_csrf.parameterName}"
                    value="${_csrf.token}"/>
+            <%
+                if (account != null){
+            %>
+            <div class="form-group row">
+                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                     style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                    <div>
+                        Username has been taken. Please pick another username.
+                    </div>
+                </div>
+            </div>
+            <%
+                }
+            %>
             <div class="form-group row">
                 <label for="usernameId" class="col-sm-4 col-form-label"><strong>Username:</strong></label>
                 <div class="col-sm-8">
@@ -50,20 +65,7 @@
                     >
                 </div>
             </div>
-            <%
-                if (account != null){
-            %>
-            <div class="form-group row">
-                <h4
-                        class="display-4"
-                        style="display: flex;justify-content: center;margin-top: 5px;font-size: 20px;color: orangered;margin-left: 90px"
-                >
-                    Username has been taken. Please try another username.
-                </h4>
-            </div>
-            <%
-                }
-            %>
+
             <div class="form-group row">
                 <label for="passwordId" class="col-sm-4 col-form-label"><strong>Password:</strong></label>
                 <div class="col-sm-8">
