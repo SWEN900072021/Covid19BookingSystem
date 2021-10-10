@@ -26,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/viewAllAvailableTimeslots").hasRole("ADMIN")
                 .antMatchers("/viewAllUsers").hasRole("ADMIN")
                 .antMatchers("/addTimeslot").hasRole("HCP")
+                .antMatchers("/editTimeslot").hasRole("HCP")
                 .antMatchers("/recordVaccination").hasRole("HCP")
                 .antMatchers("/bookDate").hasRole("VR")
                 .antMatchers("/bookTime").hasRole("VR")

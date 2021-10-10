@@ -156,7 +156,67 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static List<Timeslot> findTimeslotsByOrganisationalIdAndStatus(Integer organisationalId) {
+    public static List<Timeslot> findUnbookedTimeslotsByOrganisationalId(Integer organisationalId) {
+        String sql = "SELECT * FROM timeslot INNER JOIN health_care_provider ON timeslot.health_care_provider = health_care_provider.id "
+                + "WHERE health_care_provider.organisational_id = ? AND status = ? AND date_time >= ?";
+
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        List<Timeslot> timeslots = new ArrayList<>();
+
+        try {
+            LocalDateTime today = LocalDateTime.now();
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formatDateTime = today.format(format);
+
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setInt(1, organisationalId);
+            statement.setString(2, EnumUtils.TimeslotStatus.UNBOOKED.toString());
+            statement.setTimestamp(3, Timestamp.valueOf(formatDateTime));
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                Timeslot timeslot = new Timeslot();
+                timeslot.setId(rs.getInt("id"));
+
+                HealthCareProvider healthCareProvider = new HealthCareProvider();
+                healthCareProvider.setId(rs.getInt("health_care_provider"));
+                timeslot.setHealthcareProvider(healthCareProvider);
+
+                VaccineRecipient vaccineRecipient = findVaccineRecipientById(rs.getInt("vaccine_recipient"));
+                timeslot.setVaccineRecipient(vaccineRecipient);
+
+                timeslot.setVaccineType(rs.getString("vaccine_type"));
+                timeslot.setStatus(valueOf(rs.getString("status")));
+                timeslot.setDateTime(Timestamp.valueOf(rs.getString("date_time")));
+                timeslot.setDuration(rs.getInt("duration"));
+
+                Address address = new Address();
+                address.setAddressLine1(rs.getString("address_line_1"));
+                address.setAddressLine2(rs.getString("address_line_2"));
+                address.setPostcode(rs.getString("postcode"));
+                address.setState(rs.getString("state"));
+                address.setCountry(rs.getString("country"));
+                timeslot.setAddress(address);
+
+                timeslot.setVersion(rs.getInt("version"));
+
+                timeslots.add(timeslot);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+        } finally {
+            try {
+                DBConnection.close(statement, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return timeslots;
+    }
+
+    public static List<Timeslot> findBookedTimeslotsByOrganisationalId(Integer organisationalId) {
         String sql = "SELECT * FROM timeslot INNER JOIN health_care_provider ON timeslot.health_care_provider = health_care_provider.id "
         + "WHERE health_care_provider.organisational_id = ? AND status = 'BOOKED' AND date_time <= ?";
 
@@ -222,7 +282,7 @@ public class TimeslotMapper {
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setInt(1, vr.getId());
-            statement.setString(2, EnumUtils.TimeslotStatus.BOOKED.name());
+            statement.setString(2, EnumUtils.TimeslotStatus.BOOKED.toString());
             statement.setInt(3, timeslot.getVersion());
             statement.setInt(4, timeslot.getId());
             statement.execute();
@@ -359,15 +419,13 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-
-
     public static String recordVaccinationCompleted(Timeslot timeslot) {
         String sql = "UPDATE timeslot SET status = ?, version = ? WHERE id = ?";
 
         PreparedStatement statement = null;
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setString(1, EnumUtils.TimeslotStatus.COMPLETED.name());
+            statement.setString(1, EnumUtils.TimeslotStatus.COMPLETED.toString());
             statement.setInt(2, timeslot.getVersion());
             statement.setInt(3, timeslot.getId());
             statement.execute();
@@ -388,5 +446,42 @@ public class TimeslotMapper {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static String updateTimeslotDetails(Timeslot timeslot) {
+        String sql = "UPDATE timeslot SET date_time = ?, vaccine_type = ?, duration = ?, address_line_1 = ?, " +
+                "address_line_2 = ?, state = ?, postcode = ?, country = ?, version = ? WHERE id = ?";
+
+        PreparedStatement statement = null;
+        try {
+            statement = DBConnection.getDbConnection().prepareStatement(sql);
+            statement.setTimestamp(1, timeslot.getDateTime());
+            statement.setString(2, timeslot.getVaccineType());
+            statement.setInt(3, timeslot.getDuration());
+            statement.setString(4, timeslot.getAddress().getAddressLine1());
+            statement.setString(5, timeslot.getAddress().getAddressLine2());
+            statement.setString(6, timeslot.getAddress().getState());
+            statement.setString(7, timeslot.getAddress().getPostcode());
+            statement.setString(8, timeslot.getAddress().getCountry());
+            statement.setInt(9, timeslot.getVersion());
+            statement.setInt(10, timeslot.getId());
+            statement.execute();
+        } catch (SQLException e) {
+            if (e.getSQLState().equals("VER01")) {
+                System.out.println("VERSION MISMATCH ALERT: " + e.getMessage());
+                return "VERSION_MISMATCH";
+            }
+            else {
+                System.out.println("Timeslot Mapper Error: " + e.getMessage());
+                return "ERROR";
+            }
+        } finally {
+            try {
+                DBConnection.close(statement, null);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return "SUCCESS";
     }
 }

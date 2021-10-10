@@ -72,7 +72,7 @@
                     value="<%= hcp.getId().toString()%>"
             >
             <div class="row mb-3">
-                <label for="inputDate" class="col-sm-4 col-form-label"><strong>Date (YYYY-MM-DD):</strong></label>
+                <label for="inputDate" class="col-sm-4 col-form-label"><strong>Date:</strong></label>
                 <div class="col-sm-8">
                     <input
                             type="date"
@@ -83,7 +83,7 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="inputTime" class="col-sm-4 col-form-label"><strong>Time (HH:MM):</strong></label>
+                <label for="inputTime" class="col-sm-4 col-form-label"><strong>Time:</strong></label>
                 <div class="col-sm-8">
                     <input
                             type="time"
