@@ -36,6 +36,8 @@ public class HomeController extends HttpServlet {
         }
         if (request.getSession().getAttribute("vrDetails")!=null){
             request.getSession().removeAttribute("vrDetails");
+        if (request.getSession().getAttribute("success") != null) {
+            request.getSession().removeAttribute("success");
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {

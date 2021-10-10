@@ -359,17 +359,28 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static void recordVaccinationCompleted(Integer timeslotId) {
-        String sql = "UPDATE timeslot SET status = ? WHERE id = ?";
+
+
+    public static String recordVaccinationCompleted(Timeslot timeslot) {
+        String sql = "UPDATE timeslot SET status = ?, version = ? WHERE id = ?";
 
         PreparedStatement statement = null;
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setString(1, EnumUtils.TimeslotStatus.COMPLETED.name());
-            statement.setInt(2, timeslotId);
+            statement.setInt(2, timeslot.getVersion());
+            statement.setInt(3, timeslot.getId());
             statement.execute();
+            return "SUCCESS";
         } catch (SQLException e) {
-            System.out.println("Timeslot Mapper Error: " + e.getMessage());
+            if (e.getSQLState().equals("VER01")) {
+                System.out.println("VERSION MISMATCH ALERT: " + e.getMessage());
+                return "VERSION_MISMATCH";
+            }
+            else {
+                System.out.println("Timeslot Mapper Error: " + e.getMessage());
+                return "ERROR";
+            }
         } finally {
             try {
                 DBConnection.close(statement, null);

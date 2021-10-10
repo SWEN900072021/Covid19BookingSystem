@@ -43,7 +43,7 @@
 %>
             <div class="alert alert-danger d-flex align-items-center" role="alert"
                  style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#check-circle-fill"/></svg>
                 <div>
                     Someone else has already booked this timeslot. Please try again.
                 </div>
