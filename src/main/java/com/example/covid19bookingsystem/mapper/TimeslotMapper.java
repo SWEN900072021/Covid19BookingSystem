@@ -441,7 +441,7 @@ public class TimeslotMapper {
 
     public static void updateTimeslotDetails(Timeslot timeslot) {
         String sql = "UPDATE timeslot SET date_time = ?, vaccine_type = ?, duration = ?, address_line_1 = ?, " +
-                "address_line_2 = ?, state = ?, postcode = ?, country = ? WHERE id = ?";
+                "address_line_2 = ?, state = ?, postcode = ?, country = ?, version = ? WHERE id = ?";
 
         PreparedStatement statement = null;
         try {
@@ -454,7 +454,8 @@ public class TimeslotMapper {
             statement.setString(6, timeslot.getAddress().getState());
             statement.setString(7, timeslot.getAddress().getPostcode());
             statement.setString(8, timeslot.getAddress().getCountry());
-            statement.setInt(9, timeslot.getId());
+            statement.setInt(9, timeslot.getVersion());
+            statement.setInt(10, timeslot.getId());
             statement.execute();
         } catch (SQLException e) {
             if (e.getSQLState().equals("VER01")) {
