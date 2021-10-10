@@ -4,17 +4,22 @@ import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Account;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.utils.EnumUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import static com.example.covid19bookingsystem.utils.EnumUtils.AccountType.valueOf;
 
 public class AccountMapper {
 
-    public static Boolean insert(Account account) {
+    // SQL state for a violation of the constraint imposed by a unique index or a unique constraint occurred
+    private static final String UNIQUE_CONSTRAINT_VIOLATION = "23505";
+
+    public static String insert(Account account) {
         String sql = "INSERT INTO account (username, password, account_type) VALUES (?, ?, ?) RETURNING id;";
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -28,10 +33,14 @@ public class AccountMapper {
             if (rs.next()) {
                 account.setAccountId(rs.getInt(1));
             }
-            return true;
+            return "SUCCESS";
         } catch (SQLException e) {
+            if (e.getSQLState().equals(UNIQUE_CONSTRAINT_VIOLATION)) {
+                System.out.println("USERNAME TAKEN ERROR: " + e.getMessage());
+                return "USERNAME_TAKEN";
+            }
             System.out.println("Account Mapper Error: " + e.getMessage());
-            return false;
+            return "ERROR";
         } finally {
             try {
                 DBConnection.close(statement, rs);

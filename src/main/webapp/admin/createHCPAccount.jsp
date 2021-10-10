@@ -1,3 +1,5 @@
+<%@ page import="com.example.covid19bookingsystem.domain.HealthCareProvider" %>
+<%@ page import="com.example.covid19bookingsystem.utils.EnumUtils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,6 +15,13 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <title>Create Health Care Provider Account</title>
+    <%
+        HealthCareProvider account = null;
+        if (request.getSession().getAttribute("usernameUsed") != null){
+            account = (HealthCareProvider) request.getSession().getAttribute("hcpDetails");
+        }
+
+    %>
 </head>
 <body>
 <h4
@@ -29,6 +38,21 @@
             <input type="hidden"
                    name="${_csrf.parameterName}"
                    value="${_csrf.token}"/>
+            <%
+                if (account != null){
+            %>
+            <div class="form-group row">
+                <div class="alert alert-danger d-flex align-items-center" role="alert"
+                     style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                    <div>
+                        Username has been taken. Please pick another username.
+                    </div>
+                </div>
+            </div>
+            <%
+                }
+            %>
             <div class="form-group row">
                 <label for="usernameId" class="col-sm-4 col-form-label"><strong>Username:</strong></label>
                 <div class="col-sm-8">
@@ -59,6 +83,13 @@
                             class="form-control"
                             id="organisationalId"
                             name="organisationalId"
+                            <%
+                                if (account != null && account.getOrganisationalId() != null) {
+                            %>
+                            value=<%= account.getOrganisationalId()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
@@ -71,6 +102,13 @@
                             class="form-control"
                             id="hcpNameId"
                             name="healthCareProviderName"
+                            <%
+                                if (account != null && account.getHealthCareProviderName() != null) {
+                            %>
+                            value=<%= account.getHealthCareProviderName()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
@@ -79,36 +117,96 @@
                     <legend class="col-form-label col-sm-4 pt-0"><strong>Gender:</strong></legend>
                     <div class="col-sm-8" style="text-align: left">
                         <div class="form-check">
+                            <%
+                                if (account != null && account.getHealthCareProviderType()!= EnumUtils.HealthCareProviderType.CLINIC) {
+                            %>
+                            <input class="form-check-input" type="radio" name="healthCareProviderType" id="clinic"
+                                   value="CLINIC">
+                            <%
+                                }
+                            else {
+                            %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="clinic"
                                    value="CLINIC" checked>
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="clinic">
                                 Clinic
                             </label>
                         </div>
                         <div class="form-check">
+                            <%
+                                if (account != null && account.getHealthCareProviderType()!= EnumUtils.HealthCareProviderType.HOSPITAL) {
+                            %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="hospital"
                                    value="HOSPITAL">
+                            <%
+                                }
+                            else {
+                            %>
+                            <input class="form-check-input" type="radio" name="healthCareProviderType" id="hospital"
+                                   value="HOSPITAL" checked>
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="hospital">
                                 Hospital
                             </label>
                         </div>
                         <div class="form-check">
+                            <%
+                                if (account != null && account.getHealthCareProviderType()!= EnumUtils.HealthCareProviderType.GP) {
+                            %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="gp"
                                    value="GP">
+                            <%
+                                }
+                            else {
+                            %>
+                            <input class="form-check-input" type="radio" name="healthCareProviderType" id="gp"
+                                   value="GP" checked>
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="gp">
                                 GP
                             </label>
                         </div>
                         <div class="form-check">
+                            <%
+                                if (account != null && account.getHealthCareProviderType()!= EnumUtils.HealthCareProviderType.POPUP) {
+                            %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="popup"
                                    value="POPUP">
+                            <%
+                                }
+                            else {
+                            %>
+                            <input class="form-check-input" type="radio" name="healthCareProviderType" id="popup"
+                                   value="POPUP" checked>
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="popup">
                                 Popup
                             </label>
                         </div>
                         <div class="form-check">
+                            <%
+                                if (account != null && account.getHealthCareProviderType()!= EnumUtils.HealthCareProviderType.OTHER) {
+                            %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="other"
                                    value="OTHER">
+                            <%
+                                }
+                            else {
+                            %>
+                            <input class="form-check-input" type="radio" name="healthCareProviderType" id="other"
+                                   value="OTHER" checked>
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="other">
                                 Other
                             </label>
@@ -125,6 +223,13 @@
                             id="postcodeId"
                             name="postcode"
                             placeholder="3000, 3008,..."
+                            <%
+                                if (account != null && account.getPostcode() != null) {
+                            %>
+                            value=<%= account.getPostcode()%>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>

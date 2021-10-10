@@ -1,25 +1,25 @@
 package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
-import com.example.covid19bookingsystem.domain.Account;
 import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HealthCareProviderMapper {
 
-    public static Boolean insert(HealthCareProvider healthCareProvider) {
+    public static String insert(HealthCareProvider healthCareProvider) {
         String sql = "INSERT INTO health_care_provider (account_id, organisational_id, health_care_provider_name, health_care_provider_type, postcode) VALUES (?, ?, ?, ?, ?);";
         PreparedStatement statement = null;
 
-        Boolean result = AccountMapper.insert(healthCareProvider);
+        String result = AccountMapper.insert(healthCareProvider);
 
-        if (result) {
+        if ("SUCCESS".equals(result)) {
             try {
                 statement = DBConnection.getDbConnection().prepareStatement(sql);
                 statement.setInt(1, healthCareProvider.getAccountId());
@@ -28,10 +28,10 @@ public class HealthCareProviderMapper {
                 statement.setString(4, healthCareProvider.getHealthCareProviderType().toString());
                 statement.setString(5, healthCareProvider.getPostcode());
                 statement.execute();
-                return true;
+                return "SUCCESS";
             } catch (SQLException e) {
-                System.out.println("HealthCareProvider Mapper Error: " + e.getMessage());
-                return false;
+                System.out.println("VaccineRecipient Mapper Error: " + e.getMessage());
+                return "ERROR";
             } finally {
                 try {
                     DBConnection.close(statement, null);
@@ -39,9 +39,11 @@ public class HealthCareProviderMapper {
                     e.printStackTrace();
                 }
             }
+        } else if ("USERNAME_TAKEN".equals(result)) {
+            return "USERNAME_TAKEN";
         }
         else {
-            return false;
+            return "ERROR";
         }
     }
 
