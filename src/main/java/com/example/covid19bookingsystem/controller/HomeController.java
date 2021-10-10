@@ -34,8 +34,9 @@ public class HomeController extends HttpServlet {
         if (request.getSession().getAttribute("usernameUsed")!=null){
             request.getSession().removeAttribute("usernameUsed");
         }
-        if (request.getSession().getAttribute("vrDetails")!=null){
+        if (request.getSession().getAttribute("vrDetails")!=null) {
             request.getSession().removeAttribute("vrDetails");
+        }
         if (request.getSession().getAttribute("success") != null) {
             request.getSession().removeAttribute("success");
         }
