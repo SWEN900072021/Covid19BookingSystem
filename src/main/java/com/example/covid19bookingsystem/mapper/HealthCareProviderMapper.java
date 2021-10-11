@@ -7,7 +7,6 @@ import com.example.covid19bookingsystem.utils.EnumUtils;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +40,7 @@ public class HealthCareProviderMapper {
             }
         } else if ("USERNAME_TAKEN".equals(result)) {
             return "USERNAME_TAKEN";
-        }
-        else {
+        } else {
             return "ERROR";
         }
     }

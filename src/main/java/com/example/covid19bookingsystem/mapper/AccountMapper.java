@@ -2,14 +2,11 @@ package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Account;
-import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.utils.EnumUtils;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import static com.example.covid19bookingsystem.utils.EnumUtils.AccountType.valueOf;
@@ -104,7 +101,7 @@ public class AccountMapper {
         return null;
     }
 
-    public static ArrayList<Account> getAllAccounts(){
+    public static ArrayList<Account> getAllAccounts() {
         String sql = "SELECT * FROM account ;";
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -113,7 +110,7 @@ public class AccountMapper {
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             rs = statement.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 Account account = new Account();
                 account.setAccountId(rs.getInt("id"));
                 account.setUsername(rs.getString("username"));
@@ -133,7 +130,7 @@ public class AccountMapper {
         return accounts;
     }
 
-    public static ArrayList<Account> getAllVaccineRecipients(){
+    public static ArrayList<Account> getAllVaccineRecipients() {
         String sql = "SELECT * FROM account WHERE account_type = ?;";
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -144,7 +141,7 @@ public class AccountMapper {
             statement.setString(1, EnumUtils.AccountType.VR.name());
             rs = statement.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 Account account = new Account();
                 account.setAccountId(rs.getInt("id"));
                 account.setUsername(rs.getString("username"));
@@ -165,7 +162,7 @@ public class AccountMapper {
         return accounts;
     }
 
-    public static ArrayList<Account> getAllHealthCareProviders(){
+    public static ArrayList<Account> getAllHealthCareProviders() {
         String sql = "SELECT * FROM account WHERE account_type = ?;";
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -175,7 +172,7 @@ public class AccountMapper {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setString(1, EnumUtils.AccountType.HCP.name());
             rs = statement.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 Account account = new Account();
                 account.setUsername(rs.getString("username"));
                 account.setAccountType(valueOf(rs.getString("account_type")));

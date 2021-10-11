@@ -4,12 +4,10 @@ import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Account;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
-import org.springframework.dao.DuplicateKeyException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -52,8 +50,7 @@ public class VaccineRecipientMapper {
             }
         } else if ("USERNAME_TAKEN".equals(result)) {
             return "USERNAME_TAKEN";
-        }
-        else {
+        } else {
             return "ERROR";
         }
     }
