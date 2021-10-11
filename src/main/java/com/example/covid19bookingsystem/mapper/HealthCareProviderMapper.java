@@ -22,7 +22,7 @@ public class HealthCareProviderMapper {
             try {
                 statement = DBConnection.getDbConnection().prepareStatement(sql);
                 statement.setInt(1, healthCareProvider.getAccountId());
-                statement.setInt(2, healthCareProvider.getOrganisationalId());
+                statement.setString(2, healthCareProvider.getOrganisationalId());
                 statement.setString(3, healthCareProvider.getHealthCareProviderName());
                 statement.setString(4, healthCareProvider.getHealthCareProviderType().toString());
                 statement.setString(5, healthCareProvider.getPostcode());
@@ -116,7 +116,7 @@ public class HealthCareProviderMapper {
             statement.setInt(1, id);
             rs = statement.executeQuery();
             if (rs.next()) {
-                hcp.setOrganisationalId(rs.getInt("organisational_id"));
+                hcp.setOrganisationalId(rs.getString("organisational_id"));
                 hcp.setHealthCareProviderName(rs.getString("health_care_provider_name"));
                 hcp.setHealthCareProviderType(EnumUtils.HealthCareProviderType.valueOf(rs.getString("health_care_provider_type").toUpperCase()));
                 hcp.setPostcode(rs.getString("postcode"));
@@ -148,7 +148,7 @@ public class HealthCareProviderMapper {
             rs = statement.executeQuery();
             if (rs.next()) {
                 hcp.setId(rs.getInt("id"));
-                hcp.setOrganisationalId(rs.getInt("organisational_id"));
+                hcp.setOrganisationalId(rs.getString("organisational_id"));
                 hcp.setHealthCareProviderName(rs.getString("health_care_provider_name"));
                 hcp.setHealthCareProviderType(EnumUtils.HealthCareProviderType.valueOf(rs.getString("health_care_provider_type").toUpperCase()));
                 hcp.setPostcode(rs.getString("postcode"));

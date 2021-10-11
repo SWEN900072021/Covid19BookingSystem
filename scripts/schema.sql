@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS vaccine_type (
 CREATE TABLE IF NOT EXISTS health_care_provider (
     id SERIAL PRIMARY KEY,
     account_id INT NOT NULL,
-    organisational_id INT NOT NULL,
+    organisational_id VARCHAR(50) NOT NULL,
     health_care_provider_name VARCHAR(50),
     health_care_provider_type VARCHAR(50),
     postcode VARCHAR(20),
