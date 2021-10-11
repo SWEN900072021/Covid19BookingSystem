@@ -24,6 +24,14 @@
     <%
         }
     %>
+    <%
+        String searchBy = null;
+        String searchQuery = null;
+        if (request.getSession().getAttribute("searchBy") != null && request.getSession().getAttribute("searchQuery") != null) {
+            searchBy = (String) request.getSession().getAttribute("searchBy");
+            searchQuery = (String) request.getSession().getAttribute("searchQuery");
+        }
+    %>
 </head>
 <body>
 <h4
@@ -63,14 +71,42 @@
                     <legend class="col-form-label col-sm-5 pt-0"><strong>Search by:</strong></legend>
                     <div class="col-sm-7" style="text-align: left">
                         <div class="form-check">
+                            <%
+                                if ("area".equals(searchBy)) {
+                            %>
                             <input class="form-check-input" type="radio" name="searchBy" id="Area" value="area" checked>
+                            <%
+                                }
+                            else if (searchBy == null) {
+                            %>
+                            <input class="form-check-input" type="radio" name="searchBy" id="Area" value="area" checked>
+                            <%
+                                }
+                                else {
+                            %>
+                            <input class="form-check-input" type="radio" name="searchBy" id="Area" value="area">
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="Area">
                                 Area (By postcode)
                             </label>
                         </div>
                         <div class="form-check">
+                            <%
+                                if ("hcp".equals(searchBy)) {
+                            %>
+                            <input class="form-check-input" type="radio" name="searchBy" id="HCP"
+                                   value="healthCareProvider" checked>
+                            <%
+                                }
+                            else {
+                            %>
                             <input class="form-check-input" type="radio" name="searchBy" id="HCP"
                                    value="healthCareProvider">
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="HCP">
                                 Health Care Provider (By name)
                             </label>
@@ -88,6 +124,13 @@
                             id="inputQuery"
                             name="queryField"
                             placeholder="Royal Melbourne Hospital / 3052"
+                            <%
+                                if (searchQuery != null) {
+                            %>
+                            value=<%= searchQuery %>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
