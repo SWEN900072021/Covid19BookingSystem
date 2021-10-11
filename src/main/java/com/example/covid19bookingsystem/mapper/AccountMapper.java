@@ -2,7 +2,6 @@ package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Account;
-import com.example.covid19bookingsystem.domain.VaccineRecipient;
 import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import java.sql.PreparedStatement;
@@ -14,7 +13,10 @@ import static com.example.covid19bookingsystem.utils.EnumUtils.AccountType.value
 
 public class AccountMapper {
 
-    public static Boolean insert(Account account) {
+    // SQL state for a violation of the constraint imposed by a unique index or a unique constraint occurred
+    private static final String UNIQUE_CONSTRAINT_VIOLATION = "23505";
+
+    public static String insert(Account account) {
         String sql = "INSERT INTO account (username, password, account_type) VALUES (?, ?, ?) RETURNING id;";
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -28,10 +30,14 @@ public class AccountMapper {
             if (rs.next()) {
                 account.setAccountId(rs.getInt(1));
             }
-            return true;
+            return "SUCCESS";
         } catch (SQLException e) {
+            if (e.getSQLState().equals(UNIQUE_CONSTRAINT_VIOLATION)) {
+                System.out.println("USERNAME TAKEN ERROR: " + e.getMessage());
+                return "USERNAME_TAKEN";
+            }
             System.out.println("Account Mapper Error: " + e.getMessage());
-            return false;
+            return "ERROR";
         } finally {
             try {
                 DBConnection.close(statement, rs);
@@ -95,7 +101,7 @@ public class AccountMapper {
         return null;
     }
 
-    public static ArrayList<Account> getAllAccounts(){
+    public static ArrayList<Account> getAllAccounts() {
         String sql = "SELECT * FROM account ;";
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -104,7 +110,7 @@ public class AccountMapper {
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             rs = statement.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 Account account = new Account();
                 account.setAccountId(rs.getInt("id"));
                 account.setUsername(rs.getString("username"));
@@ -124,7 +130,7 @@ public class AccountMapper {
         return accounts;
     }
 
-    public static ArrayList<Account> getAllVaccineRecipients(){
+    public static ArrayList<Account> getAllVaccineRecipients() {
         String sql = "SELECT * FROM account WHERE account_type = ?;";
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -135,7 +141,7 @@ public class AccountMapper {
             statement.setString(1, EnumUtils.AccountType.VR.name());
             rs = statement.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 Account account = new Account();
                 account.setAccountId(rs.getInt("id"));
                 account.setUsername(rs.getString("username"));
@@ -156,7 +162,7 @@ public class AccountMapper {
         return accounts;
     }
 
-    public static ArrayList<Account> getAllHealthCareProviders(){
+    public static ArrayList<Account> getAllHealthCareProviders() {
         String sql = "SELECT * FROM account WHERE account_type = ?;";
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -166,7 +172,7 @@ public class AccountMapper {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             statement.setString(1, EnumUtils.AccountType.HCP.name());
             rs = statement.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 Account account = new Account();
                 account.setUsername(rs.getString("username"));
                 account.setAccountType(valueOf(rs.getString("account_type")));

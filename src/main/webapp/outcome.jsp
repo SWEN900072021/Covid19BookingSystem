@@ -39,16 +39,6 @@
                 </div>
             </div>
 <%
-        } else if (request.getParameter("success").equals("version_mismatch")) {
-%>
-            <div class="alert alert-danger d-flex align-items-center" role="alert"
-                 style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                <div>
-                    Someone else has already booked this timeslot. Please try again.
-                </div>
-            </div>
-<%
         } else if (request.getParameter("success").equals("lock_error")) {
 %>
             <div class="alert alert-danger d-flex align-items-center" role="alert"

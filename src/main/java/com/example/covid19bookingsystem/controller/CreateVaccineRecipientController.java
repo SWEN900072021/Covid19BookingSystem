@@ -33,16 +33,18 @@ public class CreateVaccineRecipientController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         VaccineRecipient vrAccount = processVRAccount(request);
         processVaccineRecipientRequest(request, vrAccount);
-        Boolean result = VaccineRecipientMapper.insert(vrAccount);
+        String result = VaccineRecipientMapper.insert(vrAccount);
 
-        if (result) {
+        if ("SUCCESS".equals(result)) {
             request.getRequestDispatcher("/outcome.jsp?success=true").forward(request, response);
         }
-        else {
+        else if ("USERNAME_TAKEN".equals(result)){
             request.getSession().setAttribute("usernameUsed", true);
             request.getSession().setAttribute("vrDetails", vrAccount);
             doGet(request, response);
-            //request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
+        }
+        else {
+            request.getRequestDispatcher("/outcome.jsp?success=false").forward(request, response);
         }
     }
 

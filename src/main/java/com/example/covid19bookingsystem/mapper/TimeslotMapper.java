@@ -21,6 +21,9 @@ import static com.example.covid19bookingsystem.utils.EnumUtils.TimeslotStatus.va
 
 public class TimeslotMapper {
 
+    // SQL state for version mismatch on updates
+    private static final String VERSION_MISMATCH = "VER01";
+
     public static void insert(Timeslot timeslot) {
 
         String sql = "INSERT INTO timeslot (health_care_provider, vaccine_type, status, date_time, duration, " +
@@ -288,7 +291,7 @@ public class TimeslotMapper {
             statement.execute();
             return "SUCCESS";
         } catch (SQLException e) {
-            if (e.getSQLState().equals("VER01")) {
+            if (e.getSQLState().equals(VERSION_MISMATCH)) {
                 System.out.println("VERSION MISMATCH ALERT: " + e.getMessage());
                 return "VERSION_MISMATCH";
             }
@@ -431,7 +434,7 @@ public class TimeslotMapper {
             statement.execute();
             return "SUCCESS";
         } catch (SQLException e) {
-            if (e.getSQLState().equals("VER01")) {
+            if (e.getSQLState().equals(VERSION_MISMATCH)) {
                 System.out.println("VERSION MISMATCH ALERT: " + e.getMessage());
                 return "VERSION_MISMATCH";
             }
@@ -467,7 +470,7 @@ public class TimeslotMapper {
             statement.setInt(10, timeslot.getId());
             statement.execute();
         } catch (SQLException e) {
-            if (e.getSQLState().equals("VER01")) {
+            if (e.getSQLState().equals(VERSION_MISMATCH)) {
                 System.out.println("VERSION MISMATCH ALERT: " + e.getMessage());
                 return "VERSION_MISMATCH";
             }

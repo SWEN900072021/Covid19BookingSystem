@@ -2,31 +2,26 @@ package com.example.covid19bookingsystem.mapper;
 
 import com.example.covid19bookingsystem.datasource.DBConnection;
 import com.example.covid19bookingsystem.domain.Account;
-import com.example.covid19bookingsystem.domain.HealthCareProvider;
 import com.example.covid19bookingsystem.domain.Address;
 import com.example.covid19bookingsystem.domain.VaccineRecipient;
-import com.example.covid19bookingsystem.utils.EnumUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import static com.example.covid19bookingsystem.utils.EnumUtils.Gender.valueOf;
 
 public class VaccineRecipientMapper {
-    public static Boolean insert(VaccineRecipient vaccineRecipient) {
+    public static String insert(VaccineRecipient vaccineRecipient) {
         String sql = "INSERT INTO vaccine_recipient (account_id, first_name, last_name, address_line_1, address_line_2, postcode, state, country, date_of_birth, gender, phone_number, " +
                 "email_address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement statement = null;
 
-        Boolean result = AccountMapper.insert(vaccineRecipient);
+        String result = AccountMapper.insert(vaccineRecipient);
 
-        if (result) {
+        if ("SUCCESS".equals(result)) {
             try {
                 statement = DBConnection.getDbConnection().prepareStatement(sql);
                 statement.setInt(1, vaccineRecipient.getAccountId());
@@ -42,10 +37,10 @@ public class VaccineRecipientMapper {
                 statement.setString(11, vaccineRecipient.getPhoneNumber());
                 statement.setString(12, vaccineRecipient.getEmailAddress());
                 statement.execute();
-                return true;
+                return "SUCCESS";
             } catch (SQLException e) {
                 System.out.println("VaccineRecipient Mapper Error: " + e.getMessage());
-                return false;
+                return "ERROR";
             } finally {
                 try {
                     DBConnection.close(statement, null);
@@ -53,8 +48,10 @@ public class VaccineRecipientMapper {
                     e.printStackTrace();
                 }
             }
+        } else if ("USERNAME_TAKEN".equals(result)) {
+            return "USERNAME_TAKEN";
         } else {
-            return false;
+            return "ERROR";
         }
     }
 
@@ -144,18 +141,18 @@ public class VaccineRecipientMapper {
         return vr;
     }
 
-    public static HashMap<Integer,String> getAllVRVaccineTypes(){
+    public static HashMap<Integer, String> getAllVRVaccineTypes() {
         String sql = "SELECT * FROM vaccine_recipient ;";
         PreparedStatement statement = null;
         ResultSet rs = null;
         // <id,account_id>
-        HashMap<Integer,Integer> vaccineRecipients = new HashMap<>();
-        HashMap<Integer,String> vrVaccineTypes = null;
+        HashMap<Integer, Integer> vaccineRecipients = new HashMap<>();
+        HashMap<Integer, String> vrVaccineTypes = null;
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             rs = statement.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 vaccineRecipients.put(rs.getInt("id"), rs.getInt("account_id"));
             }
 
@@ -170,28 +167,28 @@ public class VaccineRecipientMapper {
                 e.printStackTrace();
             }
         }
-        
+
         return vrVaccineTypes;
     }
 
-    public static ArrayList<Account> getVRVCMappingbyType(String vaccineType){
+    public static ArrayList<Account> getVRVCMappingbyType(String vaccineType) {
         String sql = "SELECT * FROM vaccine_recipient ;";
         PreparedStatement statement = null;
         ResultSet rs = null;
         // <id,account_id>
-        HashMap<Integer,Integer> vaccineRecipients = new HashMap<>();
+        HashMap<Integer, Integer> vaccineRecipients = new HashMap<>();
         ArrayList<Integer> vrVaccineTypes = null;
         ArrayList<Account> vrList = new ArrayList<>();
 
         try {
             statement = DBConnection.getDbConnection().prepareStatement(sql);
             rs = statement.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 vaccineRecipients.put(rs.getInt("id"), rs.getInt("account_id"));
             }
             vrVaccineTypes = VaccineCertificateMapper.getVaccineRecipientsByVaccineType(vaccineType, vaccineRecipients);
 
-            for (Integer id: vrVaccineTypes){
+            for (Integer id : vrVaccineTypes) {
                 vrList.add(AccountMapper.findAccountByID(id));
             }
 
