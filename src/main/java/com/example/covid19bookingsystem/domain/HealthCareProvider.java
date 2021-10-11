@@ -13,7 +13,7 @@ public class HealthCareProvider extends Account {
 
     private Integer id;
 
-    private Integer organisationalId;
+    private String organisationalId;
 
     private String healthCareProviderName;
 
@@ -21,7 +21,7 @@ public class HealthCareProvider extends Account {
 
     private String postcode;
 
-    public Integer getOrganisationalId() {
+    public String getOrganisationalId() {
         if (this.organisationalId == null) {
             load();
         }

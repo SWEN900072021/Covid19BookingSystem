@@ -159,7 +159,7 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static List<Timeslot> findUnbookedTimeslotsByOrganisationalId(Integer organisationalId) {
+    public static List<Timeslot> findUnbookedTimeslotsByOrganisationalId(String organisationalId) {
         String sql = "SELECT * FROM timeslot INNER JOIN health_care_provider ON timeslot.health_care_provider = health_care_provider.id "
                 + "WHERE health_care_provider.organisational_id = ? AND status = ? AND date_time >= ?";
 
@@ -173,7 +173,7 @@ public class TimeslotMapper {
             String formatDateTime = today.format(format);
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, organisationalId);
+            statement.setString(1, organisationalId);
             statement.setString(2, EnumUtils.TimeslotStatus.UNBOOKED.toString());
             statement.setTimestamp(3, Timestamp.valueOf(formatDateTime));
             rs = statement.executeQuery();
@@ -219,7 +219,7 @@ public class TimeslotMapper {
         return timeslots;
     }
 
-    public static List<Timeslot> findBookedTimeslotsByOrganisationalId(Integer organisationalId) {
+    public static List<Timeslot> findBookedTimeslotsByOrganisationalId(String organisationalId) {
         String sql = "SELECT * FROM timeslot INNER JOIN health_care_provider ON timeslot.health_care_provider = health_care_provider.id "
         + "WHERE health_care_provider.organisational_id = ? AND status = 'BOOKED' AND date_time <= ?";
 
@@ -233,7 +233,7 @@ public class TimeslotMapper {
             String formatDateTime = today.format(format);
 
             statement = DBConnection.getDbConnection().prepareStatement(sql);
-            statement.setInt(1, organisationalId);
+            statement.setString(1, organisationalId);
             statement.setTimestamp(2, Timestamp.valueOf(formatDateTime));
             rs = statement.executeQuery();
             while (rs.next()) {

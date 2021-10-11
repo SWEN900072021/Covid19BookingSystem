@@ -53,7 +53,7 @@ public class CreateHealthCareProviderController extends HttpServlet {
 
     private void processHealthCareProviderRequest(HttpServletRequest request, HealthCareProvider healthCareProvider) {
         // organisation details
-        healthCareProvider.setOrganisationalId(Integer.valueOf(request.getParameter("organisationalId")));
+        healthCareProvider.setOrganisationalId(request.getParameter("organisationalId"));
         healthCareProvider.setHealthCareProviderName(request.getParameter("healthCareProviderName"));
         healthCareProvider.setHealthCareProviderType(HealthCareProviderType.valueOf(request.getParameter("healthCareProviderType")));
         healthCareProvider.setPostcode(request.getParameter("postcode"));
