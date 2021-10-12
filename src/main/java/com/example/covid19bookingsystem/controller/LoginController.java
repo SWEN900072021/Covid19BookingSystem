@@ -22,6 +22,12 @@ public class LoginController extends HttpServlet {
         if (request.getSession().getAttribute("hcpDetails")!=null) {
             request.getSession().removeAttribute("hcpDetails");
         }
+        if (request.getSession().getAttribute("searchBy")!=null) {
+            request.getSession().removeAttribute("searchBy");
+        }
+        if (request.getSession().getAttribute("searchQuery")!=null) {
+            request.getSession().removeAttribute("searchQuery");
+        }
         request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 

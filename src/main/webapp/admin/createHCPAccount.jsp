@@ -118,16 +118,22 @@
                     <div class="col-sm-8" style="text-align: left">
                         <div class="form-check">
                             <%
-                                if (account != null && account.getHealthCareProviderType()!= EnumUtils.HealthCareProviderType.CLINIC) {
-                            %>
-                            <input class="form-check-input" type="radio" name="healthCareProviderType" id="clinic"
-                                   value="CLINIC">
-                            <%
-                                }
-                            else {
+                                if (account != null && account.getHealthCareProviderType() == EnumUtils.HealthCareProviderType.CLINIC) {
                             %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="clinic"
                                    value="CLINIC" checked>
+                            <%
+                                }
+                            else if (account == null) {
+                            %>
+                            <input class="form-check-input" type="radio" name="healthCareProviderType" id="clinic"
+                                   value="CLINIC" checked>
+                            <%
+                                }
+                                else {
+                            %>
+                            <input class="form-check-input" type="radio" name="healthCareProviderType" id="clinic"
+                                   value="CLINIC">
                             <%
                                 }
                             %>
@@ -137,16 +143,16 @@
                         </div>
                         <div class="form-check">
                             <%
-                                if (account != null && account.getHealthCareProviderType()!= EnumUtils.HealthCareProviderType.HOSPITAL) {
+                                if (account != null && account.getHealthCareProviderType() == EnumUtils.HealthCareProviderType.HOSPITAL) {
                             %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="hospital"
-                                   value="HOSPITAL">
+                                   value="HOSPITAL" checked>
                             <%
                                 }
                             else {
                             %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="hospital"
-                                   value="HOSPITAL" checked>
+                                   value="HOSPITAL">
                             <%
                                 }
                             %>
@@ -156,16 +162,16 @@
                         </div>
                         <div class="form-check">
                             <%
-                                if (account != null && account.getHealthCareProviderType()!= EnumUtils.HealthCareProviderType.GP) {
+                                if (account != null && account.getHealthCareProviderType() == EnumUtils.HealthCareProviderType.GP) {
                             %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="gp"
-                                   value="GP">
+                                   value="GP" checked>
                             <%
                                 }
                             else {
                             %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="gp"
-                                   value="GP" checked>
+                                   value="GP">
                             <%
                                 }
                             %>
@@ -175,16 +181,16 @@
                         </div>
                         <div class="form-check">
                             <%
-                                if (account != null && account.getHealthCareProviderType()!= EnumUtils.HealthCareProviderType.POPUP) {
+                                if (account != null && account.getHealthCareProviderType() == EnumUtils.HealthCareProviderType.POPUP) {
                             %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="popup"
-                                   value="POPUP">
+                                   value="POPUP" checked>
                             <%
                                 }
                             else {
                             %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="popup"
-                                   value="POPUP" checked>
+                                   value="POPUP">
                             <%
                                 }
                             %>
@@ -194,16 +200,16 @@
                         </div>
                         <div class="form-check">
                             <%
-                                if (account != null && account.getHealthCareProviderType()!= EnumUtils.HealthCareProviderType.OTHER) {
+                                if (account != null && account.getHealthCareProviderType() == EnumUtils.HealthCareProviderType.OTHER) {
                             %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="other"
-                                   value="OTHER">
+                                   value="OTHER" checked>
                             <%
                                 }
                             else {
                             %>
                             <input class="form-check-input" type="radio" name="healthCareProviderType" id="other"
-                                   value="OTHER" checked>
+                                   value="OTHER">
                             <%
                                 }
                             %>

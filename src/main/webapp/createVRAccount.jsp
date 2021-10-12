@@ -234,14 +234,19 @@
                     <div class="col-sm-8" style="text-align: left">
                         <div class="form-check">
                             <%
-                                if (account != null && account.getGender()!= EnumUtils.Gender.FEMALE) {
+                                if (account != null && account.getGender() == EnumUtils.Gender.FEMALE) {
                             %>
-                            <input class="form-check-input" type="radio" name="gender" id="female" value="Female">
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="Female" checked>
+                            <%
+                                }
+                                else if (account == null) {
+                            %>
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="Female" checked>
                             <%
                                 }
                                 else{
                             %>
-                            <input class="form-check-input" type="radio" name="gender" id="female" value="Female" checked>
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="Female">
                             <%
                                 }
                             %>
@@ -251,7 +256,7 @@
                         </div>
                         <div class="form-check">
                             <%
-                                if (account != null && account.getGender()== EnumUtils.Gender.MALE) {
+                                if (account != null && account.getGender() == EnumUtils.Gender.MALE) {
                             %>
                             <input class="form-check-input" type="radio" name="gender" id="male" value="Male" checked>
                             <%
@@ -268,7 +273,7 @@
                         </div>
                         <div class="form-check">
                             <%
-                                if (account != null && account.getGender()== EnumUtils.Gender.UNDISCLOSED) {
+                                if (account != null && account.getGender() == EnumUtils.Gender.UNDISCLOSED) {
                             %>
                             <input class="form-check-input" type="radio" name="gender" id="undisclosed"
                                    value="Undisclosed" checked>
