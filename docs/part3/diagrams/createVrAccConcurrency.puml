@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant "User 1" as U1
+participant "User 2" as U2
+participant "Create VR Controller" as VRC
+participant "Database" as DB
+
+== VaccinceRecipient Account Creation Concurrency ==
+U1 -> VRC : createVRAccount(username)
+activate U1
+VRC -> DB : insertVRAccount(username)
+activate VRC
+DB --> VRC: OK
+VRC --> U1: OK
+deactivate VRC
+deactivate U1
+
+U2 -> VRC : createVRAccount(username)
+activate U2
+VRC -> DB : insertVRAccount(username)
+activate VRC
+DB --> VRC: duplicateUsername
+VRC --> U2: duplicateUsername
+deactivate VRC
+deactivate U2
+
+
+@enduml
