@@ -4,23 +4,32 @@
 participant "User 1" as U1
 participant "User 2" as U2
 participant "Create VR Controller" as VRC
+participant "Account Mapper" as AM
 participant "Database" as DB
 
 == VaccinceRecipient Account Creation Concurrency ==
 U1 -> VRC : createVRAccount(username)
 activate U1
-VRC -> DB : insertVRAccount(username)
 activate VRC
-DB --> VRC: OK
+VRC -> AM : insertVRAccount(username)
+activate AM
+AM -> DB: insert(Account{username})
+DB --> AM: OK
+AM --> VRC: OK
+deactivate AM
 VRC --> U1: OK
 deactivate VRC
 deactivate U1
 
 U2 -> VRC : createVRAccount(username)
 activate U2
-VRC -> DB : insertVRAccount(username)
 activate VRC
-DB --> VRC: duplicateUsername
+VRC -> AM : insertVRAccount(username)
+activate AM
+AM -> DB: insert(Account{username})
+DB --> AM: duplicateUsername
+AM --> VRC: duplicateUsername
+deactivate AM
 VRC --> U2: duplicateUsername
 deactivate VRC
 deactivate U2
