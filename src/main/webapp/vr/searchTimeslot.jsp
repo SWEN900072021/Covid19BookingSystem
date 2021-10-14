@@ -24,8 +24,21 @@
     <%
         }
     %>
+    <%
+        String searchBy = null;
+        String searchQuery = null;
+        if (request.getSession().getAttribute("searchBy") != null && request.getSession().getAttribute("searchQuery") != null) {
+            searchBy = (String) request.getSession().getAttribute("searchBy");
+            searchQuery = (String) request.getSession().getAttribute("searchQuery");
+        }
+    %>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </symbol>
+</svg>
 <h4
         class="display-4"
         style="display: flex;justify-content: center;margin-top: 20px;font-size: 45px"
@@ -50,7 +63,7 @@
                     <div class="alert alert-danger d-flex align-items-center" role="alert"
                          style="width: 40rem;margin: 0 auto;float: none;margin-bottom: 10px;">
                         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                        <div>
+                        <div style="margin-left: 20px">
                             Timeslot has been booked by another user. Please try again.
                         </div>
                     </div>
@@ -63,14 +76,42 @@
                     <legend class="col-form-label col-sm-5 pt-0"><strong>Search by:</strong></legend>
                     <div class="col-sm-7" style="text-align: left">
                         <div class="form-check">
+                            <%
+                                if ("area".equals(searchBy)) {
+                            %>
                             <input class="form-check-input" type="radio" name="searchBy" id="Area" value="area" checked>
+                            <%
+                                }
+                            else if (searchBy == null) {
+                            %>
+                            <input class="form-check-input" type="radio" name="searchBy" id="Area" value="area" checked>
+                            <%
+                                }
+                                else {
+                            %>
+                            <input class="form-check-input" type="radio" name="searchBy" id="Area" value="area">
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="Area">
                                 Area (By postcode)
                             </label>
                         </div>
                         <div class="form-check">
+                            <%
+                                if ("hcp".equals(searchBy)) {
+                            %>
+                            <input class="form-check-input" type="radio" name="searchBy" id="HCP"
+                                   value="healthCareProvider" checked>
+                            <%
+                                }
+                            else {
+                            %>
                             <input class="form-check-input" type="radio" name="searchBy" id="HCP"
                                    value="healthCareProvider">
+                            <%
+                                }
+                            %>
                             <label class="form-check-label" for="HCP">
                                 Health Care Provider (By name)
                             </label>
@@ -88,6 +129,13 @@
                             id="inputQuery"
                             name="queryField"
                             placeholder="Royal Melbourne Hospital / 3052"
+                            <%
+                                if (searchQuery != null) {
+                            %>
+                            value=<%= searchQuery %>
+                            <%
+                                }
+                            %>
                     >
                 </div>
             </div>
