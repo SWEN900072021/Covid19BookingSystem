@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam linetype polyline
+
+participant "Client 1" as Client1
+participant "Client 2" as Client2
+participant "EditTimeslotController" as ETC
+participant "TimeslotMapper" as TM
+participant "ExclusiveLockManager" as ELM
+database "Database" as DB
+
+== Pessimistic Locking Implementation for Editing Timeslots ==
+Client1 -> ETC: openTimeslotForEditing(timeslotId, client1Id)
+activate ELM
+activate Client1
+activate ETC
+ETC -> ELM: acquireLock(timeslotId, client1Id)
+ELM --> ETC: OK
+ETC --> Client1: "Timeslot Pop-up Opened"
+Client2 -> ETC: openTimeslotForEditing(timeslotId, client2Id)
+activate Client2
+ETC -> ELM: acquireLock(timeslotId, client2Id)
+ELM --> ETC: ERROR
+ETC --> Client2: loadErrorPage
+note right: "Another user is currently editing this timeslot. Try again."
+deactivate Client2
+Client1 -> ETC: editTimeslotDetails(Timeslot{details})
+ETC -> TM: editTimeslotDetails(Timeslot{details})
+activate TM
+TM -> DB: editTimeslotDetails(Timeslot{details})
+DB --> TM: OK
+TM --> ETC: OK
+deactivate TM
+ETC --> Client1: "Timeslot Successfully Edited"
+deactivate Client1
+ETC -> ELM: releaseLock(timeslotId)
+ELM --> ETC: OK
+deactivate ETC
+
+@enduml
