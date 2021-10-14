@@ -1,0 +1,45 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant "Client 1" as U1
+participant "Client 2" as U2
+participant "Session" as SS
+participant "AccountController" as VRC
+participant "AccountMapper" as AM
+database "Database" as DB
+
+== Account Creation Concurrency ==
+U1 -> VRC : createAccount(username, ...)
+activate U1
+activate VRC
+VRC -> AM : insertAccount(username, ...)
+activate AM
+AM -> DB: insert(Account{username, ...})
+DB -> DB: checkUniqueConstraint(username)
+DB --> AM: OK
+AM --> VRC: OK
+deactivate AM
+VRC --> U1: OK
+deactivate VRC
+deactivate U1
+
+U2 -> VRC : createAccount(username, ...)
+activate U2
+activate VRC
+VRC -> SS: storeAccount(Account{...})
+VRC -> AM : insertAccount(username, ...)
+activate AM
+AM -> DB: insert(Account{username, ...})
+DB -> DB: checkUniqueConstraint(username)
+DB --> AM: UNIQUE_CONSTRAINT
+AM --> VRC: throw usernameTakenException
+deactivate AM
+VRC -> SS: getAccount()
+SS --> VRC: Account{...}
+VRC --> U2: displaySignupPage(Account{...})
+Note right: "Username has been taken. Please pick another username."
+deactivate VRC
+deactivate U2
+
+
+@enduml
