@@ -17,7 +17,7 @@ activate Client1
 activate ETC
 ETC -> ELM: acquireLock(timeslotId, client1Id)
 ELM --> ETC: OK
-ETC --> Client1: Timeslot Modal Opened
+ETC --> Client1: Timeslot Pop-up Opened
 Client2 -> ETC: openTimeslotForEditing(timeslotId, client2Id)
 activate Client2
 ETC -> ELM: acquireLock(timeslotId, client2Id)
