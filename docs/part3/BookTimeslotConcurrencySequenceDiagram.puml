@@ -1,0 +1,39 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+participant "Client 1" as C1
+participant "Client 2" as C2
+participant "TimeslotController" as TC
+participant "Session" as S
+participant "TimeslotMapper" as TM
+database "Database" as DB
+
+== Book Timeslot Concurrency ==
+C1 -> TC: bookTimeslot(timeslotDetails1)
+activate C1
+activate TC
+C2 -> TC: bookTimeslot(timeslotDetails2)
+activate C2
+TC -> TM: bookTimeslot(timeslotDetails1)
+activate TM
+TC -> TM: bookTimeslot(timeslotDetails2)
+TM -> DB: updateTimeslot(timeslotDetails1)
+DB -> DB: checkVersion
+DB --> TM: OK
+TM --> TC: OK
+TC --> C1: "Timeslot Successfully Booked!"
+deactivate C1
+TM -> DB: updateTimeslot(timeslotDetails2)
+DB -> DB: checkVersion
+DB --> TM: VERSION_MISMATCH
+TM --> TC: throw VersionMismatchException
+deactivate TM
+TC -> S: retrieveVaccineType()
+S --> TC: vaccineType
+TC -> S: retrieveSearchInformation()
+S --> TC: searchType, searchQuery
+Note left: "Timeslot was booked by another user, please try again"
+TC --> C2: redirectToSearchTimeslotPageWithError(vaccineType, searchType, searchQuery)
+deactivate TC
+deactivate C2
+@enduml
