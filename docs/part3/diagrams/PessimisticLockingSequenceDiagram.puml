@@ -3,8 +3,8 @@
 
 skinparam linetype polyline
 
-participant "Client1" as Client1
-participant "Client2" as Client2
+participant "Client 1" as Client1
+participant "Client 2" as Client2
 participant "EditTimeslotController" as ETC
 participant "TimeslotMapper" as TM
 participant "ExclusiveLockManager" as ELM
