@@ -1,0 +1,47 @@
+@startuml
+
+skinparam linetype polyline
+
+participant "Client1" as C1
+participant "Client2" as C2
+participant "TimeslotController" as C
+participant "TimeslotMapper" as M
+database "Database" as DB
+
+== Record Completed Vaccination ==
+C1 -> C: recordVaccinationAsComplete(timeslot)
+activate C1
+activate C
+C2 -> C: recordVaccinationAsComplete(timeslot)
+activate C2
+
+
+C->M: submit(timeslot)
+activate M
+C->M: submit(timeslot)
+
+M -> DB: update(timeslot)
+DB -> DB: check version
+
+DB --> M: OK
+M --> C: OK
+C --> C1: OK
+deactivate C1
+
+M -> DB: update(timeslot)
+DB -> DB: check version
+DB --> M: VERSION_MISMATCH
+M --> C: throw VersionMismatchError()
+deactivate M
+note left
+Someone else has already recorded this vaccination as completed.
+end note
+C --> C2: display error message
+
+
+deactivate C2
+deactivate C
+
+
+
+@enduml
