@@ -80,11 +80,11 @@
 
 [🚀 Deployed Application (Heroku)](https://runtime-terror-swen90007.herokuapp.com/)
 
-[⚙️ Usage Instructions](docs/part3/usage_instructions.md)
+[⚙️ Application Usage Instructions](docs/part3/application_usage_instructions.md)
 
 [👯 Concurrency Usage Instructions](docs/part3/concurrency_usage_instructions.md)
 
-[🧪 Data Samples & Test Cases](docs/part3/data_samples_and_test_cases.pdf)
+[🧪 Data Samples & Test Cases for Concurrency](docs/part3/data_samples_and_test_cases.pdf)
 
 [📈 Concurrency Diagrams](docs/part3/diagrams)
 </details>

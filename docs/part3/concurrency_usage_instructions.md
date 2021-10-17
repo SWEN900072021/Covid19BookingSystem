@@ -2,7 +2,7 @@
 
 ### *Note*: Open the "Data Samples and Test Cases" document alongside this document as both are required to test the system. ###
 
-## Book Timeslot Concurrency ##
+## TC01: Book Timeslot Concurrency ##
 1. Open two or more tabs (incognito) and log in with multiple users.
 2. Navigate to the book timeslot page, and choose the same vaccine type for all the users.
 3. Fill out the questionnaire and proceed to the search page.
@@ -15,7 +15,7 @@ The expected result is only one of the multiple users should be redirected to a 
 ![book_timeslot_concurrency](resources/book_timeslot_concurrency.gif)
 
 
-## Edit Timeslots Concurrency ##
+## TC02: Edit Timeslots Concurrency ##
 1. Open two or more tabs (incognito).
 2. Login with different HealthCareProvider accounts from the same organisation (same organisational Id). 
 3. Navigate to the 'Edit Timeslots' on all tabs through which you should be able to see all the timeslots from the future from all healthcare providers in your organisation. 
@@ -27,7 +27,7 @@ Only one user can successfully open the edit timeslot pop-up for a given timeslo
 ![edit_timeslots_concurrency](resources/edit_timeslots_concurrency.gif)
 
 
-## Record Completed Vaccinations Concurrency ##
+## TC03: Record Completed Vaccinations Concurrency ##
 1. Open two or more tabs (incognito).
 2. Login with different HealthCareProvider accounts from the same organisation (same organisational id). 
 3. Navigate to the record completed timeslot page for both users, and choose the same timeslot to record it as complete. 
@@ -39,7 +39,7 @@ Only one user can successfully record a timeslot as completed, the other users t
 ![record_completed_vaccinations_concurrency](resources/record_completed_vaccinations_concurrency.gif)
 
 
-## Create Accounts Concurrency ##
+## TC04: Create Accounts Concurrency ##
 1. Open two or more tabs (incognito) and click on the 'Create Vaccine Recipient Account' button on all tabs.
 2. Fill in the 'Username' field with an identical username and complete the form with the required information.
 3. Fill in the rest of the form with arbitrary data.

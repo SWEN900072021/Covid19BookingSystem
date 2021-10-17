@@ -1,7 +1,5 @@
 # Usage Instructions #
 
-### *Note*: Open the "Data Samples and Test Cases" document alongside this document as both are required to test the system. ###
-
 ## TC01: Create a Health Care Provider Account ##
 To create a Health Care Provider Account,
 1. Log in as an Admin.
