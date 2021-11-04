@@ -88,3 +88,13 @@
 
 [📈 Concurrency Diagrams](docs/part3/diagrams)
 </details>
+
+<details>
+<summary>Part 4 Submission</summary>
+
+[🏷️ Part 4 Release Tag](https://github.com/SWEN900072021/Covid19BookingSystem/releases/tag/SWEN90007_2021_Part4_RuntimeTerror)
+
+[📝 Part 4 Report](docs/part4/part_4_report.pdf)
+
+[🚀 Deployed Application (Heroku)](https://runtime-terror-swen90007.herokuapp.com/)
+</details>
